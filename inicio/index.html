@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DISC Assessment - Inicio</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="../Marca.js"></script>
+</head>
+<body>
+    <div class="inicio-container">
+        <div class="inicio-header">
+            <img src="../img/imagen1.svg" alt="Logo DISC" class="logo-main">
+            <h1>Sistema de Evaluación DISC</h1>
+            <p class="subtitle">Selecciona tu perfil para ingresar</p>
+        </div>
+
+        <div class="cards-container">
+            <!-- SuperAdmin Card -->
+            <div class="access-card" data-role="superadmin">
+                <div class="card-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h2>Super Administrador</h2>
+                <p>Gestión completa del sistema y administradores</p>
+                <button class="btn btn-primary" onclick="goToLogin('superadmin')">Acceder</button>
+            </div>
+
+            <!-- Admin Card -->
+            <div class="access-card" data-role="admin">
+                <div class="card-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h2>Administrador</h2>
+                <p>Gestión de usuarios y visualización de resultados</p>
+                <button class="btn btn-primary" onclick="goToLogin('admin')">Acceder</button>
+            </div>
+
+            <!-- User Card -->
+            <div class="access-card" data-role="user">
+                <div class="card-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <h2>Usuario</h2>
+                <p>Realizar test DISC y visualizar mi informe</p>
+                <button class="btn btn-primary" onclick="goToLogin('user')">Acceder</button>
+            </div>
+        </div>
+
+        <footer class="inicio-footer">
+            <p>&copy; 2026 DISC Assessment System. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+/* 📄 ESTILOS DEL INFORME DISC */
+
+body {
+    background: #f5f7fa;
+}
+
+.loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 20px;
+}
+
+.loading-screen p {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.report-header {
+    background: white;
+    padding: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.report-header h2 {
+    color: #2A4B7C;
+    margin: 0;
+}
+
+.report-content {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+/* Portada del informe */
+.report-cover {
+    background: linear-gradient(135deg, #2A4B7C 0%, #4A90E2 100%);
+    color: white;
+    padding: 60px 40px;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.report-cover .logo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    background: white;
+    border-radius: 50%;
+    padding: 15px;
+}
+
+.report-cover h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.report-cover .subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    margin-bottom: 30px;
+}
+
+.report-cover .user-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.report-cover .date {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+/* Secciones del informe */
+.report-section {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.report-section h2 {
+    color: #2A4B7C;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #FFD700;
+}
+
+.report-section h3 {
+    color: #2A4B7C;
+    font-size: 1.4rem;
+    margin: 25px 0 15px;
+}
+
+.report-section p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+}
+
+/* Gráfico de puntajes */
+.scores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.score-card {
+    text-align: center;
+    padding: 25px;
+    border-radius: 12px;
+    border: 3px solid;
+    position: relative;
+}
+
+.score-card.dominance {
+    border-color: #DC143C;
+    background: #fff5f5;
+}
+
+.score-card.influence {
+    border-color: #FF8C00;
+    background: #fff9f0;
+}
+
+.score-card.steadiness {
+    border-color: #4CAF50;
+    background: #f1f8f4;
+}
+
+.score-card.compliance {
+    border-color: #2196F3;
+    background: #f0f7ff;
+}
+
+.score-label {
+    font-size: 3rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.score-card.dominance .score-label {
+    color: #DC143C;
+}
+
+.score-card.influence .score-label {
+    color: #FF8C00;
+}
+
+.score-card.steadiness .score-label {
+    color: #4CAF50;
+}
+
+.score-card.compliance .score-label {
+    color: #2196F3;
+}
+
+.score-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.score-value {
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Perfil dominante */
+.dominant-profile {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #2A4B7C;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.dominant-profile h3 {
+    color: #2A4B7C;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.dominant-profile .profile-letters {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 10px;
+}
+
+/* Características */
+.characteristics-list {
+    list-style: none;
+    padding: 0;
+}
+
+.characteristics-list li {
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    border-left: 4px solid #4A90E2;
+    border-radius: 4px;
+    font-size: 1.05rem;
+}
+
+.characteristics-list li::before {
+    content: "✓";
+    color: #4CAF50;
+    font-weight: 700;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Recomendaciones */
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.recommendation-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-top: 4px solid #2A4B7C;
+}
+
+.recommendation-card h4 {
+    color: #2A4B7C;
+    margin-bottom: 10px;
+}
+
+.recommendation-card p {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Estilos de impresión */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .report-content {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .report-section {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .report-cover {
+        page-break-after: always;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .report-cover {
+        padding: 40px 20px;
+    }
+
+    .report-cover h1 {
+        font-size: 1.8rem;
+    }
+
+    .report-cover .user-name {
+        font-size: 1.5rem;
+    }
+
+    .report-section {
+        padding: 20px;
+    }
+
+    .report-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .scores-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-header .flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

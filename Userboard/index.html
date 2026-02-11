@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - DISC Assessment</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="../Marca.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/helpers.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="userboard-header">
+        <div class="container flex-between">
+            <div class="flex gap-10" style="align-items: center;">
+                <img src="../img/imagen1.svg" alt="Logo" class="header-logo">
+                <div>
+                    <h2>Mi Panel de Usuario</h2>
+                    <p class="user-info" id="userInfo"></p>
+                </div>
+            </div>
+            <button class="btn btn-danger" onclick="Auth.logout()">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div id="alertContainer"></div>
+        <div id="loadingContainer" class="hidden"></div>
+
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="welcome-content">
+                <h1>¡Bienvenido al Sistema de Evaluación DISC!</h1>
+                <p>Aquí podrás realizar tu test de personalidad DISC y visualizar tu informe detallado.</p>
+            </div>
+            <div class="welcome-image">
+                <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+                    <circle cx="100" cy="100" r="80" fill="#e3f2fd"/>
+                    <path d="M100 40 L100 80 M100 120 L100 160 M60 100 L80 100 M120 100 L140 100" 
+                          stroke="#2A4B7C" stroke-width="4" stroke-linecap="round"/>
+                    <circle cx="100" cy="100" r="10" fill="#2A4B7C"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Estado del Test -->
+        <div id="testStatusContainer">
+            <!-- Se llenará dinámicamente -->
+        </div>
+
+        <!-- Información Adicional -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">¿Qué es el Test DISC?</h3>
+            </div>
+            <div class="disc-info">
+                <p>El test DISC es una herramienta de evaluación que mide cuatro dimensiones principales del comportamiento humano:</p>
+                <div class="disc-dimensions">
+                    <div class="dimension-card">
+                        <div class="dimension-icon" style="background: #ffebee;">
+                            <span style="font-size: 2rem; color: #c62828;">D</span>
+                        </div>
+                        <h4>Dominancia</h4>
+                        <p>Orientación a resultados, confianza y toma de decisiones</p>
+                    </div>
+                    <div class="dimension-card">
+                        <div class="dimension-icon" style="background: #fff3e0;">
+                            <span style="font-size: 2rem; color: #e65100;">I</span>
+                        </div>
+                        <h4>Influencia</h4>
+                        <p>Sociabilidad, entusiasmo y capacidad de persuasión</p>
+                    </div>
+                    <div class="dimension-card">
+                        <div class="dimension-icon" style="background: #e8f5e9;">
+                            <span style="font-size: 2rem; color: #2e7d32;">S</span>
+                        </div>
+                        <h4>Estabilidad</h4>
+                        <p>Paciencia, lealtad y trabajo en equipo</p>
+                    </div>
+                    <div class="dimension-card">
+                        <div class="dimension-icon" style="background: #e3f2fd;">
+                            <span style="font-size: 2rem; color: #1565c0;">C</span>
+                        </div>
+                        <h4>Cumplimiento</h4>
+                        <p>Precisión, análisis y atención al detalle</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+</html>

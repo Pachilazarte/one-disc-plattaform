@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - DISC Assessment</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="../Marca.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/helpers.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container flex-between">
+            <div class="flex gap-10" style="align-items: center;">
+                <img src="../img/imagen2.svg" alt="Logo" class="header-logo">
+                <div>
+                    <h2>Panel de Administrador</h2>
+                    <p class="user-info" id="userInfo"></p>
+                </div>
+            </div>
+            <button class="btn btn-danger" onclick="Auth.logout()">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div id="alertContainer"></div>
+        <div id="loadingContainer" class="hidden"></div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e8f5e9;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalUsers">0</h3>
+                    <p>Usuarios Totales</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #fff3e0;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e65100" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <h3 id="pendingUsers">0</h3>
+                    <p>Pendientes de Test</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e3f2fd;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <h3 id="completedTests">0</h3>
+                    <p>Tests Completados</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Nuevo Usuario -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Habilitar Nuevo Usuario</h3>
+            </div>
+            <form id="newUserForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="userUsuario">Usuario</label>
+                        <input type="text" id="userUsuario" class="form-input" placeholder="Ej: usuario01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="userPassword">Contraseña</label>
+                        <input type="password" id="userPassword" class="form-input" placeholder="Contraseña" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="userEmail">Email</label>
+                        <input type="email" id="userEmail" class="form-input" placeholder="usuario@ejemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="userNombre">Nombre Completo</label>
+                        <input type="text" id="userNombre" class="form-input" placeholder="Juan Pérez" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Usuarios -->
+        <div class="card">
+            <div class="card-header flex-between">
+                <h3 class="card-title">Mis Usuarios</h3>
+                <button class="btn btn-outline" onclick="loadUsers()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                    Actualizar
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                    <th>User</th>
+                    <th>Pass_User</th>
+                    <th>Email_User</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #999;">Cargando datos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+</html>

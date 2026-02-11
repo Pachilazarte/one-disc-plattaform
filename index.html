@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DISC Assessment</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <script src="./Marca.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/helpers.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            background: #f5f7fa;
+            border-radius: 50%;
+            padding: 15px;
+        }
+
+        .login-header h1 {
+            color: #2A4B7C;
+            margin-bottom: 8px;
+            font-size: 2rem;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .role-superadmin {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .role-admin {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .role-user {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #2A4B7C;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        #loadingContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="./img/imagen1.svg" alt="Logo DISC" class="login-logo">
+            <h1>Iniciar Sesión</h1>
+            <span id="roleBadge" class="role-badge"></span>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="usuario">Usuario</label>
+                <input type="text" id="usuario" class="form-input" placeholder="Ingresa tu usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Contraseña</label>
+                <input type="password" id="password" class="form-input" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
+        </form>
+
+        <div id="loadingContainer" class="hidden"></div>
+
+        <div class="back-link">
+            <a href="./inicio/index.html">← Volver al inicio</a>
+        </div>
+    </div>
+
+    <script>
+        // Obtener el rol seleccionado
+        const selectedRole = sessionStorage.getItem('selectedRole') || 'user';
+        
+        // Configurar el badge según el rol
+        const roleBadge = document.getElementById('roleBadge');
+        const roleNames = {
+            'superadmin': 'Super Administrador',
+            'admin': 'Administrador',
+            'user': 'Usuario'
+        };
+        
+        roleBadge.textContent = roleNames[selectedRole] || 'Usuario';
+        roleBadge.className = `role-badge role-${selectedRole}`;
+
+        // Manejar el envío del formulario
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const usuario = document.getElementById('usuario').value.trim();
+            const password = document.getElementById('password').value;
+            
+            // Validaciones
+            if (!usuario || !password) {
+                Helpers.showAlert('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            // Mostrar loading
+            Helpers.showLoading(true);
+            
+            try {
+                // Intentar login
+                const result = await Auth.login(usuario, password, selectedRole);
+                
+                if (result.success) {
+                    Helpers.showAlert('¡Inicio de sesión exitoso!', 'success');
+                    
+                    // Redirigir según el rol
+                    setTimeout(() => {
+                        Auth.redirectToDashboard();
+                    }, 1000);
+                } else {
+                    Helpers.showAlert(result.message || 'Credenciales inválidas', 'error');
+                }
+            } catch (error) {
+                console.error('Error en login:', error);
+                Helpers.showAlert('Error de conexión. Intenta nuevamente.', 'error');
+            } finally {
+                Helpers.showLoading(false);
+            }
+        });
+
+        // Si ya está autenticado, redirigir
+        if (Auth.isAuthenticated()) {
+            Auth.redirectToDashboard();
+        }
+    </script>
+</body>
+</html>

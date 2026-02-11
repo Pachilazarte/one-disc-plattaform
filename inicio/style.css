@@ -1,0 +1,168 @@
+/* 🏠 ESTILOS DE PÁGINA DE INICIO */
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.inicio-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.inicio-header {
+    text-align: center;
+    margin-bottom: 60px;
+    color: white;
+}
+
+.logo-main {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 50%;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.inicio-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.access-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.access-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #2A4B7C, #4A90E2);
+}
+
+.access-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.access-card[data-role="superadmin"]::before {
+    background: linear-gradient(90deg, #8B0000, #DC143C);
+}
+
+.access-card[data-role="admin"]::before {
+    background: linear-gradient(90deg, #2A4B7C, #4A90E2);
+}
+
+.access-card[data-role="user"]::before {
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+}
+
+.card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    color: white;
+}
+
+.access-card[data-role="superadmin"] .card-icon {
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+}
+
+.access-card[data-role="admin"] .card-icon {
+    background: linear-gradient(135deg, #2A4B7C 0%, #4A90E2 100%);
+}
+
+.access-card[data-role="user"] .card-icon {
+    background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+}
+
+.access-card h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.access-card p {
+    color: #666;
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.access-card .btn {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 14px 28px;
+}
+
+.inicio-footer {
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+    opacity: 0.9;
+}
+
+.inicio-footer p {
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .inicio-header h1 {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .access-card {
+        padding: 30px 20px;
+    }
+
+    .logo-main {
+        width: 80px;
+        height: 80px;
+        padding: 15px;
+    }
+}

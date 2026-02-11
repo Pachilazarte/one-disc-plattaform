@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin - DISC Assessment</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="../Marca.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/helpers.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container flex-between">
+            <div class="flex gap-10" style="align-items: center;">
+                <img src="../img/imagen1.svg" alt="Logo" class="header-logo">
+                <div>
+                    <h2>Panel de Super Administrador</h2>
+                    <p class="user-info" id="userInfo"></p>
+                </div>
+            </div>
+            <button class="btn btn-danger" onclick="Auth.logout()">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div id="alertContainer"></div>
+        <div id="loadingContainer" class="hidden"></div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e3f2fd;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalAdmins">0</h3>
+                    <p>Administradores</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e8f5e9;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <line x1="19" y1="8" x2="19" y2="14"/>
+                        <line x1="22" y1="11" x2="16" y2="11"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <h3 id="activeAdmins">0</h3>
+                    <p>Activos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Nuevo Administrador -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Crear Nuevo Administrador</h3>
+            </div>
+            <form id="newAdminForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="adminUsuario">Usuario</label>
+                        <input type="text" id="adminUsuario" class="form-input" placeholder="Ej: admin01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="adminPassword">Contraseña</label>
+                        <input type="password" id="adminPassword" class="form-input" placeholder="Contraseña segura" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" class="form-input" placeholder="admin@ejemplo.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Crear Administrador</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Administradores -->
+        <div class="card">
+            <div class="card-header flex-between">
+                <h3 class="card-title">Lista de Administradores</h3>
+                <button class="btn btn-outline" onclick="loadAdmins()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                    Actualizar
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Fecha Alta</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminsTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #999;">Cargando datos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+<form id="hidden-form" method="POST" target="hidden-iframe" style="display: none;">
+    <input type="hidden" name="data" id="hidden-data">
+</form>
+<iframe id="hidden-iframe" name="hidden-iframe" style="display: none;"></iframe>
+
+    <script src="./script.js"></script>
+</body>
+</html>
