@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .firma-container {
+            margin-top: 40px;
+            text-align: left;
+        }
+        .firma-linea {
+            margin-top: 40px;
+            width: 220px;
+            border-top: 1px solid #000000;
+        }
+        .firma-texto {
+            font-size: 11pt;
+            color: #4A5568;
+            margin-top: 6px;
+        }
+        @media print {
+            @page { size: A4; margin: 20mm 15mm; }
+            html, body { margin: 0 !important; padding: 0 !important; background: #ffffff !important; }
+            body, table, td, p { font-size: 11pt !important; line-height: 1.4 !important; }
+            table[style*="box-shadow"] { box-shadow: none !important; }
+            table[style*="border-radius:16px"], table[style*="border-radius:12px"] { border-radius: 0 !important; }
+            td[style*="padding:60px 40px"], td[style*="padding:50px 40px"], td[style*="padding:50px 30px"],
+            td[style*="padding:35px 25px"], td[style*="padding:35px"], td[style*="padding:30px 35px"],
+            td[style*="padding:30px;"] { padding: 16px 18px !important; }
+            table[style*="margin:60px 0"], table[style*="margin:50px 0"], table[style*="margin:50px 0 30px 0"] { margin: 14pt 0 !important; }
+            h1, h2, h3, h4 { page-break-after: avoid; }
+            table { page-break-inside: avoid; }
+            .grafico-section { display: none !important; }
+            .firma-container { margin-top: 18pt !important; }
+            .firma-linea { margin-top: 22pt !important; width: 250px; border-top: 1px solid #000000; }
+            .firma-texto { font-size: 10pt !important; margin-top: 4pt !important; }
+        }
+    </style>
+</head>
+<body style="margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background-color:#f5f7fa;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f7fa;padding:40px 20px;">
+        <tr><td align="center">
+            <table width="700" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+                
+                <!-- ==================== HEADER ==================== -->
+                <tr><td style="background:linear-gradient(135deg, #020f27 0%, #0b4a6e 100%);padding:50px 40px;text-align:left;">
+                    <img src="<?= logoUrl ?>" alt="Logo Escencial" width="180" style="display:block;margin-bottom:30px;border-radius:8px;max-width:100%;height:auto;">
+                    <div style="display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);padding:8px 20px;border-radius:30px;font-size:11px;font-weight:700;letter-spacing:2px;color:white;text-transform:uppercase;margin-bottom:20px;">EVALUACIÓN DE PERFIL CONDUCTUAL</div>
+                    <h1 style="margin:0 0 10px 0;font-family:Georgia,serif;font-size:38px;font-weight:700;color:white;letter-spacing:-1px;">Test DISC</h1>
+                    <p style="margin:0 0 5px 0;font-size:16px;color:rgba(255,255,255,0.92);font-weight:500;">Perfil de Comportamiento Profesional</p>
+                    <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.7);">Basado en el modelo de William Moulton Marston — Método Cleaver</p>
+                </td></tr>
+                
+                <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
+                <tr><td style="padding:50px 40px;">
+                    
+                    <!-- DATOS DEL EVALUADO -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F7FAFC;border-left:4px solid #0b4a6e;border-radius:12px;margin-bottom:40px;">
+                        <tr><td style="padding:25px 30px;">
+                            <p style="margin:0 0 8px 0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#718096;text-transform:uppercase;">Informe Preparado Para</p>
+                            <p style="margin:0 0 12px 0;font-size:24px;font-weight:700;color:#1A1F2E;"><?= nombre ?> <?= apellido ?></p>
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="font-size:13px;color:#718096;">📅 Fecha: <strong><?= fecha ?></strong></td>
+                                    <td style="font-size:13px;color:#718096;">⏱ Parte I: <strong><?= tiempoParte1 ?></strong></td>
+                                    <td style="font-size:13px;color:#718096;">⏱ Parte II: <strong><?= tiempoParte2 ?></strong></td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== INTRODUCCIÓN ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;margin-bottom:40px;">
+                        <tr><td style="padding:25px 30px;">
+                            <p style="margin:0 0 12px 0;font-size:16px;font-weight:700;color:#0b4a6e;">📖 ¿Qué es este informe?</p>
+                            <p style="margin:0 0 10px 0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">Este documento presenta los resultados de la evaluación de perfil de comportamiento profesional mediante el <strong>Test DISC</strong>, una herramienta psicométrica ampliamente utilizada en el ámbito organizacional para comprender los estilos de conducta habituales de las personas en contextos laborales.</p>
+                            <p style="margin:0 0 10px 0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">El test evalúa la tendencia del individuo hacia dos grandes ejes conductuales: el eje <strong>Activo/Extrovertido (Dominancia-Influencia)</strong> y el eje <strong>Reservado/Metódico (Estabilidad-Cumplimiento)</strong>. Se analiza tanto lo que la persona considera que MÁS la describe como lo que MENOS la describe.</p>
+                            <p style="margin:0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">Los resultados permiten identificar patrones de comportamiento, fortalezas, áreas de desarrollo, estilo de trabajo preferido y recomendaciones para maximizar el potencial profesional.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== RESULTADOS GENERALES ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:30px;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Resultados Generales</h2></td></tr>
+                    </table>
+                    
+                    <p style="font-size:14px;line-height:1.7;color:#718096;margin:0 0 25px 0;text-align:justify;"><em>El test presentó 28 grupos de 4 características cada uno. Para cada grupo, se seleccionó la característica que MÁS describe al evaluado y la que MENOS lo describe. Cada característica pertenece al eje D/I (Dominancia/Influencia – activo, extrovertido) o al eje S/C (Estabilidad/Cumplimiento – reservado, metódico). Los conteos indican cuántas veces se eligió cada eje.</em></p>
+                    
+                    <!-- TARJETAS PRINCIPALES -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:15px;">
+                        <tr>
+                            <!-- MÁS D/I -->
+                            <td width="48%" valign="top">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg, #dc2626 0%, #991b1b 100%);border-radius:16px;box-shadow:0 4px 12px rgba(220,38,38,0.3);">
+                                    <tr><td style="padding:25px 20px;text-align:center;">
+                                        <p style="margin:0 0 5px 0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.85);text-transform:uppercase;">MÁS → D/I (Activo)</p>
+                                        <p style="margin:0;font-size:48px;font-weight:800;color:white;letter-spacing:-2px;"><?= masDI ?></p>
+                                        <p style="margin:5px 0 0 0;font-size:13px;color:rgba(255,255,255,0.75);">de 28 · <?= pctMasDI ?>%</p>
+                                    </td></tr>
+                                </table>
+                            </td>
+                            <td width="4%"></td>
+                            <!-- MÁS S/C -->
+                            <td width="48%" valign="top">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg, #059669 0%, #065f46 100%);border-radius:16px;box-shadow:0 4px 12px rgba(5,150,105,0.3);">
+                                    <tr><td style="padding:25px 20px;text-align:center;">
+                                        <p style="margin:0 0 5px 0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.85);text-transform:uppercase;">MÁS → S/C (Reservado)</p>
+                                        <p style="margin:0;font-size:48px;font-weight:800;color:white;letter-spacing:-2px;"><?= masSC ?></p>
+                                        <p style="margin:5px 0 0 0;font-size:13px;color:rgba(255,255,255,0.75);">de 28 · <?= pctMasSC ?>%</p>
+                                    </td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:35px;">
+                        <tr>
+                            <!-- MENOS D/I -->
+                            <td width="48%" valign="top">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg, #ea580c 0%, #9a3412 100%);border-radius:16px;box-shadow:0 4px 12px rgba(234,88,12,0.3);">
+                                    <tr><td style="padding:25px 20px;text-align:center;">
+                                        <p style="margin:0 0 5px 0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.85);text-transform:uppercase;">MENOS → D/I (Activo)</p>
+                                        <p style="margin:0;font-size:48px;font-weight:800;color:white;letter-spacing:-2px;"><?= menosDI ?></p>
+                                        <p style="margin:5px 0 0 0;font-size:13px;color:rgba(255,255,255,0.75);">de 28 · <?= pctMenosDI ?>%</p>
+                                    </td></tr>
+                                </table>
+                            </td>
+                            <td width="4%"></td>
+                            <!-- MENOS S/C -->
+                            <td width="48%" valign="top">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg, #2563eb 0%, #1e40af 100%);border-radius:16px;box-shadow:0 4px 12px rgba(37,99,235,0.3);">
+                                    <tr><td style="padding:25px 20px;text-align:center;">
+                                        <p style="margin:0 0 5px 0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.85);text-transform:uppercase;">MENOS → S/C (Reservado)</p>
+                                        <p style="margin:0;font-size:48px;font-weight:800;color:white;letter-spacing:-2px;"><?= menosSC ?></p>
+                                        <p style="margin:5px 0 0 0;font-size:13px;color:rgba(255,255,255,0.75);">de 28 · <?= pctMenosSC ?>%</p>
+                                    </td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- LEYENDA DE TARJETAS -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:40px;">
+                        <tr><td style="padding:15px 20px;">
+                            <p style="margin:0;font-size:13px;color:#475569;line-height:1.7;"><strong>Lectura:</strong> <span style="color:#dc2626;font-weight:700;">MÁS D/I</span> = veces que la persona eligió una característica Activa/Extrovertida como la que más la describe. <span style="color:#059669;font-weight:700;">MÁS S/C</span> = veces que eligió una Reservada/Metódica. <span style="color:#ea580c;font-weight:700;">MENOS D/I</span> = veces que rechazó una Activa. <span style="color:#2563eb;font-weight:700;">MENOS S/C</span> = veces que rechazó una Reservada. MÁS D/I + MÁS S/C = 28, y MENOS D/I + MENOS S/C = 28.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- GRÁFICO COMPARATIVO -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="grafico-section" style="background-color:#F7FAFC;border:2px solid #E2E8F0;border-radius:16px;margin:0 0 40px 0;">
+                        <tr><td style="padding:30px;text-align:center;">
+                            <p style="margin:0 0 20px 0;font-size:13px;font-weight:700;letter-spacing:2px;color:#2D3748;text-transform:uppercase;">Distribución de Elecciones MÁS y MENOS</p>
+                            <img src="<?= chartUrl ?>" alt="Gráfico Comparativo" style="max-width:100%;width:500px;height:auto;border-radius:10px;display:block;margin:0 auto;" />
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== TABLA RESUMEN NUMÉRICO ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:40px 0 30px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Tabla de Puntuaciones</h2></td></tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:2px solid #E2E8F0;border-radius:12px;overflow:hidden;margin-bottom:35px;">
+                        <tr style="background:#0b4a6e;">
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;border-right:1px solid rgba(255,255,255,0.2);">Eje Conductual</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">MÁS</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">%</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">Nivel MÁS</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">MENOS</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">%</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">Nivel MENOS</td>
+                            <td style="padding:14px 18px;color:white;font-weight:700;font-size:13px;text-align:center;">Neto</td>
+                        </tr>
+                        <!-- D/I -->
+                        <tr style="background:#fef2f2;">
+                            <td style="padding:14px 18px;font-weight:700;color:#dc2626;font-size:14px;border-right:1px solid #E2E8F0;">D/I — Activo/Extrovertido</td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:800;font-size:18px;color:#1A1F2E;border-right:1px solid #E2E8F0;"><?= masDI ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;border-right:1px solid #E2E8F0;"><?= pctMasDI ?>%</td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;color:<?= textoNivelMasDI.color ?>;border-right:1px solid #E2E8F0;"><?= textoNivelMasDI.icono ?> <?= nivelMasDI ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:800;font-size:18px;color:#1A1F2E;border-right:1px solid #E2E8F0;"><?= menosDI ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;border-right:1px solid #E2E8F0;"><?= pctMenosDI ?>%</td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;color:<?= textoNivelMenosDI.color ?>;border-right:1px solid #E2E8F0;"><?= textoNivelMenosDI.icono ?> <?= nivelMenosDI ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:800;font-size:16px;color:<?= netoDI > 0 ? '#dc2626' : (netoDI < 0 ? '#2563eb' : '#718096') ?>;"><?= netoDI > 0 ? '+' : '' ?><?= netoDI ?></td>
+                        </tr>
+                        <!-- S/C -->
+                        <tr style="background:#f0fdf4;">
+                            <td style="padding:14px 18px;font-weight:700;color:#059669;font-size:14px;border-right:1px solid #E2E8F0;">S/C — Reservado/Metódico</td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:800;font-size:18px;color:#1A1F2E;border-right:1px solid #E2E8F0;"><?= masSC ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;border-right:1px solid #E2E8F0;"><?= pctMasSC ?>%</td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;color:<?= textoNivelMasSC.color ?>;border-right:1px solid #E2E8F0;"><?= textoNivelMasSC.icono ?> <?= nivelMasSC ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:800;font-size:18px;color:#1A1F2E;border-right:1px solid #E2E8F0;"><?= menosSC ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;border-right:1px solid #E2E8F0;"><?= pctMenosSC ?>%</td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:600;font-size:13px;color:<?= textoNivelMenosSC.color ?>;border-right:1px solid #E2E8F0;"><?= textoNivelMenosSC.icono ?> <?= nivelMenosSC ?></td>
+                            <td style="padding:14px 18px;text-align:center;font-weight:800;font-size:16px;color:<?= netoSC > 0 ? '#059669' : (netoSC < 0 ? '#ea580c' : '#718096') ?>;"><?= netoSC > 0 ? '+' : '' ?><?= netoSC ?></td>
+                        </tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border:1px solid #fbbf24;border-radius:8px;margin-bottom:40px;">
+                        <tr><td style="padding:15px 20px;">
+                            <p style="margin:0;font-size:13px;color:#92400e;line-height:1.7;"><strong>¿Cómo leer la tabla?</strong> La columna "MÁS" indica cuántas veces el evaluado eligió características de ese eje como las que más lo describen. La columna "MENOS" indica cuántas veces rechazó características de ese eje. El "Neto" (MÁS menos MENOS) indica la tendencia resultante: un neto positivo en D/I significa orientación activa, un neto positivo en S/C significa orientación reservada. Los niveles van de "Muy Bajo" a "Muy Alto" según el porcentaje.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== ANÁLISIS DE CONSISTENCIA ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:50px 0 25px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Análisis de Consistencia del Perfil</h2></td></tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:<?= textoConsistencia.color ?>10;border:2px solid <?= textoConsistencia.color ?>;border-left:6px solid <?= textoConsistencia.color ?>;border-radius:12px;margin-bottom:25px;">
+                        <tr><td style="padding:25px 30px;">
+                            <p style="margin:0 0 12px 0;font-size:18px;font-weight:700;color:<?= textoConsistencia.color ?>;"><?= textoConsistencia.titulo ?></p>
+                            <p style="margin:0;font-size:15px;line-height:1.85;color:#4A5568;text-align:justify;"><?= textoConsistencia.texto ?></p>
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:15px;">
+                                <tr>
+                                    <td style="font-size:14px;color:#4A5568;">
+                                        <strong>Neto D/I:</strong> <?= netoDI > 0 ? '+' : '' ?><?= netoDI ?> · <strong>Neto S/C:</strong> <?= netoSC > 0 ? '+' : '' ?><?= netoSC ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    
+                    <p style="font-size:14px;line-height:1.7;color:#718096;margin:0 0 40px 0;text-align:justify;">La consistencia del perfil indica si las elecciones de "MÁS" y "MENOS" son complementarias (lo que más describe al evaluado es opuesto a lo que menos lo describe). Un perfil consistente refleja claridad en la autopercepción. Un perfil mixto refleja versatilidad o adaptabilidad, mientras que un perfil contradictorio puede indicar un momento de transición o factores situacionales que requieren exploración adicional.</p>
+                    
+                    <!-- GRÁFICO RADAR -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="grafico-section" style="background-color:#F7FAFC;border:2px solid #E2E8F0;border-radius:16px;margin:0 0 40px 0;">
+                        <tr><td style="padding:30px;text-align:center;">
+                            <p style="margin:0 0 15px 0;font-size:13px;font-weight:700;letter-spacing:2px;color:#2D3748;text-transform:uppercase;">Perfil Radar — Distribución Porcentual</p>
+                            <img src="<?= chartRadarUrl ?>" alt="Gráfico Radar" style="max-width:100%;width:400px;height:auto;border-radius:10px;display:block;margin:0 auto;" />
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== INTERPRETACIÓN MÁS ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:50px 0 25px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Interpretación: Selecciones "MÁS me describe"</h2></td></tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fef2f2;border-left:4px solid #dc2626;border-radius:8px;margin-bottom:15px;">
+                        <tr><td style="padding:15px 20px;">
+                            <p style="margin:0;font-size:13px;color:#991b1b;font-weight:600;">La selección "MÁS" refleja las características con las que el evaluado se identifica activamente. Indica cómo se percibe a sí mismo y qué rasgos considera más representativos de su comportamiento habitual.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- MÁS D/I -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #E2E8F0;border-left:4px solid <?= textoNivelMasDI.color ?>;border-radius:12px;margin-bottom:18px;">
+                        <tr><td style="padding:20px 25px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <p style="margin:0 0 4px 0;font-size:16px;font-weight:700;color:#1A1F2E;">MÁS → Eje D/I (Dominancia / Influencia)</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#718096;">Características activas, extrovertidas, orientadas a la acción y la comunicación.</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#4A5568;">Frecuencia: <strong><?= masDI ?></strong> de 28 (<?= pctMasDI ?>%) — Nivel: <strong style="color:<?= textoNivelMasDI.color ?>;"><?= textoNivelMasDI.icono ?> <?= nivelMasDI ?></strong></p>
+                                        <p style="margin:0;font-size:14px;line-height:1.7;color:#4A5568;text-align:justify;"><?= textoNivelMasDI.textoMas ?></p>
+                                    </td>
+                                    <td align="right" style="width:80px;vertical-align:middle;">
+                                        <div style="display:inline-block;background:<?= textoNivelMasDI.color ?>;color:white;padding:10px 16px;border-radius:20px;font-size:18px;font-weight:800;"><?= pctMasDI ?>%</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- MÁS S/C -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #E2E8F0;border-left:4px solid <?= textoNivelMasSC.color ?>;border-radius:12px;margin-bottom:40px;">
+                        <tr><td style="padding:20px 25px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <p style="margin:0 0 4px 0;font-size:16px;font-weight:700;color:#1A1F2E;">MÁS → Eje S/C (Estabilidad / Cumplimiento)</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#718096;">Características reservadas, metódicas, orientadas a la cooperación y la calidad.</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#4A5568;">Frecuencia: <strong><?= masSC ?></strong> de 28 (<?= pctMasSC ?>%) — Nivel: <strong style="color:<?= textoNivelMasSC.color ?>;"><?= textoNivelMasSC.icono ?> <?= nivelMasSC ?></strong></p>
+                                        <p style="margin:0;font-size:14px;line-height:1.7;color:#4A5568;text-align:justify;"><?= textoNivelMasSC.textoMas ?></p>
+                                    </td>
+                                    <td align="right" style="width:80px;vertical-align:middle;">
+                                        <div style="display:inline-block;background:<?= textoNivelMasSC.color ?>;color:white;padding:10px 16px;border-radius:20px;font-size:18px;font-weight:800;"><?= pctMasSC ?>%</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== INTERPRETACIÓN MENOS ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:50px 0 25px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Interpretación: Selecciones "MENOS me describe"</h2></td></tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#eff6ff;border-left:4px solid #2563eb;border-radius:8px;margin-bottom:15px;">
+                        <tr><td style="padding:15px 20px;">
+                            <p style="margin:0;font-size:13px;color:#1e40af;font-weight:600;">La selección "MENOS" refleja las características que el evaluado rechaza o con las que menos se identifica. Indica los rasgos que considera ajenos a su forma habitual de comportarse, ya sea por baja afinidad natural o por experiencias que han moldeado su preferencia en otra dirección.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- MENOS D/I -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #E2E8F0;border-left:4px solid <?= textoNivelMenosDI.color ?>;border-radius:12px;margin-bottom:18px;">
+                        <tr><td style="padding:20px 25px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <p style="margin:0 0 4px 0;font-size:16px;font-weight:700;color:#1A1F2E;">MENOS → Eje D/I (Dominancia / Influencia)</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#718096;">Rechazo de características activas, extrovertidas y de liderazgo directo.</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#4A5568;">Frecuencia: <strong><?= menosDI ?></strong> de 28 (<?= pctMenosDI ?>%) — Nivel: <strong style="color:<?= textoNivelMenosDI.color ?>;"><?= textoNivelMenosDI.icono ?> <?= nivelMenosDI ?></strong></p>
+                                        <p style="margin:0;font-size:14px;line-height:1.7;color:#4A5568;text-align:justify;"><?= textoNivelMenosDI.textoMenos ?></p>
+                                    </td>
+                                    <td align="right" style="width:80px;vertical-align:middle;">
+                                        <div style="display:inline-block;background:<?= textoNivelMenosDI.color ?>;color:white;padding:10px 16px;border-radius:20px;font-size:18px;font-weight:800;"><?= pctMenosDI ?>%</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- MENOS S/C -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #E2E8F0;border-left:4px solid <?= textoNivelMenosSC.color ?>;border-radius:12px;margin-bottom:40px;">
+                        <tr><td style="padding:20px 25px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <p style="margin:0 0 4px 0;font-size:16px;font-weight:700;color:#1A1F2E;">MENOS → Eje S/C (Estabilidad / Cumplimiento)</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#718096;">Rechazo de características reservadas, metódicas y de estabilidad.</p>
+                                        <p style="margin:0 0 8px 0;font-size:13px;color:#4A5568;">Frecuencia: <strong><?= menosSC ?></strong> de 28 (<?= pctMenosSC ?>%) — Nivel: <strong style="color:<?= textoNivelMenosSC.color ?>;"><?= textoNivelMenosSC.icono ?> <?= nivelMenosSC ?></strong></p>
+                                        <p style="margin:0;font-size:14px;line-height:1.7;color:#4A5568;text-align:justify;"><?= textoNivelMenosSC.textoMenos ?></p>
+                                    </td>
+                                    <td align="right" style="width:80px;vertical-align:middle;">
+                                        <div style="display:inline-block;background:<?= textoNivelMenosSC.color ?>;color:white;padding:10px 16px;border-radius:20px;font-size:18px;font-weight:800;"><?= pctMenosSC ?>%</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== COMPARATIVA PARTE I vs PARTE II ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:50px 0 25px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Comparativa: Parte I vs Parte II</h2></td></tr>
+                    </table>
+                    
+                    <p style="font-size:14px;line-height:1.7;color:#718096;margin:0 0 20px 0;text-align:justify;"><em>La Parte I (preguntas 1-14) presenta características en un contexto más positivo y aspiracional: las fortalezas y virtudes del evaluado. La Parte II (preguntas 15-28) incluye características en un contexto más neutro y de presión, revelando el comportamiento bajo estrés o en situaciones menos favorables. Comparar ambas partes permite identificar si el perfil se mantiene estable o cambia según el contexto.</em></p>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:2px solid #E2E8F0;border-radius:12px;overflow:hidden;margin-bottom:20px;">
+                        <tr style="background:#0b4a6e;">
+                            <td style="padding:12px 15px;color:white;font-weight:700;font-size:12px;border-right:1px solid rgba(255,255,255,0.2);">Parte</td>
+                            <td style="padding:12px 15px;color:white;font-weight:700;font-size:12px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">MÁS D/I</td>
+                            <td style="padding:12px 15px;color:white;font-weight:700;font-size:12px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">MÁS S/C</td>
+                            <td style="padding:12px 15px;color:white;font-weight:700;font-size:12px;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">MENOS D/I</td>
+                            <td style="padding:12px 15px;color:white;font-weight:700;font-size:12px;text-align:center;">MENOS S/C</td>
+                        </tr>
+                        <tr style="background:#f8fafc;">
+                            <td style="padding:12px 15px;font-weight:700;color:#0b4a6e;font-size:13px;border-right:1px solid #E2E8F0;">Parte I (1-14) — Fortalezas</td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#dc2626;border-right:1px solid #E2E8F0;"><?= masDI_P1 ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#059669;border-right:1px solid #E2E8F0;"><?= masSC_P1 ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#ea580c;border-right:1px solid #E2E8F0;"><?= menosDI_P1 ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#2563eb;"><?= menosSC_P1 ?></td>
+                        </tr>
+                        <tr style="background:#ffffff;">
+                            <td style="padding:12px 15px;font-weight:700;color:#0b4a6e;font-size:13px;border-right:1px solid #E2E8F0;">Parte II (15-28) — Bajo presión</td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#dc2626;border-right:1px solid #E2E8F0;"><?= masDI_P2 ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#059669;border-right:1px solid #E2E8F0;"><?= masSC_P2 ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#ea580c;border-right:1px solid #E2E8F0;"><?= menosDI_P2 ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:700;font-size:16px;color:#2563eb;"><?= menosSC_P2 ?></td>
+                        </tr>
+                        <tr style="background:#f1f5f9;">
+                            <td style="padding:12px 15px;font-weight:800;color:#1A1F2E;font-size:13px;border-right:1px solid #E2E8F0;">TOTAL (28 preguntas)</td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:800;font-size:16px;color:#dc2626;border-right:1px solid #E2E8F0;"><?= masDI ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:800;font-size:16px;color:#059669;border-right:1px solid #E2E8F0;"><?= masSC ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:800;font-size:16px;color:#ea580c;border-right:1px solid #E2E8F0;"><?= menosDI ?></td>
+                            <td style="padding:12px 15px;text-align:center;font-weight:800;font-size:16px;color:#2563eb;"><?= menosSC ?></td>
+                        </tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;margin-bottom:40px;">
+                        <tr><td style="padding:15px 20px;">
+                            <p style="margin:0;font-size:13px;color:#166534;line-height:1.7;"><strong>Interpretación:</strong> Si los valores de Parte I y Parte II son similares, el perfil es estable: la persona se comporta de manera consistente tanto en contextos favorables como bajo presión. Si hay diferencias significativas, la persona modifica su comportamiento según las circunstancias, lo cual puede indicar adaptabilidad o un contraste entre su yo ideal y su yo bajo estrés.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== LAS 4 DIMENSIONES DISC ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:60px 0;"><tr><td style="height:1px;background-color:#E2E8F0;"></td></tr></table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 25px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Las 4 Dimensiones del Modelo DISC</h2></td></tr>
+                    </table>
+                    
+                    <p style="font-size:14px;line-height:1.85;color:#4A5568;margin:0 0 25px 0;text-align:justify;">El modelo DISC clasifica el comportamiento observable en cuatro dimensiones fundamentales. Cada persona tiene un grado variable de cada dimensión, y ningún perfil es mejor o peor que otro. A continuación se describe cada dimensión en detalle para facilitar la comprensión del perfil resultante.</p>
+                    
+                    <? var dimensiones = ['D', 'I', 'S', 'C']; ?>
+                    <? for (var d = 0; d < dimensiones.length; d++) { ?>
+                    <? var dim = perfilesDISC[dimensiones[d]]; ?>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:<?= dim.colorFondo ?>;border:2px solid <?= dim.color ?>;border-radius:16px;margin-bottom:25px;">
+                        <tr><td style="padding:30px 30px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="vertical-align:top;">
+                                        <p style="margin:0 0 5px 0;font-size:22px;font-weight:800;color:<?= dim.color ?>;"><?= dim.icono ?> <?= dim.letra ?> — <?= dim.nombre ?></p>
+                                        <p style="margin:0 0 10px 0;font-size:14px;font-weight:600;color:<?= dim.color ?>;font-style:italic;"><?= dim.pregunta_clave ?></p>
+                                        <p style="margin:0 0 5px 0;font-size:15px;font-weight:700;color:#1A1F2E;">"<?= dim.breve ?>"</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <p style="margin:15px 0 12px 0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;"><?= dim.descripcion_completa ?></p>
+                            
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:15px;">
+                                <tr>
+                                    <td style="padding:8px 0;font-size:13px;color:#4A5568;line-height:1.7;"><strong style="color:<?= dim.color ?>;">🔑 Motivadores:</strong> <?= dim.motivadores ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px 0;font-size:13px;color:#4A5568;line-height:1.7;"><strong style="color:#059669;">💪 Fortalezas:</strong> <?= dim.fortalezas ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px 0;font-size:13px;color:#4A5568;line-height:1.7;"><strong style="color:#d97706;">⚠️ Áreas de mejora:</strong> <?= dim.areas_mejora ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px 0;font-size:13px;color:#4A5568;line-height:1.7;"><strong style="color:#dc2626;">🔥 Bajo presión:</strong> <?= dim.bajo_presion ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px 0;font-size:13px;color:#4A5568;line-height:1.7;"><strong style="color:#2563eb;">🏢 Entorno ideal:</strong> <?= dim.entorno_ideal ?></td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <? } ?>
+                    
+                    <!-- ==================== DETALLE PREGUNTA POR PREGUNTA ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:60px 0;"><tr><td style="height:1px;background-color:#E2E8F0;"></td></tr></table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 25px 0;">
+                        <tr><td><h2 style="margin:0 0 25px 0;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#1A1F2E;padding-bottom:15px;border-bottom:2px solid #E2E8F0;">Detalle Pregunta por Pregunta</h2></td></tr>
+                    </table>
+                    
+                    <!-- Parte I -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+                        <tr><td style="padding:10px 15px;background:#dbeafe;border-radius:8px;">
+                            <p style="margin:0;font-size:14px;font-weight:700;color:#1e40af;">📋 Parte I — Preguntas 1-14 (Contexto Positivo / Fortalezas)</p>
+                        </td></tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:30px;">
+                        <tr style="background:#f1f5f9;">
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#475569;width:30px;text-align:center;">Nº</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#dc2626;text-align:center;">D</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#d97706;text-align:center;">I</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#059669;text-align:center;">S</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#2563eb;text-align:center;">C</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#475569;text-align:center;width:60px;">MÁS →</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#475569;text-align:center;width:70px;">MENOS →</td>
+                        </tr>
+                        <? for (var i = 0; i < detallePreguntas.length; i++) { ?>
+                        <? if (detallePreguntas[i].parte === 'I') { ?>
+                        <tr style="background:<?= i % 2 === 0 ? '#ffffff' : '#f8fafc' ?>;">
+                            <td style="padding:8px 10px;font-size:13px;text-align:center;color:#64748b;font-weight:600;"><?= detallePreguntas[i].numero ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoD ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoI ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoS ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoC ?></td>
+                            <td style="padding:8px 10px;text-align:center;">
+                                <span style="display:inline-block;background:<?= detallePreguntas[i].masGrupo === 'D/I' ? '#fef2f2' : '#f0fdf4' ?>;color:<?= detallePreguntas[i].masGrupo === 'D/I' ? '#dc2626' : '#059669' ?>;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;"><?= detallePreguntas[i].masGrupo ?></span>
+                            </td>
+                            <td style="padding:8px 10px;text-align:center;">
+                                <span style="display:inline-block;background:<?= detallePreguntas[i].menosGrupo === 'D/I' ? '#fff7ed' : '#eff6ff' ?>;color:<?= detallePreguntas[i].menosGrupo === 'D/I' ? '#ea580c' : '#2563eb' ?>;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;"><?= detallePreguntas[i].menosGrupo ?></span>
+                            </td>
+                        </tr>
+                        <? } ?>
+                        <? } ?>
+                    </table>
+                    
+                    <!-- Parte II -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+                        <tr><td style="padding:10px 15px;background:#dcfce7;border-radius:8px;">
+                            <p style="margin:0;font-size:14px;font-weight:700;color:#166534;">📋 Parte II — Preguntas 15-28 (Contexto Bajo Presión)</p>
+                        </td></tr>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:30px;">
+                        <tr style="background:#f1f5f9;">
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#475569;width:30px;text-align:center;">Nº</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#dc2626;text-align:center;">D</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#d97706;text-align:center;">I</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#059669;text-align:center;">S</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#2563eb;text-align:center;">C</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#475569;text-align:center;width:60px;">MÁS →</td>
+                            <td style="padding:10px 10px;font-size:11px;font-weight:700;color:#475569;text-align:center;width:70px;">MENOS →</td>
+                        </tr>
+                        <? for (var i = 0; i < detallePreguntas.length; i++) { ?>
+                        <? if (detallePreguntas[i].parte === 'II') { ?>
+                        <tr style="background:<?= i % 2 === 0 ? '#ffffff' : '#f8fafc' ?>;">
+                            <td style="padding:8px 10px;font-size:13px;text-align:center;color:#64748b;font-weight:600;"><?= detallePreguntas[i].numero ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoD ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoI ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoS ?></td>
+                            <td style="padding:8px 10px;font-size:12px;text-align:center;color:#1A1F2E;"><?= detallePreguntas[i].textoC ?></td>
+                            <td style="padding:8px 10px;text-align:center;">
+                                <span style="display:inline-block;background:<?= detallePreguntas[i].masGrupo === 'D/I' ? '#fef2f2' : '#f0fdf4' ?>;color:<?= detallePreguntas[i].masGrupo === 'D/I' ? '#dc2626' : '#059669' ?>;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;"><?= detallePreguntas[i].masGrupo ?></span>
+                            </td>
+                            <td style="padding:8px 10px;text-align:center;">
+                                <span style="display:inline-block;background:<?= detallePreguntas[i].menosGrupo === 'D/I' ? '#fff7ed' : '#eff6ff' ?>;color:<?= detallePreguntas[i].menosGrupo === 'D/I' ? '#ea580c' : '#2563eb' ?>;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;"><?= detallePreguntas[i].menosGrupo ?></span>
+                            </td>
+                        </tr>
+                        <? } ?>
+                        <? } ?>
+                    </table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f1f5f9;border-radius:8px;margin-bottom:40px;">
+                        <tr><td style="padding:15px 20px;">
+                            <p style="margin:0;font-size:13px;color:#475569;line-height:1.6;"><strong>Leyenda:</strong> Cada fila muestra los 4 adjetivos del grupo (D, I, S, C). La columna "MÁS →" indica el eje al que pertenece la característica elegida como la que más describe al evaluado: <span style="background:#fef2f2;padding:1px 6px;border-radius:4px;color:#dc2626;font-weight:600;">D/I</span> = activo/extrovertido, <span style="background:#f0fdf4;padding:1px 6px;border-radius:4px;color:#059669;font-weight:600;">S/C</span> = reservado/metódico. Análogamente para "MENOS →": <span style="background:#fff7ed;padding:1px 6px;border-radius:4px;color:#ea580c;font-weight:600;">D/I</span> y <span style="background:#eff6ff;padding:1px 6px;border-radius:4px;color:#2563eb;font-weight:600;">S/C</span>.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== SOBRE EL TEST DISC ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:60px 0;"><tr><td style="height:1px;background-color:#E2E8F0;"></td></tr></table>
+                    
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#1A1F2E;border-radius:16px;margin:40px 0;">
+                        <tr><td style="padding:40px 35px;text-align:left;">
+                            <h3 style="margin:0 0 20px 0;font-size:22px;font-weight:700;color:white;">Sobre el Test DISC</h3>
+                            <p style="margin:0 0 12px 0;font-size:14px;line-height:1.85;color:rgba(255,255,255,0.9);">El <strong>modelo DISC</strong> fue desarrollado originalmente por el psicólogo <strong>William Moulton Marston</strong> en 1928 en su obra "Emotions of Normal People". Marston propuso que el comportamiento observable de las personas puede clasificarse en cuatro dimensiones fundamentales: <strong>Dominancia (D)</strong>, <strong>Influencia (I)</strong>, <strong>Estabilidad (S)</strong> y <strong>Cumplimiento (C)</strong>.</p>
+                            <p style="margin:0 0 12px 0;font-size:14px;line-height:1.85;color:rgba(255,255,255,0.9);">Esta versión utiliza el <strong>Método Cleaver</strong> (Self Description), que presenta al evaluado 28 grupos de 4 características. En cada grupo, la persona selecciona la característica que MÁS la describe y la que MENOS la describe, permitiendo construir un perfil bidimensional de autopercepción positiva y negativa.</p>
+                            <p style="margin:0 0 12px 0;font-size:14px;line-height:1.85;color:rgba(255,255,255,0.9);">El DISC no es un test de inteligencia ni de aptitud; es un instrumento de evaluación conductual que mide estilos de comportamiento habituales. No existen perfiles "buenos" o "malos": cada configuración tiene fortalezas y áreas de desarrollo. El valor del DISC radica en aumentar el autoconocimiento, mejorar la comunicación interpersonal y optimizar la asignación de roles en equipos de trabajo.</p>
+                            <p style="margin:0 0 12px 0;font-size:14px;line-height:1.85;color:rgba(255,255,255,0.9);">El modelo organiza las 4 dimensiones en dos ejes: el eje <strong>vertical (Activo vs Pasivo)</strong> diferencia entre personas que tienden a actuar sobre el entorno (D, I) frente a quienes se adaptan al entorno (S, C). El eje <strong>horizontal (Orientado a tareas vs Orientado a personas)</strong> diferencia entre quienes priorizan resultados y procesos (D, C) frente a quienes priorizan relaciones y cooperación (I, S).</p>
+                            <p style="margin:0;font-size:14px;line-height:1.85;color:rgba(255,255,255,0.9);">El instrumento cuenta con amplia validación internacional y es utilizado en procesos de selección, desarrollo de equipos, coaching ejecutivo, programas de liderazgo y planes de desarrollo personal en organizaciones de todo el mundo.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== NOTAS IMPORTANTES ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border:2px solid #fbbf24;border-radius:12px;margin-bottom:40px;">
+                        <tr><td style="padding:25px 30px;">
+                            <p style="margin:0 0 12px 0;font-size:16px;font-weight:700;color:#92400e;">⚠️ Notas Importantes</p>
+                            <p style="margin:0 0 8px 0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">• Este informe refleja la <strong>autopercepción</strong> del evaluado al momento de completar el test. Los resultados pueden variar según el estado emocional, el contexto laboral y otros factores situacionales.</p>
+                            <p style="margin:0 0 8px 0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">• El perfil DISC describe <strong>tendencias conductuales</strong>, no rasgos fijos e inmutables. Las personas pueden desarrollar y modificar su comportamiento con autoconocimiento y práctica.</p>
+                            <p style="margin:0 0 8px 0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">• No existe un perfil "ideal" universal. El valor de cada perfil depende del contexto, el rol y los objetivos específicos del individuo y la organización.</p>
+                            <p style="margin:0;font-size:14px;line-height:1.85;color:#4A5568;text-align:justify;">• Se recomienda complementar este informe con una <strong>entrevista de devolución</strong> realizada por un profesional capacitado, que permita contextualizar los resultados y co-construir un plan de desarrollo personalizado.</p>
+                        </td></tr>
+                    </table>
+                    
+                    <!-- ==================== FIRMA ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="firma-container">
+                        <tr>
+                            <td>
+                                <br><br><br><br><br><br>
+                                <div class="firma-linea" style="margin:0 auto;"></div>
+                                <br>
+                                <p class="firma-texto" style="text-align:center;">Firma del evaluador</p>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- ==================== FOOTER ==================== -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:50px;padding-top:25px;border-top:1px solid #E2E8F0;">
+                        <tr><td style="text-align:center;color:#94a3b8;font-size:13px;font-weight:500;line-height:1.6;">
+                            <p style="margin:0 0 8px 0;">© 2026 Escencial Consultora - Todos los derechos reservados</p>
+                            <p style="margin:0;font-size:12px;">Este informe es confidencial y de uso exclusivo para <strong><?= nombre ?> <?= apellido ?></strong></p>
+                        </td></tr>
+                    </table>
+                    
+                </td></tr>
+            </table>
+        </td></tr>
+    </table>
+</body>
+</html>
