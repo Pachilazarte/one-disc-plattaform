@@ -5,16 +5,36 @@
  */
 
 const CONFIG = {
-    // 🎨 Identidad de Marca
+    // 🎨 Identidad de Marca: ONE
     brand: {
-        name: "DISC Assessment System",
-        logo: "./img/imagen1.svg",
-        logoSecondary: "./img/imagen2.svg",
-        primaryColor: "#2A4B7C",
-        secondaryColor: "#FFD700",
-        accentColor: "#4A90E2",
-        backgroundColor: "#F5F7FA",
-        textColor: "#333333"
+        name: "ONE — Evaluación DISC",
+        logo: "./img/one-iconocolor.png", // Icono circular principal
+        logoSecondary: "./img/one-logoletra.png", // Logo con texto para footer/header
+        logoConsultora: "./img/escencial-logoblanco.png", // Marca del desarrollador
+        
+        // Colores extraídos de tu CSS (:root)
+        colors: {
+            primary: "#6be1e3",   // --c-cyan (Color de acento principal)
+            secondary: "#e17bd7", // --c-pink (Color de acento secundario)
+            accent: "#e4c76a",    // --c-gold
+            background: "#000000", // --c-black
+            surface: "#1a181d",    // --c-ink
+            text: "#fefeff",       // --c-white
+            muted: "#a4a8c0"       // --c-slate
+        },
+        
+        // Tipografías
+        fonts: {
+            title: "'Exo 2', sans-serif",
+            body: "var(--font-sub)"
+        }
+    },
+    
+    // Configuración de la Evaluación
+    assessment: {
+        title: "Evaluación DISC con criterio profesional",
+        subtitle: "Plataforma de evaluación psicolaboral",
+        copyright: "© 2026 Todos los derechos reservados"
     },
 
     // 🔗 APIs de Google Apps Script
@@ -25,11 +45,9 @@ const CONFIG = {
         // WebApp para gestión de Admins para Usuarios
         gestionAdmin: "https://script.google.com/macros/s/AKfycbxs0W282XGXlRA-oWUTCqtavaRBXJbzyhyVLMO-vwJawj6EbX2cUhATt7Jq4q-nCPOA/exec",
         
-        // WebApp para lectura de resultados y generación de informes
-        informes: "link-appscript-informes",
+        // WebApp para lectura de resultados
+        informes: "https://script.google.com/macros/s/AKfycby2psvvq0o7jm1EmkFKAsXpcxRdVdBMThvjRAmvTDdmUClEHsA2PIMMR2_7hhlaTRNO/exec",
         
-        // WebApp para guardar respuestas del test DISC
-        testDISC: "link-appscript-test-disc"
     },
 
     // 📊 Configuración de Google Sheets

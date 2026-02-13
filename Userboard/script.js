@@ -1,5 +1,5 @@
 /**
- * 👤 LÓGICA DEL PANEL DE USUARIO
+ * 💤 LÓGICA DEL PANEL DE USUARIO
  * Permite al usuario realizar el test DISC o ver su informe
  */
 
@@ -30,26 +30,47 @@ function loadUserInfo() {
  */
 async function checkTestStatus() {
     Helpers.showLoading(true);
-    const session = Auth.getSession();
-    
-    try {
-        const response = await Helpers.fetchGET(CONFIG.api.informes, {
-            accion: 'getUserResult',
-            email: session.userEmail
-        });
 
-        if (response.success && response.data) {
-            // Usuario YA realizó el test
-            userResult = response.data;
-            showCompletedStatus();
-        } else {
-            // Usuario NO ha realizado el test
+    try {
+        const userName = sessionStorage.getItem('userName');
+
+        if (!userName) {
             showPendingStatus();
+            return;
         }
+
+        const response = await fetch(
+            `${CONFIG.api.informes}?user=${encodeURIComponent(userName)}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Error HTTP " + response.status);
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.data) {
+
+            const userData = result.data;
+
+            if (userData.Respuestas && userData.Respuestas.trim() !== "") {
+
+                // 🔥 GUARDAMOS TODO EL OBJETO COMPLETO
+                sessionStorage.setItem(
+                    "discUserData",
+                    JSON.stringify(userData)
+                );
+
+                userResult = userData;
+                showCompletedStatus();
+                return;
+            }
+        }
+
+        showPendingStatus();
+
     } catch (error) {
-        console.error('Error al verificar estado del test:', error);
-        
-        // Por defecto, mostrar pendiente si hay error
+        console.error("Error consultando informes:", error);
         showPendingStatus();
     } finally {
         Helpers.showLoading(false);
@@ -61,23 +82,55 @@ async function checkTestStatus() {
  */
 function showPendingStatus() {
     const container = document.getElementById('testStatusContainer');
-    
+    const session = Auth.getSession();
+
     container.innerHTML = `
-        <div class="test-status-card pending">
-            <div class="status-icon pending">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#e65100" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                </svg>
+        <div class="flex justify-center items-center min-h-[60vh] px-4">
+            <div class="w-full max-w-3xl p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-gray-900/95 to-gray-950/98 border border-white/10 shadow-[0_60px_160px_rgba(0,0,0,0.9)] text-center relative overflow-hidden">
+                
+                <!-- Glow Effect -->
+                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-disc-cyan/10 via-transparent to-disc-pink/10 opacity-30 -z-10"></div>
+                
+                <!-- Warning Icon -->
+                <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-6 flex items-center justify-center rounded-full bg-orange-500/10 text-5xl sm:text-6xl shadow-[0_0_60px_rgba(255,184,108,0.4)]">
+                    ⏳
+                </div>
+                
+                <!-- Title -->
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
+                    ${session.userName}, aún no realizaste tu evaluación
+                </h2>
+                
+                <!-- Description -->
+                <p class="text-base sm:text-lg text-gray-400 mb-6 max-w-2xl mx-auto">
+                    El test DISC toma aproximadamente 
+                    <strong class="text-white">10 a 15 minutos</strong> y genera un informe 
+                    profesional personalizado.
+                </p>
+                
+                <!-- Highlights -->
+                <div class="inline-block px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-sm sm:text-base text-left mb-8">
+                    <div class="flex items-start gap-2 mb-2">
+                        <span class="text-disc-green">✓</span>
+                        <span>Resultados inmediatos</span>
+                    </div>
+                    <div class="flex items-start gap-2 mb-2">
+                        <span class="text-disc-green">✓</span>
+                        <span>Perfil conductual completo</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-disc-green">✓</span>
+                        <span>Informe descargable</span>
+                    </div>
+                </div>
+                
+                <!-- CTA Button -->
+                <button class="px-8 py-4 rounded-full bg-gradient-to-r from-disc-cyan/20 to-disc-pink/20 border border-disc-cyan/40 hover:border-disc-cyan/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(107,225,227,0.4)] font-bold text-lg relative overflow-hidden group" 
+                        onclick="startTest()">
+                    <div class="absolute inset-0 bg-gradient-to-r from-disc-cyan/30 to-disc-pink/30 blur-xl opacity-50 group-hover:opacity-80 transition-opacity -z-10"></div>
+                    Comenzar Evaluación
+                </button>
             </div>
-            <h2>Test Pendiente</h2>
-            <p>Aún no has realizado tu evaluación DISC. Haz clic en el botón de abajo para comenzar tu test ahora.</p>
-            <p style="font-size: 0.95rem; color: #999;">
-                ⏱️ El test toma aproximadamente 10-15 minutos
-            </p>
-            <button class="btn btn-primary" onclick="startTest()">
-                Comenzar Test DISC
-            </button>
         </div>
     `;
 }
@@ -87,43 +140,49 @@ function showPendingStatus() {
  */
 function showCompletedStatus() {
     const container = document.getElementById('testStatusContainer');
-    
+
     container.innerHTML = `
-        <div class="test-status-card completed">
-            <div class="status-icon completed">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-            </div>
-            <h2>¡Test Completado!</h2>
-            <p>Ya has realizado tu evaluación DISC. Puedes visualizar tu informe completo haciendo clic en el botón de abajo.</p>
-            
-            ${userResult ? `
-                <div class="report-preview">
-                    <h4>Información del Informe:</h4>
-                    <div class="report-info">
-                        <div class="report-info-item">
-                            <label>Fecha de realización:</label>
-                            <strong>${Helpers.formatDate(userResult.fecha)}</strong>
-                        </div>
-                        <div class="report-info-item">
-                            <label>Perfil Dominante:</label>
-                            <strong>${userResult.perfilDominante || 'N/A'}</strong>
-                        </div>
+        <div class="flex justify-center items-center min-h-[60vh] px-4">
+            <div class="w-full max-w-3xl p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-gray-900/95 to-gray-950/98 border border-white/10 shadow-[0_60px_160px_rgba(0,0,0,0.9)] text-center relative overflow-hidden">
+                
+                <!-- Glow Effect -->
+                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-disc-green/10 via-transparent to-disc-cyan/10 opacity-30 -z-10"></div>
+                
+                <!-- Success Badge -->
+                <div class="inline-block px-4 py-2 rounded-full bg-disc-green/10 border border-disc-green/30 text-disc-green text-sm font-semibold mb-6">
+                    ✓ Evaluación completada
+                </div>
+                
+                <!-- Title -->
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
+                    Tu informe está listo
+                </h2>
+                
+                <!-- Description -->
+                <p class="text-base sm:text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+                    Has finalizado tu evaluación DISC.
+                    Puedes acceder a tu informe profesional completo.
+                </p>
+                
+                <!-- Report Summary -->
+                <div class="grid sm:grid-cols-2 gap-4 mb-8 max-w-lg mx-auto">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="text-xs text-gray-500 mb-1">Fecha</div>
+                        <div class="font-bold text-base">${Helpers.formatDate(userResult.Fecha)}</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="text-xs text-gray-500 mb-1">Informe</div>
+                        <div class="font-bold text-base">${userResult.Informe}</div>
                     </div>
                 </div>
-            ` : ''}
-            
-            <button class="btn btn-success" onclick="viewReport()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-                Ver Mi Informe Completo
-            </button>
+                
+                <!-- CTA Button -->
+                <button class="px-8 py-4 rounded-full bg-gradient-to-r from-disc-green/20 to-disc-cyan/20 border border-disc-green/40 hover:border-disc-green/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(80,250,123,0.4)] font-bold text-lg relative overflow-hidden group" 
+                        onclick="viewReport()">
+                    <div class="absolute inset-0 bg-gradient-to-r from-disc-green/30 to-disc-cyan/30 blur-xl opacity-50 group-hover:opacity-80 transition-opacity -z-10"></div>
+                    Ver Informe Completo
+                </button>
+            </div>
         </div>
     `;
 }
@@ -145,9 +204,6 @@ function startTest() {
 function viewReport() {
     const session = Auth.getSession();
     
-    // Abrir el informe en la misma ventana o nueva pestaña
-    window.open(
-        `${CONFIG.routes.informe}?email=${encodeURIComponent(session.userEmail)}`,
-        '_blank'
-    );
+    // Navegar al informe en la misma página
+    window.location.href = `${CONFIG.routes.informe}?email=${encodeURIComponent(session.userEmail)}`;
 }

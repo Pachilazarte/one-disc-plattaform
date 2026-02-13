@@ -3,95 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Panel - DISC Assessment</title>
-    <link rel="stylesheet" href="../css/global.css">
+    <title>Mi Panel - ONE DISC</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'disc-cyan': '#6be1e3',
+                        'disc-pink': '#e17bd7',
+                        'disc-gold': '#e4c76a',
+                        'disc-green': '#50fa7b',
+                    },
+                    fontFamily: {
+                        'exo': ['"Exo 2"', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
     <link rel="stylesheet" href="./style.css">
+    
     <script src="../Marca.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/helpers.js"></script>
 </head>
-<body>
+<body class="font-exo bg-gradient-to-b from-black to-gray-950 text-white min-h-screen overflow-x-hidden">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 -z-30 bg-gradient-radial from-disc-cyan/10 via-transparent to-transparent blur-3xl"></div>
+    <div class="fixed top-0 left-0 w-96 h-96 bg-disc-cyan/20 rounded-full blur-[150px] -z-20 animate-pulse"></div>
+    <div class="fixed top-1/2 right-0 w-[500px] h-[500px] bg-disc-pink/20 rounded-full blur-[150px] -z-20 animate-pulse" style="animation-delay: 2s;"></div>
+    <div class="fixed bottom-0 left-1/3 w-80 h-80 bg-disc-gold/15 rounded-full blur-[150px] -z-20 animate-pulse" style="animation-delay: 4s;"></div>
+
     <!-- Header -->
-    <header class="userboard-header">
-        <div class="container flex-between">
-            <div class="flex gap-10" style="align-items: center;">
-                <img src="../img/imagen1.svg" alt="Logo" class="header-logo">
-                <div>
-                    <h2>Mi Panel de Usuario</h2>
-                    <p class="user-info" id="userInfo"></p>
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                
+                <!-- Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-contain bg-no-repeat bg-center drop-shadow-[0_0_15px_rgba(107,225,227,0.5)]" 
+                         style="background-image: url('../img/one-logocolor.png');">
+                    </div>
+                    <div>
+                        <div class="text-lg font-extrabold tracking-wider">ONE DISC</div>
+                        <div class="text-xs text-gray-400" id="userInfo">Cargando usuario...</div>
+                    </div>
                 </div>
+
+                <!-- Header Right -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400">
+                        <span class="w-2 h-2 rounded-full bg-disc-green shadow-[0_0_10px_theme(colors.disc-green)]"></span>
+                        Sesión activa
+                    </div>
+                    <button class="px-4 py-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-0.5 text-sm font-semibold" 
+                            onclick="Auth.logout()">
+                        Cerrar sesión
+                    </button>
+                </div>
+
             </div>
-            <button class="btn btn-danger" onclick="Auth.logout()">Cerrar Sesión</button>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container">
-        <div id="alertContainer"></div>
-        <div id="loadingContainer" class="hidden"></div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
 
-        <!-- Welcome Card -->
-        <div class="welcome-card">
-            <div class="welcome-content">
-                <h1>¡Bienvenido al Sistema de Evaluación DISC!</h1>
-                <p>Aquí podrás realizar tu test de personalidad DISC y visualizar tu informe detallado.</p>
-            </div>
-            <div class="welcome-image">
-                <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
-                    <circle cx="100" cy="100" r="80" fill="#e3f2fd"/>
-                    <path d="M100 40 L100 80 M100 120 L100 160 M60 100 L80 100 M120 100 L140 100" 
-                          stroke="#2A4B7C" stroke-width="4" stroke-linecap="round"/>
-                    <circle cx="100" cy="100" r="10" fill="#2A4B7C"/>
-                </svg>
-            </div>
-        </div>
+        <!-- Hero Section -->
+        <section class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 lg:mb-24">
+            
+            <!-- Hero Left -->
+            <div class="text-center lg:text-left">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">
+                    Bienvenido al 
+                    <span class="bg-gradient-to-r from-disc-cyan to-disc-cyan/60 bg-clip-text text-transparent">Sistema</span> 
+                    de Evaluación 
+                    <span class="bg-gradient-to-r from-disc-pink to-disc-pink/60 bg-clip-text text-transparent">DISC</span>
+                </h1>
 
-        <!-- Estado del Test -->
-        <div id="testStatusContainer">
-            <!-- Se llenará dinámicamente -->
-        </div>
+                <p class="text-base sm:text-lg text-gray-400 mb-6 max-w-xl mx-auto lg:mx-0">
+                    Evaluación psicolaboral con métricas avanzadas, interpretación profesional y reporte descargable.
+                </p>
 
-        <!-- Información Adicional -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">¿Qué es el Test DISC?</h3>
-            </div>
-            <div class="disc-info">
-                <p>El test DISC es una herramienta de evaluación que mide cuatro dimensiones principales del comportamiento humano:</p>
-                <div class="disc-dimensions">
-                    <div class="dimension-card">
-                        <div class="dimension-icon" style="background: #ffebee;">
-                            <span style="font-size: 2rem; color: #c62828;">D</span>
-                        </div>
-                        <h4>Dominancia</h4>
-                        <p>Orientación a resultados, confianza y toma de decisiones</p>
+                <!-- Actions -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
+                    <button class="px-6 py-3 rounded-full border border-disc-cyan/40 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] font-semibold relative overflow-hidden group" 
+                            id="btnStartTest">
+                        <div class="absolute inset-0 bg-gradient-to-r from-disc-cyan/30 to-disc-cyan/10 blur-xl opacity-60 -z-10"></div>
+                        Comenzar evaluación
+                    </button>
+                    <button class="px-6 py-3 rounded-full border border-disc-pink/40 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] font-semibold" 
+                            id="btnViewReport">
+                        Ver informe
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    <div class="px-5 py-3 rounded-2xl bg-white/5 border border-white/10 min-w-[120px]">
+                        <div class="text-xl font-bold">4</div>
+                        <div class="text-xs text-gray-500">Dimensiones</div>
                     </div>
-                    <div class="dimension-card">
-                        <div class="dimension-icon" style="background: #fff3e0;">
-                            <span style="font-size: 2rem; color: #e65100;">I</span>
-                        </div>
-                        <h4>Influencia</h4>
-                        <p>Sociabilidad, entusiasmo y capacidad de persuasión</p>
+                    <div class="px-5 py-3 rounded-2xl bg-white/5 border border-white/10 min-w-[120px]">
+                        <div class="text-xl font-bold">100%</div>
+                        <div class="text-xs text-gray-500">Online</div>
                     </div>
-                    <div class="dimension-card">
-                        <div class="dimension-icon" style="background: #e8f5e9;">
-                            <span style="font-size: 2rem; color: #2e7d32;">S</span>
-                        </div>
-                        <h4>Estabilidad</h4>
-                        <p>Paciencia, lealtad y trabajo en equipo</p>
-                    </div>
-                    <div class="dimension-card">
-                        <div class="dimension-icon" style="background: #e3f2fd;">
-                            <span style="font-size: 2rem; color: #1565c0;">C</span>
-                        </div>
-                        <h4>Cumplimiento</h4>
-                        <p>Precisión, análisis y atención al detalle</p>
+                    <div class="px-5 py-3 rounded-2xl bg-white/5 border border-white/10 min-w-[120px]">
+                        <div class="text-xl font-bold">Instantáneo</div>
+                        <div class="text-xs text-gray-500">Reporte</div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Hero Right - Progress Ring -->
+            <div class="flex justify-center lg:justify-end">
+                <div class="relative w-64 h-64">
+                    <svg class="progress-ring transform -rotate-90" width="260" height="260">
+                        <circle class="progress-ring-bg" cx="130" cy="130" r="110" 
+                                fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="18"></circle>
+                        <circle class="progress-ring-fill" cx="130" cy="130" r="110" 
+                                fill="none" stroke="#6be1e3" stroke-width="18" stroke-linecap="round"
+                                style="stroke-dasharray: 690; stroke-dashoffset: 690; transition: stroke-dashoffset 0.8s ease;"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <div class="text-3xl font-extrabold" id="progressPercent">0%</div>
+                        <div class="text-sm text-gray-500">Progreso</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Status Section -->
+        <section class="mb-16">
+            <div id="alertContainer"></div>
+            <div id="loadingContainer" class="hidden"></div>
+            <div id="testStatusContainer"></div>
+        </section>
+
+        <!-- DISC Model -->
+        <section>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-2">Modelo DISC</h2>
+                <p class="text-gray-500">Cuatro dimensiones que definen el comportamiento profesional.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- D Card -->
+                <div class="p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_70px_rgba(0,0,0,0.65)]">
+                    <div class="w-16 h-16 flex items-center justify-center text-3xl font-extrabold rounded-full bg-white/10 text-red-400 mb-4">D</div>
+                    <h3 class="text-xl font-bold mb-2">Dominancia</h3>
+                    <p class="text-sm text-gray-400">Orientación a resultados, firmeza y liderazgo.</p>
+                </div>
+
+                <!-- I Card -->
+                <div class="p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_70px_rgba(0,0,0,0.65)]">
+                    <div class="w-16 h-16 flex items-center justify-center text-3xl font-extrabold rounded-full bg-white/10 text-orange-400 mb-4">I</div>
+                    <h3 class="text-xl font-bold mb-2">Influencia</h3>
+                    <p class="text-sm text-gray-400">Persuasión, entusiasmo y comunicación.</p>
+                </div>
+
+                <!-- S Card -->
+                <div class="p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_70px_rgba(0,0,0,0.65)]">
+                    <div class="w-16 h-16 flex items-center justify-center text-3xl font-extrabold rounded-full bg-white/10 text-green-400 mb-4">S</div>
+                    <h3 class="text-xl font-bold mb-2">Estabilidad</h3>
+                    <p class="text-sm text-gray-400">Paciencia, cooperación y constancia.</p>
+                </div>
+
+                <!-- C Card -->
+                <div class="p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_70px_rgba(0,0,0,0.65)]">
+                    <div class="w-16 h-16 flex items-center justify-center text-3xl font-extrabold rounded-full bg-white/10 text-cyan-400 mb-4">C</div>
+                    <h3 class="text-xl font-bold mb-2">Cumplimiento</h3>
+                    <p class="text-sm text-gray-400">Precisión, estructura y análisis.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-white/10">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-gray-500">
+                <div>© 2026 ONE DISC</div>
+                <div>Plataforma profesional de evaluación</div>
+            </div>
+        </footer>
+
     </main>
 
     <script src="./script.js"></script>
+
+    <script>
+        /* CONTROL UI ENTERPRISE */
+        document.addEventListener("DOMContentLoaded", function(){
+            const btnStart = document.getElementById("btnStartTest");
+            const btnReport = document.getElementById("btnViewReport");
+
+            if(btnStart){
+                btnStart.addEventListener("click", ()=>{
+                    window.location.href = CONFIG.routes.test;
+                });
+            }
+
+            if(btnReport){
+                btnReport.addEventListener("click", ()=>{
+                    window.location.href = CONFIG.routes.informe;
+                });
+            }
+
+            /* Simulación dinámica progreso */
+            const percent = 100; 
+            setProgress(percent);
+        });
+
+        function setProgress(value){
+            const circle = document.querySelector(".progress-ring-fill");
+            const radius = 110;
+            const circumference = 2 * Math.PI * radius;
+
+            circle.style.strokeDasharray = circumference;
+            const offset = circumference - (value / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            document.getElementById("progressPercent").innerText = value + "%";
+        }
+    </script>
+
 </body>
 </html>

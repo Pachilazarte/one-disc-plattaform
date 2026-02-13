@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informe DISC — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    // Inject sample data so the preview works without sessionStorage
+    const SAMPLE_DATA = {"Fecha":"2026-02-12T19:51:58.000Z","Usuario_Admin":"FacundoLazarte","Email_Admin":"escencialconsult@gmail.com","User":"FacundoLazarte18","Nombre":"Facundo Maximiliano","Apellido":"Lazarte","Correo":"facundoescencial@gmail.com","Respuestas":"{PI: 0m 26s - 1;1, 2;1, 3;1, 4;1, 5;1, 6;5, 7;1, 8;1, 9;1, 10;1, 11;1, 12;1, 13;1, 14;1, 15;1, 16;1, 17;1, 18;1, 19;1, 20;1, 21;1, 22;1, 23;1, 24;1, 25;1, 26;5, 27;1, 28;1} {PII: 0m 23s - 29;1, 30;5, 31;1, 32;1, 33;1, 34;1, 35;1, 36;1, 37;5, 38;1, 39;1, 40;1, 41;1, 42;1, 43;1, 44;1, 45;1, 46;1, 47;1, 48;1, 49;1, 50;1, 51;5, 52;1, 53;5, 54;1, 55;5, 56;1}","Informe":"","Estado":"Enviado"};
+    sessionStorage.setItem("discUserData", JSON.stringify(SAMPLE_DATA));
+  </script>
+  <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #020f27;
+  --navy-mid: #0b2948;
+  --teal: #0b4a6e;
+  --teal-light: #1a7aad;
+  --bg: #f0f2f7;
+  --surface: #ffffff;
+  --text: #1a1f2e;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --color-d: #dc2626;
+  --color-d-bg: #fef2f2;
+  --color-i: #d97706;
+  --color-i-bg: #fffbeb;
+  --color-s: #059669;
+  --color-s-bg: #f0fdf4;
+  --color-c: #2563eb;
+  --color-c-bg: #eff6ff;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.loading-screen { position: fixed; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s ease; }
+.loading-screen.fade-out { opacity: 0; visibility: hidden; }
+.loading-content { text-align: center; }
+.loading-rings { position: relative; width: 120px; height: 120px; margin: 0 auto 24px; }
+.ring { position: absolute; border-radius: 50%; border: 3px solid transparent; animation: spin 1.8s linear infinite; }
+.ring-d { inset: 0;    border-top-color: var(--color-d); animation-duration: 1.8s; }
+.ring-i { inset: 10px; border-right-color: var(--color-i); animation-duration: 1.4s; animation-direction: reverse; }
+.ring-s { inset: 20px; border-bottom-color: var(--color-s); animation-duration: 1.1s; }
+.ring-c { inset: 30px; border-left-color: var(--color-c); animation-duration: 0.9s; animation-direction: reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 500; letter-spacing: 1px; }
+
+.hidden { display: none !important; }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.hero { position: relative; background: linear-gradient(160deg, var(--navy) 0%, var(--teal) 60%, #0e5a84 100%); padding: 60px 24px 100px; overflow: hidden; }
+.hero-bg-pattern { position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.03) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 40%); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 80px; background: var(--bg); clip-path: ellipse(55% 100% at 50% 100%); }
+.hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-badge { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 6px 20px; border-radius: 30px; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; color: rgba(255,255,255,0.85); text-transform: uppercase; margin-bottom: 20px; backdrop-filter: blur(4px); }
+.hero-title { font-family: var(--font-display); font-size: clamp(42px, 7vw, 64px); font-weight: 900; color: #fff; letter-spacing: -2px; line-height: 1.05; margin-bottom: 8px; }
+.hero-subtitle { font-size: 18px; color: rgba(255,255,255,0.9); font-weight: 500; margin-bottom: 4px; }
+.hero-method { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 36px; }
+
+.hero-user-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-lg); padding: 24px 28px; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.user-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--color-d), var(--color-i), var(--color-s), var(--color-c)); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: #fff; font-family: var(--font-display); flex-shrink: 0; box-shadow: 0 0 0 3px rgba(255,255,255,0.2); }
+.user-info { flex: 1; min-width: 180px; }
+.user-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #fff; line-height: 1.2; }
+.user-email { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.user-meta { display: flex; gap: 16px; flex-wrap: wrap; }
+.meta-item { display: flex; flex-direction: column; background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 8px 14px; min-width: 90px; }
+.meta-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); }
+.meta-value { font-size: 14px; font-weight: 600; color: #fff; font-family: var(--font-mono); }
+
+.report-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.nav-inner { max-width: 900px; margin: 0 auto; display: flex; overflow-x: auto; padding: 0 16px; gap: 4px; scrollbar-width: none; }
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-tab { flex-shrink: 0; padding: 14px 20px; border: none; background: none; font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.25s ease; white-space: nowrap; }
+.nav-tab:hover { color: var(--teal); }
+.nav-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+.section { display: none; animation: fadeSection 0.4s ease; }
+.section.active { display: block; }
+@keyframes fadeSection { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.section-inner { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+.section-title { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--border); letter-spacing: -0.5px; }
+.section-desc { font-size: 15px; color: var(--text-muted); line-height: 1.75; margin-bottom: 28px; }
+
+.intro-card { background: linear-gradient(135deg, #f0f9ff 0%, #e8f4fd 100%); border: 1px solid #bae6fd; border-radius: var(--radius-lg); padding: 32px; margin-bottom: 48px; }
+.intro-icon { font-size: 32px; margin-bottom: 12px; }
+.intro-card h3 { font-family: var(--font-display); font-size: 20px; color: var(--teal); margin-bottom: 12px; }
+.intro-card p { font-size: 15px; line-height: 1.85; color: #4a5568; margin-bottom: 10px; text-align: justify; }
+.intro-card p:last-child { margin-bottom: 0; }
+
+.score-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+@media (max-width: 600px) { .score-grid { grid-template-columns: 1fr; } }
+.score-card { border-radius: var(--radius-lg); padding: 28px 24px; text-align: center; position: relative; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.score-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.score-card::before { content: ''; position: absolute; inset: 0; opacity: 0.06; border-radius: inherit; background: radial-gradient(circle at 30% 30%, currentColor 0%, transparent 70%); }
+.score-mas-di  { background: linear-gradient(145deg, #fef2f2, #fee2e2); color: var(--color-d); border: 1px solid #fca5a5; }
+.score-mas-sc  { background: linear-gradient(145deg, #f0fdf4, #dcfce7); color: var(--color-s); border: 1px solid #86efac; }
+.score-menos-di { background: linear-gradient(145deg, #fff7ed, #ffedd5); color: var(--color-i); border: 1px solid #fdba74; }
+.score-menos-sc { background: linear-gradient(145deg, #eff6ff, #dbeafe); color: var(--color-c); border: 1px solid #93c5fd; }
+.score-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.85; }
+.score-sublabel { font-size: 11px; opacity: 0.6; margin-bottom: 8px; }
+.score-value { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -3px; margin-bottom: 12px; }
+.score-bar-container { height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; margin: 0 auto 8px; width: 80%; overflow: hidden; }
+.score-bar { height: 100%; border-radius: 3px; width: 0%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+.score-mas-di .score-bar  { background: var(--color-d); }
+.score-mas-sc .score-bar  { background: var(--color-s); }
+.score-menos-di .score-bar { background: var(--color-i); }
+.score-menos-sc .score-bar { background: var(--color-c); }
+.score-pct { font-family: var(--font-mono); font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.score-level { font-size: 12px; font-weight: 600; opacity: 0.7; }
+
+.tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; }
+.tag-di-mas  { background: var(--color-d-bg); color: var(--color-d); }
+.tag-sc-mas  { background: var(--color-s-bg); color: var(--color-s); }
+.tag-di-menos { background: var(--color-i-bg); color: var(--color-i); }
+.tag-sc-menos { background: var(--color-c-bg); color: var(--color-c); }
+
+.legend-card, .help-card { background: var(--border-light); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 22px; font-size: 13px; color: #475569; line-height: 1.75; margin-bottom: 32px; }
+.help-card { background: #fffbeb; border-color: #fbbf24; color: #92400e; }
+
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+@media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
+.chart-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); }
+.chart-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); text-align: center; margin-bottom: 20px; }
+
+.table-wrap { overflow-x: auto; margin-bottom: 20px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.data-table, .detail-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.data-table thead, .detail-table thead { background: var(--navy); }
+.data-table th, .detail-table th { padding: 14px 16px; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; white-space: nowrap; }
+.data-table th:first-child, .detail-table th:first-child { text-align: left; }
+.data-table td, .detail-table td { padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border-light); }
+.data-table td:first-child, .detail-table td:first-child { text-align: left; font-weight: 600; }
+.data-table tbody tr:nth-child(odd) { background: #fafbfc; }
+.data-table tbody tr:hover, .detail-table tbody tr:hover { background: #f1f5f9; }
+.detail-table td { font-size: 13px; }
+th.c-d { color: #fca5a5 !important; }
+th.c-i { color: #fcd34d !important; }
+th.c-s { color: #86efac !important; }
+th.c-c { color: #93c5fd !important; }
+th.c-di-mas { color: #fca5a5 !important; }
+th.c-sc-mas { color: #86efac !important; }
+th.c-di-menos { color: #fcd34d !important; }
+th.c-sc-menos { color: #93c5fd !important; }
+.cell-tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+
+.consistency-card { border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; border-left: 6px solid; }
+.consistency-card h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.consistency-card p { font-size: 15px; line-height: 1.85; color: #4a5568; text-align: justify; }
+.consistency-netos { margin-top: 16px; display: flex; gap: 24px; font-size: 14px; color: #4a5568; }
+.consistency-netos strong { font-family: var(--font-mono); font-size: 16px; }
+.consistency-card[data-type="consistente_DI"] { background: #fef2f2; border-color: var(--color-d); }
+.consistency-card[data-type="consistente_DI"] h3 { color: var(--color-d); }
+.consistency-card[data-type="consistente_SC"] { background: #f0fdf4; border-color: var(--color-s); }
+.consistency-card[data-type="consistente_SC"] h3 { color: var(--color-s); }
+.consistency-card[data-type="mixto"] { background: #f5f3ff; border-color: #7c3aed; }
+.consistency-card[data-type="mixto"] h3 { color: #7c3aed; }
+.consistency-card[data-type="contradictorio"] { background: #fffbeb; border-color: var(--color-i); }
+.consistency-card[data-type="contradictorio"] h3 { color: var(--color-i); }
+
+.interp-note { padding: 14px 20px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+.interp-mas { background: var(--color-d-bg); color: #991b1b; border-left: 4px solid var(--color-d); }
+.interp-menos { background: var(--color-c-bg); color: #1e40af; border-left: 4px solid var(--color-c); }
+.interp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; margin-bottom: 16px; border-left: 4px solid; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.interp-card .interp-body { flex: 1; }
+.interp-card .interp-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.interp-card .interp-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+.interp-card .interp-stats { font-size: 13px; color: #4a5568; margin-bottom: 8px; }
+.interp-card .interp-text { font-size: 14px; line-height: 1.75; color: #4a5568; text-align: justify; }
+.interp-card .interp-badge { flex-shrink: 0; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: #fff; }
+
+.dim-card { background: var(--surface); border: 2px solid; border-radius: var(--radius-xl); padding: 36px; margin-bottom: 24px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.dim-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.dim-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.dim-icon { font-size: 36px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); flex-shrink: 0; }
+.dim-letter { font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1.1; }
+.dim-name { font-size: 14px; font-weight: 500; opacity: 0.7; }
+.dim-question { font-size: 13px; font-style: italic; font-weight: 600; margin-bottom: 4px; }
+.dim-breve { font-size: 15px; font-weight: 700; color: var(--text); }
+.dim-desc { font-size: 14px; line-height: 1.85; color: #4a5568; text-align: justify; margin-bottom: 20px; }
+.dim-details { display: grid; gap: 10px; }
+.dim-detail-row { display: flex; gap: 10px; font-size: 13px; line-height: 1.7; color: #4a5568; }
+.dim-detail-label { flex-shrink: 0; font-weight: 700; min-width: 130px; }
+.dim-card-D { border-color: var(--color-d); }
+.dim-card-D .dim-icon { background: var(--color-d-bg); }
+.dim-card-D .dim-letter, .dim-card-D .dim-question { color: var(--color-d); }
+.dim-card-I { border-color: var(--color-i); }
+.dim-card-I .dim-icon { background: var(--color-i-bg); }
+.dim-card-I .dim-letter, .dim-card-I .dim-question { color: var(--color-i); }
+.dim-card-S { border-color: var(--color-s); }
+.dim-card-S .dim-icon { background: var(--color-s-bg); }
+.dim-card-S .dim-letter, .dim-card-S .dim-question { color: var(--color-s); }
+.dim-card-C { border-color: var(--color-c); }
+.dim-card-C .dim-icon { background: var(--color-c-bg); }
+.dim-card-C .dim-letter, .dim-card-C .dim-question { color: var(--color-c); }
+
+.part-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.part-badge { font-family: var(--font-body); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px; letter-spacing: 0.5px; }
+.part-badge-1 { background: #dbeafe; color: #1e40af; }
+.part-badge-2 { background: #dcfce7; color: #166534; }
+
+.about-card { background: var(--navy); border-radius: var(--radius-xl); padding: 44px 36px; margin-bottom: 28px; }
+.about-card h2 { font-family: var(--font-display); font-size: 26px; color: #fff; margin-bottom: 20px; }
+.about-card p { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.85); margin-bottom: 14px; }
+.about-card p:last-child { margin-bottom: 0; }
+.notes-card { background: #fffbeb; border: 2px solid #fbbf24; border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 28px; }
+.notes-card h3 { font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 14px; }
+.notes-card p { font-size: 14px; line-height: 1.85; color: #4a5568; margin-bottom: 10px; text-align: justify; }
+.notes-card p:last-child { margin-bottom: 0; }
+.footer-card { text-align: center; padding: 28px; border-top: 1px solid var(--border); color: var(--text-light); font-size: 13px; line-height: 1.6; }
+.footer-conf { font-size: 12px; margin-top: 4px; }
+
+@media (max-width: 600px) {
+  .hero { padding: 40px 16px 80px; }
+  .hero-title { font-size: 36px; }
+  .hero-user-card { flex-direction: column; align-items: flex-start; }
+  .section-inner { padding: 32px 16px 60px; }
+  .section-title { font-size: 24px; }
+  .interp-card { flex-direction: column; }
+  .consistency-netos { flex-direction: column; gap: 8px; }
+}
+  </style>
+</head>
+<body>
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-rings">
+        <div class="ring ring-d"></div>
+        <div class="ring ring-i"></div>
+        <div class="ring ring-s"></div>
+        <div class="ring ring-c"></div>
+      </div>
+      <p class="loading-text">Generando informe DISC...</p>
+    </div>
+  </div>
+
+  <div id="reportContainer" class="report-container hidden">
+    <header class="hero">
+      <div class="hero-bg-pattern"></div>
+      <div class="hero-content">
+        <div class="hero-badge">EVALUACIÓN DE PERFIL CONDUCTUAL</div>
+        <h1 class="hero-title">Test DISC</h1>
+        <p class="hero-subtitle">Perfil de Comportamiento Profesional</p>
+        <p class="hero-method">Basado en el modelo de William Moulton Marston — Método Cleaver</p>
+        <div class="hero-user-card">
+          <div class="user-avatar" id="userAvatar"></div>
+          <div class="user-info">
+            <h2 id="nombreCompleto" class="user-name"></h2>
+            <p id="correoUsuario" class="user-email"></p>
+          </div>
+          <div class="user-meta">
+            <div class="meta-item"><span class="meta-label">Fecha</span><span class="meta-value" id="fechaEval"></span></div>
+            <div class="meta-item"><span class="meta-label">Parte I</span><span class="meta-value" id="tiempoP1"></span></div>
+            <div class="meta-item"><span class="meta-label">Parte II</span><span class="meta-value" id="tiempoP2"></span></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="report-nav">
+      <div class="nav-inner">
+        <button class="nav-tab active" data-section="resumen">Resumen</button>
+        <button class="nav-tab" data-section="analisis">Análisis</button>
+        <button class="nav-tab" data-section="dimensiones">Dimensiones DISC</button>
+        <button class="nav-tab" data-section="detalle">Detalle</button>
+        <button class="nav-tab" data-section="acerca">Acerca del Test</button>
+      </div>
+    </nav>
+
+    <section id="sec-resumen" class="section active">
+      <div class="section-inner">
+        <div class="intro-card reveal">
+          <div class="intro-icon">📖</div>
+          <h3>¿Qué es este informe?</h3>
+          <p>Este documento presenta los resultados de la evaluación de perfil de comportamiento profesional mediante el <strong>Test DISC</strong>, una herramienta psicométrica utilizada en el ámbito organizacional para comprender los estilos de conducta habituales.</p>
+          <p>El test evalúa la tendencia hacia dos grandes ejes conductuales: el eje <strong>Activo/Extrovertido (D-I)</strong> y el eje <strong>Reservado/Metódico (S-C)</strong>.</p>
+        </div>
+        <h2 class="section-title reveal">Resultados Generales</h2>
+        <p class="section-desc reveal">El test presentó 28 grupos de 4 características. Para cada grupo se seleccionó la que MÁS y la que MENOS describe al evaluado.</p>
+        <div class="score-grid reveal">
+          <div class="score-card score-mas-di"><div class="score-label">MÁS → D/I</div><div class="score-sublabel">Activo / Extrovertido</div><div class="score-value" id="val-masDI">0</div><div class="score-bar-container"><div class="score-bar" id="bar-masDI"></div></div><div class="score-pct" id="pct-masDI">0%</div><div class="score-level" id="lvl-masDI"></div></div>
+          <div class="score-card score-mas-sc"><div class="score-label">MÁS → S/C</div><div class="score-sublabel">Reservado / Metódico</div><div class="score-value" id="val-masSC">0</div><div class="score-bar-container"><div class="score-bar" id="bar-masSC"></div></div><div class="score-pct" id="pct-masSC">0%</div><div class="score-level" id="lvl-masSC"></div></div>
+          <div class="score-card score-menos-di"><div class="score-label">MENOS → D/I</div><div class="score-sublabel">Activo / Extrovertido</div><div class="score-value" id="val-menosDI">0</div><div class="score-bar-container"><div class="score-bar" id="bar-menosDI"></div></div><div class="score-pct" id="pct-menosDI">0%</div><div class="score-level" id="lvl-menosDI"></div></div>
+          <div class="score-card score-menos-sc"><div class="score-label">MENOS → S/C</div><div class="score-sublabel">Reservado / Metódico</div><div class="score-value" id="val-menosSC">0</div><div class="score-bar-container"><div class="score-bar" id="bar-menosSC"></div></div><div class="score-pct" id="pct-menosSC">0%</div><div class="score-level" id="lvl-menosSC"></div></div>
+        </div>
+        <div class="legend-card reveal"><strong>Lectura:</strong> <span class="tag tag-di-mas">MÁS D/I</span> = eligió Activa como MÁS descriptiva. <span class="tag tag-sc-mas">MÁS S/C</span> = Reservada. <span class="tag tag-di-menos">MENOS D/I</span> = rechazó Activa. <span class="tag tag-sc-menos">MENOS S/C</span> = Reservada. Cada par suma 28.</div>
+        <div class="charts-row reveal">
+          <div class="chart-container"><h3 class="chart-title">Distribución de Elecciones</h3><canvas id="chartBar"></canvas></div>
+          <div class="chart-container"><h3 class="chart-title">Perfil Radar</h3><canvas id="chartRadar"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-analisis" class="section">
+      <div class="section-inner">
+        <h2 class="section-title reveal">Tabla de Puntuaciones</h2>
+        <div class="table-wrap reveal"><table class="data-table"><thead><tr><th>Eje Conductual</th><th>MÁS</th><th>%</th><th>Nivel MÁS</th><th>MENOS</th><th>%</th><th>Nivel MENOS</th><th>Neto</th></tr></thead><tbody id="tbodyPuntuaciones"></tbody></table></div>
+        <div class="help-card reveal"><strong>¿Cómo leer la tabla?</strong> "MÁS" indica cuántas veces se eligieron características de ese eje. "MENOS" cuántas veces se rechazaron. El "Neto" indica la tendencia resultante.</div>
+        <h2 class="section-title reveal">Análisis de Consistencia</h2>
+        <div class="consistency-card reveal" id="consistenciaCard"><h3 id="consistenciaTitulo"></h3><p id="consistenciaTexto"></p><div class="consistency-netos"><span>Neto D/I: <strong id="netoValDI"></strong></span><span>Neto S/C: <strong id="netoValSC"></strong></span></div></div>
+        <p class="section-desc reveal">La consistencia indica si las elecciones de "MÁS" y "MENOS" son complementarias.</p>
+        <h2 class="section-title reveal">Interpretación: "MÁS me describe"</h2>
+        <div class="interp-note interp-mas reveal">La selección "MÁS" refleja las características con las que el evaluado se identifica activamente.</div>
+        <div class="interp-card reveal" id="interpMasDI"></div>
+        <div class="interp-card reveal" id="interpMasSC"></div>
+        <h2 class="section-title reveal">Interpretación: "MENOS me describe"</h2>
+        <div class="interp-note interp-menos reveal">La selección "MENOS" refleja las características que el evaluado rechaza.</div>
+        <div class="interp-card reveal" id="interpMenosDI"></div>
+        <div class="interp-card reveal" id="interpMenosSC"></div>
+        <h2 class="section-title reveal">Comparativa: Parte I vs Parte II</h2>
+        <p class="section-desc reveal"><em>La Parte I (1-14) presenta características en contexto positivo. La Parte II (15-28) incluye características bajo presión.</em></p>
+        <div class="table-wrap reveal"><table class="data-table"><thead><tr><th>Parte</th><th class="c-di-mas">MÁS D/I</th><th class="c-sc-mas">MÁS S/C</th><th class="c-di-menos">MENOS D/I</th><th class="c-sc-menos">MENOS S/C</th></tr></thead><tbody id="tbodyPartes"></tbody></table></div>
+        <div class="help-card reveal"><strong>Interpretación:</strong> Si los valores de ambas partes son similares, el perfil es estable.</div>
+      </div>
+    </section>
+
+    <section id="sec-dimensiones" class="section">
+      <div class="section-inner">
+        <h2 class="section-title reveal">Las 4 Dimensiones del Modelo DISC</h2>
+        <p class="section-desc reveal">Cada persona tiene un grado variable de cada dimensión, y ningún perfil es mejor o peor que otro.</p>
+        <div id="dimensionesContainer"></div>
+      </div>
+    </section>
+
+    <section id="sec-detalle" class="section">
+      <div class="section-inner">
+        <h2 class="section-title reveal">Detalle Pregunta por Pregunta</h2>
+        <h3 class="part-title reveal">📋 Parte I — Preguntas 1-14 <span class="part-badge part-badge-1">Fortalezas</span></h3>
+        <div class="table-wrap reveal"><table class="detail-table"><thead><tr><th>Nº</th><th class="c-d">D</th><th class="c-i">I</th><th class="c-s">S</th><th class="c-c">C</th><th>MÁS →</th><th>MENOS →</th></tr></thead><tbody id="detalleParte1"></tbody></table></div>
+        <h3 class="part-title reveal">📋 Parte II — Preguntas 15-28 <span class="part-badge part-badge-2">Bajo Presión</span></h3>
+        <div class="table-wrap reveal"><table class="detail-table"><thead><tr><th>Nº</th><th class="c-d">D</th><th class="c-i">I</th><th class="c-s">S</th><th class="c-c">C</th><th>MÁS →</th><th>MENOS →</th></tr></thead><tbody id="detalleParte2"></tbody></table></div>
+        <div class="legend-card reveal"><strong>Leyenda:</strong> <span class="tag tag-di-mas">D/I</span> = activo/extrovertido, <span class="tag tag-sc-mas">S/C</span> = reservado/metódico.</div>
+      </div>
+    </section>
+
+    <section id="sec-acerca" class="section">
+      <div class="section-inner">
+        <div class="about-card reveal">
+          <h2>Sobre el Test DISC</h2>
+          <p>El <strong>modelo DISC</strong> fue desarrollado por el psicólogo <strong>William Moulton Marston</strong> en 1928. Clasifica el comportamiento en cuatro dimensiones: <strong>Dominancia (D)</strong>, <strong>Influencia (I)</strong>, <strong>Estabilidad (S)</strong> y <strong>Cumplimiento (C)</strong>.</p>
+          <p>Esta versión utiliza el <strong>Método Cleaver</strong> con 28 grupos de 4 características cada uno.</p>
+          <p>El DISC no es un test de inteligencia ni aptitud; mide estilos de comportamiento. Cuenta con amplia validación internacional.</p>
+        </div>
+        <div class="notes-card reveal">
+          <h3>⚠️ Notas Importantes</h3>
+          <p>Este informe refleja la <strong>autopercepción</strong> al momento del test. El perfil DISC describe <strong>tendencias conductuales</strong>, no rasgos fijos.</p>
+          <p>Se recomienda complementar con una <strong>entrevista de devolución</strong> profesional.</p>
+        </div>
+        <div class="footer-card reveal">
+          <p>© 2026 Escencial Consultora — Todos los derechos reservados</p>
+          <p class="footer-conf">Informe confidencial para <strong id="footerNombre"></strong></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+// === FULL DISC LOGIC (inline for preview) ===
+const GRUPOS_DISC={1:{D:"Enérgico",I:"Animado",S:"Plácido",C:"Preciso"},2:{D:"Competitivo",I:"Expresivo",S:"Leal",C:"Diplomático"},3:{D:"Directo",I:"Alentador",S:"Bondadoso",C:"Meticuloso"},4:{D:"Atrevido",I:"Encantador",S:"Amable",C:"Sistemático"},5:{D:"Decidido",I:"Optimista",S:"Sereno",C:"Perfeccionista"},6:{D:"Audaz",I:"Comunicativo",S:"Paciente",C:"Reflexivo"},7:{D:"Exigente",I:"Entusiasta",S:"Cooperativo",C:"Lógico"},8:{D:"Dominante",I:"Popular",S:"Tolerante",C:"Analítico"},9:{D:"Arriesgado",I:"Sociable",S:"Confiable",C:"Detallista"},10:{D:"Firme",I:"Persuasivo",S:"Moderado",C:"Cauteloso"},11:{D:"Orientado a resultados",I:"Entusiasta",S:"Colaborador",C:"Ordenado"},12:{D:"Emprendedor",I:"Inspirador",S:"Estable",C:"Cuidadoso"},13:{D:"Desafiante",I:"Influyente",S:"Servicial",C:"Organizado"},14:{D:"Impaciente",I:"Extrovertido",S:"De apoyo",C:"Metódico"},15:{D:"Independiente",I:"Amigable",S:"Moderado",C:"Convencional"},16:{D:"Asertivo",I:"Estimulante",S:"Comprensivo",C:"Reservado"},17:{D:"Determinado",I:"Positivo",S:"Paciente",C:"Controlado"},18:{D:"Agresivo",I:"Afectuoso",S:"Receptivo",C:"Perfeccionista"},19:{D:"Decisiones rápidas",I:"Sociable",S:"Considerado",C:"Meticuloso"},20:{D:"Líder nato",I:"Promotor",S:"Consistente",C:"Formal"},21:{D:"Pragmático",I:"Emocional",S:"Conciliador",C:"Normativo"},22:{D:"Obstinado",I:"Confiado",S:"Tolerante",C:"Evasivo"},23:{D:"Inflexible",I:"Egocéntrico",S:"Indeciso",C:"Terco"},24:{D:"Argumentador",I:"Descuidado",S:"Dubitativo",C:"Quisquilloso"},25:{D:"Impulsivo",I:"Imprudente",S:"Tímido",C:"Crítico"},26:{D:"Intolerante",I:"Poco organizado",S:"Pasivo",C:"Pesimista"},27:{D:"Insensible",I:"Hablador",S:"Sin ambición",C:"Distante"},28:{D:"Dominante",I:"Desordenado",S:"Dependiente",C:"Desconfiado"}};
+const PERFILES_DISC={D:{nombre:"Dominancia",letra:"D",color:"#dc2626",colorFondo:"#fef2f2",icono:"🎯",breve:"Orientado a resultados, directo y decidido",pregunta_clave:"¿QUÉ? — Enfocado en resultados y acción",descripcion_completa:"Las personas con alta Dominancia (D) se caracterizan por ser directas, decididas y orientadas a resultados. Lideran con firmeza y se destacan en contextos que requieren acción inmediata y gestión bajo presión.",motivadores:"Poder, autoridad, competencia, desafíos, resultados tangibles, autonomía.",fortalezas:"Liderazgo natural, toma de decisiones ágil, resolución de problemas, visión estratégica.",areas_mejora:"Puede ser percibido como impaciente o autoritario. Tendencia a pasar por alto detalles.",bajo_presion:"Puede volverse agresivo, impaciente e imponer su voluntad sin considerar alternativas.",entorno_ideal:"Entornos dinámicos y competitivos, con desafíos constantes y autonomía."},I:{nombre:"Influencia",letra:"I",color:"#d97706",colorFondo:"#fffbeb",icono:"🌟",breve:"Entusiasta, sociable y persuasivo",pregunta_clave:"¿QUIÉN? — Enfocado en personas y relaciones",descripcion_completa:"Las personas con alta Influencia (I) son extrovertidas, optimistas y persuasivas. Generan entusiasmo y cohesión en los equipos, son creativas y excelentes para promover proyectos.",motivadores:"Reconocimiento social, popularidad, relaciones, trabajo en equipo, libertad de expresión.",fortalezas:"Comunicación excepcional, persuasión, trabajo en equipo, creatividad, networking.",areas_mejora:"Puede ser percibido como desorganizado o impulsivo. Evita confrontaciones necesarias.",bajo_presion:"Puede volverse desorganizado, superficial y buscar aprobación a toda costa.",entorno_ideal:"Entornos colaborativos con interacción frecuente y reconocimiento público."},S:{nombre:"Estabilidad",letra:"S",color:"#059669",colorFondo:"#f0fdf4",icono:"🤝",breve:"Paciente, leal y colaborador",pregunta_clave:"¿CÓMO? — Enfocado en procesos y cooperación",descripcion_completa:"Las personas con alta Estabilidad (S) son pacientes, leales y orientadas al equipo. Se destacan por mantener la calma en situaciones difíciles y generar un clima de trabajo seguro.",motivadores:"Seguridad, estabilidad, relaciones armoniosas, tiempo para adaptarse.",fortalezas:"Lealtad excepcional, paciencia, escucha activa, consistencia, mediación.",areas_mejora:"Puede ser percibido como resistente al cambio o indeciso.",bajo_presion:"Puede volverse pasivo, indeciso y resistente a cualquier cambio.",entorno_ideal:"Entornos estables con relaciones a largo plazo y roles definidos."},C:{nombre:"Cumplimiento",letra:"C",color:"#2563eb",colorFondo:"#eff6ff",icono:"📋",breve:"Analítico, preciso y metódico",pregunta_clave:"¿POR QUÉ? — Enfocado en calidad y precisión",descripcion_completa:"Las personas con alto Cumplimiento (C) son analíticas, precisas y orientadas a la calidad. Tienen capacidad de análisis profundo y pensamiento crítico.",motivadores:"Calidad, precisión, estándares altos, información detallada, procedimientos claros.",fortalezas:"Análisis profundo, precisión técnica, control de calidad, pensamiento crítico.",areas_mejora:"Puede ser percibido como excesivamente crítico o distante. Parálisis por análisis.",bajo_presion:"Puede volverse excesivamente crítico, pesimista y obsesionado con detalles.",entorno_ideal:"Entornos estructurados con estándares claros y valoración de la precisión."}};
+const TEXTOS_NIVEL={"Muy Alto":{color:"#dc2626",icono:"🔴",textoMas:"La persona se identifica de forma muy marcada con este grupo de características, indicando fuerte afinidad natural.",textoMenos:"La persona rechaza de forma muy marcada este grupo, indicando baja afinidad natural."},"Alto":{color:"#ea580c",icono:"🟠",textoMas:"La persona muestra identificación notable, indicando una preferencia conductual clara.",textoMenos:"La persona tiende a rechazar con frecuencia notable."},"Moderado":{color:"#ca8a04",icono:"🟡",textoMas:"Identificación equilibrada, sugiriendo flexibilidad para activar estos rasgos según el contexto.",textoMenos:"Rechazo moderado, sugiriendo relación flexible con estos rasgos."},"Bajo":{color:"#2563eb",icono:"🔵",textoMas:"La persona se identifica poco, orientando su perfil hacia otros ejes DISC.",textoMenos:"La persona rechaza poco, indicando cierta comodidad con estos rasgos."},"Muy Bajo":{color:"#059669",icono:"🟢",textoMas:"Prácticamente no se identifica. Perfil orientado al grupo opuesto.",textoMenos:"Casi nunca rechaza, sugiriendo alta afinidad natural."}};
+const TEXTOS_CONSISTENCIA={consistente_DI:{titulo:"✅ Perfil Consistente: Orientación Activa/Extrovertida (D-I)",texto:"Alta consistencia: MÁS (D/I) complementario con MENOS (S/C). Autoconocimiento claro hacia acción y liderazgo."},consistente_SC:{titulo:"✅ Perfil Consistente: Orientación Reservada/Metódica (S-C)",texto:"Alta consistencia: MÁS (S/C) complementario con MENOS (D/I). Autoconocimiento claro hacia estabilidad y precisión."},mixto:{titulo:"⚖️ Perfil Mixto: Orientación Adaptable",texto:"Patrón mixto sin orientación predominante. Puede indicar versatilidad o momento de transición."},contradictorio:{titulo:"⚠️ Perfil a Analizar: Posible Inconsistencia",texto:"Requiere análisis adicional. Puede indicar disonancia o factores situacionales distorsionando la autopercepción."}};
+
+function parsearRespuestasDISC(s){try{const r={tiempoParte1:"",tiempoParte2:"",respuestas:{}};const m1=s.match(/\{PI:\s*([^-]+)\s*-\s*([^}]+)\}/);if(m1){r.tiempoParte1=m1[1].trim();m1[2].split(',').forEach(p=>{const[a,b]=p.trim().split(';');const id=parseInt(a,10),v=parseInt(b,10);if(!isNaN(id)&&!isNaN(v))r.respuestas[id]=v;});}const m2=s.match(/\{PII:\s*([^-]+)\s*-\s*([^}]+)\}/);if(m2){r.tiempoParte2=m2[1].trim();m2[2].split(',').forEach(p=>{const[a,b]=p.trim().split(';');const id=parseInt(a,10),v=parseInt(b,10);if(!isNaN(id)&&!isNaN(v))r.respuestas[id]=v;});}return r;}catch(e){return null;}}
+function calcularResultadosDISC(d){const r=d.respuestas;let masDI=0,masSC=0,menosDI=0,menosSC=0,masDI_P1=0,masSC_P1=0,menosDI_P1=0,menosSC_P1=0,masDI_P2=0,masSC_P2=0,menosDI_P2=0,menosSC_P2=0,pr=0;const det=[];for(let q=1;q<=28;q++){let im,ime;if(q<=14){im=(q-1)*2+1;ime=(q-1)*2+2;}else{im=28+(q-15)*2+1;ime=28+(q-15)*2+2;}const vm=r[im],vme=r[ime];if(vm!==undefined&&vme!==undefined){pr++;if(vm===5)masDI++;else masSC++;if(vme===5)menosDI++;else menosSC++;if(q<=14){if(vm===5)masDI_P1++;else masSC_P1++;if(vme===5)menosDI_P1++;else menosSC_P1++;}else{if(vm===5)masDI_P2++;else masSC_P2++;if(vme===5)menosDI_P2++;else menosSC_P2++;}const g=GRUPOS_DISC[q];det.push({numero:q,parte:q<=14?"I":"II",textoD:g?g.D:"",textoI:g?g.I:"",textoS:g?g.S:"",textoC:g?g.C:"",masGrupo:vm===5?"D/I":"S/C",menosGrupo:vme===5?"D/I":"S/C"});}}const p=v=>Math.round((v/28)*100);return{masDI,masSC,menosDI,menosSC,netoDI:masDI-menosDI,netoSC:masSC-menosSC,pctMasDI:p(masDI),pctMasSC:p(masSC),pctMenosDI:p(menosDI),pctMenosSC:p(menosSC),nivelMasDI:obtenerNivel(p(masDI)),nivelMasSC:obtenerNivel(p(masSC)),nivelMenosDI:obtenerNivel(p(menosDI)),nivelMenosSC:obtenerNivel(p(menosSC)),masDI_P1,masSC_P1,menosDI_P1,menosSC_P1,masDI_P2,masSC_P2,menosDI_P2,menosSC_P2,tipoConsistencia:determinarConsistencia(masDI,masSC,menosDI,menosSC),detallePreguntas:det,preguntasRespondidas:pr,tiempoParte1:d.tiempoParte1,tiempoParte2:d.tiempoParte2};}
+function obtenerNivel(p){if(p>=75)return"Muy Alto";if(p>=55)return"Alto";if(p>=35)return"Moderado";if(p>=15)return"Bajo";return"Muy Bajo";}
+function determinarConsistencia(a,b,c,d){if(a>=18&&d>=18)return"consistente_DI";if(b>=18&&c>=18)return"consistente_SC";const dm=Math.abs(a-b),dn=Math.abs(c-d);if(dm<=8&&dn<=8)return"mixto";if(a>b&&d>c)return"consistente_DI";if(b>a&&c>d)return"consistente_SC";if((a>b&&c>d)||(b>a&&d>c))return"contradictorio";return"mixto";}
+
+function renderReport(data,resultado){const nc=`${data.Nombre||""} ${data.Apellido||""}`.trim();document.getElementById('nombreCompleto').textContent=nc;document.getElementById('correoUsuario').textContent=data.Correo||'';document.getElementById('fechaEval').textContent=data.Fecha?new Date(data.Fecha).toLocaleDateString('es-AR',{year:'numeric',month:'long',day:'numeric'}):'';document.getElementById('tiempoP1').textContent=resultado.tiempoParte1||'—';document.getElementById('tiempoP2').textContent=resultado.tiempoParte2||'—';document.getElementById('footerNombre').textContent=nc;const ini=(data.Nombre||'').charAt(0)+(data.Apellido||'').charAt(0);document.getElementById('userAvatar').textContent=ini.toUpperCase();renderScoreCard('masDI',resultado.masDI,resultado.pctMasDI,resultado.nivelMasDI);renderScoreCard('masSC',resultado.masSC,resultado.pctMasSC,resultado.nivelMasSC);renderScoreCard('menosDI',resultado.menosDI,resultado.pctMenosDI,resultado.nivelMenosDI);renderScoreCard('menosSC',resultado.menosSC,resultado.pctMenosSC,resultado.nivelMenosSC);renderCharts(resultado);renderTablaPuntuaciones(resultado);renderConsistencia(resultado);renderInterpretacion('interpMasDI','MÁS → D/I (Dominancia / Influencia)','Características activas',resultado.masDI,resultado.pctMasDI,resultado.nivelMasDI,TEXTOS_NIVEL[resultado.nivelMasDI],'mas');renderInterpretacion('interpMasSC','MÁS → S/C (Estabilidad / Cumplimiento)','Características reservadas',resultado.masSC,resultado.pctMasSC,resultado.nivelMasSC,TEXTOS_NIVEL[resultado.nivelMasSC],'mas');renderInterpretacion('interpMenosDI','MENOS → D/I (Dominancia / Influencia)','Rechazo de activas',resultado.menosDI,resultado.pctMenosDI,resultado.nivelMenosDI,TEXTOS_NIVEL[resultado.nivelMenosDI],'menos');renderInterpretacion('interpMenosSC','MENOS → S/C (Estabilidad / Cumplimiento)','Rechazo de reservadas',resultado.menosSC,resultado.pctMenosSC,resultado.nivelMenosSC,TEXTOS_NIVEL[resultado.nivelMenosSC],'menos');renderTablaPartes(resultado);renderDimensiones();renderDetalle(resultado.detallePreguntas);}
+function renderScoreCard(k,v,p,n){document.getElementById(`val-${k}`).textContent=v;document.getElementById(`pct-${k}`).textContent=`${p}%`;document.getElementById(`lvl-${k}`).textContent=`${TEXTOS_NIVEL[n].icono} ${n}`;setTimeout(()=>{document.getElementById(`bar-${k}`).style.width=`${p}%`;},600);}
+function renderCharts(r){const f={family:"'DM Sans',sans-serif"};new Chart(document.getElementById('chartBar'),{type:'bar',data:{labels:['MÁS D/I','MÁS S/C','MENOS D/I','MENOS S/C'],datasets:[{data:[r.masDI,r.masSC,r.menosDI,r.menosSC],backgroundColor:['#dc262680','#05966980','#d9770680','#2563eb80'],borderColor:['#dc2626','#059669','#d97706','#2563eb'],borderWidth:2,borderRadius:8,barThickness:44}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:28,ticks:{stepSize:4,font:{...f,size:11}},grid:{color:'#f1f5f9'}},x:{ticks:{font:{...f,size:11}},grid:{display:false}}}}});new Chart(document.getElementById('chartRadar'),{type:'radar',data:{labels:['MÁS D/I','MÁS S/C','MENOS D/I','MENOS S/C'],datasets:[{data:[r.pctMasDI,r.pctMasSC,r.pctMenosDI,r.pctMenosSC],backgroundColor:'rgba(11,74,110,0.15)',borderColor:'#0b4a6e',pointBackgroundColor:'#0b4a6e',pointRadius:5,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:25,font:{...f,size:10},backdropColor:'transparent'},pointLabels:{font:{...f,size:12,weight:600}},grid:{color:'#e2e8f0'}}}}});}
+function renderTablaPuntuaciones(r){const t=document.getElementById('tbodyPuntuaciones');const rows=[{label:'D/I — Activo/Extrovertido',mas:r.masDI,pctMas:r.pctMasDI,nivelMas:r.nivelMasDI,menos:r.menosDI,pctMenos:r.pctMenosDI,nivelMenos:r.nivelMenosDI,neto:r.netoDI,nc:r.netoDI>0?'#dc2626':r.netoDI<0?'#2563eb':'#718096'},{label:'S/C — Reservado/Metódico',mas:r.masSC,pctMas:r.pctMasSC,nivelMas:r.nivelMasSC,menos:r.menosSC,pctMenos:r.pctMenosSC,nivelMenos:r.nivelMenosSC,neto:r.netoSC,nc:r.netoSC>0?'#059669':r.netoSC<0?'#ea580c':'#718096'}];t.innerHTML=rows.map(r=>{const nm=TEXTOS_NIVEL[r.nivelMas],nme=TEXTOS_NIVEL[r.nivelMenos];return`<tr><td style="font-weight:700">${r.label}</td><td style="font-weight:800;font-size:18px">${r.mas}</td><td>${r.pctMas}%</td><td style="color:${nm.color};font-weight:600">${nm.icono} ${r.nivelMas}</td><td style="font-weight:800;font-size:18px">${r.menos}</td><td>${r.pctMenos}%</td><td style="color:${nme.color};font-weight:600">${nme.icono} ${r.nivelMenos}</td><td style="font-weight:800;font-size:16px;color:${r.nc};font-family:var(--font-mono)">${r.neto>0?'+':''}${r.neto}</td></tr>`;}).join('');}
+function renderConsistencia(r){const c=document.getElementById('consistenciaCard'),t=TEXTOS_CONSISTENCIA[r.tipoConsistencia];c.setAttribute('data-type',r.tipoConsistencia);document.getElementById('consistenciaTitulo').textContent=t.titulo;document.getElementById('consistenciaTexto').textContent=t.texto;document.getElementById('netoValDI').textContent=`${r.netoDI>0?'+':''}${r.netoDI}`;document.getElementById('netoValSC').textContent=`${r.netoSC>0?'+':''}${r.netoSC}`;}
+function renderInterpretacion(cid,title,sub,freq,pct,nivel,tn,tipo){const c=document.getElementById(cid);const txt=tipo==='mas'?tn.textoMas:tn.textoMenos;c.style.borderLeftColor=tn.color;c.innerHTML=`<div class="interp-body"><div class="interp-title">${title}</div><div class="interp-subtitle">${sub}</div><div class="interp-stats">Frecuencia: <strong>${freq}</strong> de 28 (${pct}%) — Nivel: <strong style="color:${tn.color}">${tn.icono} ${nivel}</strong></div><div class="interp-text">${txt}</div></div><div class="interp-badge" style="background:${tn.color}">${pct}%</div>`;}
+function renderTablaPartes(r){document.getElementById('tbodyPartes').innerHTML=`<tr><td>Parte I (1-14) — Fortalezas</td><td style="font-weight:700;color:#dc2626">${r.masDI_P1}</td><td style="font-weight:700;color:#059669">${r.masSC_P1}</td><td style="font-weight:700;color:#d97706">${r.menosDI_P1}</td><td style="font-weight:700;color:#2563eb">${r.menosSC_P1}</td></tr><tr><td>Parte II (15-28) — Bajo presión</td><td style="font-weight:700;color:#dc2626">${r.masDI_P2}</td><td style="font-weight:700;color:#059669">${r.masSC_P2}</td><td style="font-weight:700;color:#d97706">${r.menosDI_P2}</td><td style="font-weight:700;color:#2563eb">${r.menosSC_P2}</td></tr><tr style="background:#f1f5f9;font-weight:800"><td>TOTAL</td><td style="color:#dc2626">${r.masDI}</td><td style="color:#059669">${r.masSC}</td><td style="color:#d97706">${r.menosDI}</td><td style="color:#2563eb">${r.menosSC}</td></tr>`;}
+function renderDimensiones(){const c=document.getElementById('dimensionesContainer');c.innerHTML=['D','I','S','C'].map(k=>{const d=PERFILES_DISC[k];return`<div class="dim-card dim-card-${k} reveal"><div class="dim-header"><div class="dim-icon">${d.icono}</div><div><div class="dim-letter">${d.letra} — ${d.nombre}</div><div class="dim-name">"${d.breve}"</div></div></div><div class="dim-question">${d.pregunta_clave}</div><div class="dim-desc">${d.descripcion_completa}</div><div class="dim-details"><div class="dim-detail-row"><span class="dim-detail-label" style="color:${d.color}">🔑 Motivadores:</span><span>${d.motivadores}</span></div><div class="dim-detail-row"><span class="dim-detail-label" style="color:#059669">💪 Fortalezas:</span><span>${d.fortalezas}</span></div><div class="dim-detail-row"><span class="dim-detail-label" style="color:#d97706">⚠️ Áreas de mejora:</span><span>${d.areas_mejora}</span></div><div class="dim-detail-row"><span class="dim-detail-label" style="color:#dc2626">🔥 Bajo presión:</span><span>${d.bajo_presion}</span></div><div class="dim-detail-row"><span class="dim-detail-label" style="color:#2563eb">🏢 Entorno ideal:</span><span>${d.entorno_ideal}</span></div></div></div>`;}).join('');}
+function renderDetalle(det){const t1=document.getElementById('detalleParte1'),t2=document.getElementById('detalleParte2');det.forEach((p,i)=>{const row=`<tr style="background:${i%2===0?'#fff':'#fafbfc'}"><td style="text-align:center;color:#64748b;font-weight:600">${p.numero}</td><td style="text-align:center">${p.textoD}</td><td style="text-align:center">${p.textoI}</td><td style="text-align:center">${p.textoS}</td><td style="text-align:center">${p.textoC}</td><td style="text-align:center"><span class="cell-tag" style="background:${p.masGrupo==='D/I'?'#fef2f2':'#f0fdf4'};color:${p.masGrupo==='D/I'?'#dc2626':'#059669'}">${p.masGrupo}</span></td><td style="text-align:center"><span class="cell-tag" style="background:${p.menosGrupo==='D/I'?'#fff7ed':'#eff6ff'};color:${p.menosGrupo==='D/I'?'#ea580c':'#2563eb'}">${p.menosGrupo}</span></td></tr>`;if(p.parte==='I')t1.innerHTML+=row;else t2.innerHTML+=row;});}
+
+function setupNavigation(){document.querySelectorAll('.nav-tab').forEach(tab=>{tab.addEventListener('click',()=>{const t=tab.dataset.section;document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');document.querySelectorAll('.section').forEach(s=>{s.classList.remove('active');if(s.id===`sec-${t}`){s.classList.add('active');setTimeout(()=>triggerReveals(s),50);}});window.scrollTo({top:document.querySelector('.report-nav').offsetTop,behavior:'smooth'});});});}
+function setupRevealAnimations(){const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));}
+function triggerReveals(c){c.querySelectorAll('.reveal').forEach((el,i)=>{setTimeout(()=>el.classList.add('visible'),i*80);});}
+
+document.addEventListener("DOMContentLoaded",function(){const stored=sessionStorage.getItem("discUserData");if(!stored){alert("No hay datos.");return;}let data;try{data=JSON.parse(stored);}catch(e){alert("Datos corruptos.");return;}const dp=parsearRespuestasDISC(data.Respuestas||"");if(!dp)return;const res=calcularResultadosDISC(dp);renderReport(data,res);setupNavigation();setTimeout(()=>{document.getElementById('loadingScreen').classList.add('fade-out');document.getElementById('reportContainer').classList.remove('hidden');setTimeout(()=>{setupRevealAnimations();triggerReveals(document.getElementById('sec-resumen'));},100);},1200);});
+  </script>
+</body>
+</html>

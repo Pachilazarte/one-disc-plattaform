@@ -3,134 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - DISC Assessment</title>
-    <link rel="stylesheet" href="../css/global.css">
+    <title>Admin Dashboard - ONE DISC</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'one-cyan': '#6be1e3',
+                        'one-pink': '#e17bd7',
+                        'one-gold': '#e4c76a',
+                        'one-slate': '#a4a8c0',
+                        'one-mist': '#c6c9d7',
+                        'one-ink': '#1a181d',
+                    },
+                    fontFamily: {
+                        'exo': ['"Exo 2"', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
     <link rel="stylesheet" href="./style.css">
     <script src="../Marca.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/helpers.js"></script>
 </head>
-<body>
+<body class="font-exo bg-black text-white min-h-screen overflow-x-hidden">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 -z-20 bg-gradient-to-br from-black via-one-ink to-black"></div>
+    <div class="fixed inset-0 -z-10 bg-pattern opacity-95 blur-[18px]"></div>
+    <div class="fixed inset-[-20%] -z-10 hex-pattern opacity-16 mix-blend-screen transform rotate-[-8deg]"></div>
+
     <!-- Header -->
-    <header class="dashboard-header">
-        <div class="container flex-between">
-            <div class="flex gap-10" style="align-items: center;">
-                <img src="../img/imagen2.svg" alt="Logo" class="header-logo">
-                <div>
-                    <h2>Panel de Administrador</h2>
-                    <p class="user-info" id="userInfo"></p>
+    <header class="dashboard-header sticky top-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/10">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex-between flex flex-col sm:flex-row items-center justify-between gap-4">
+                
+                <div class="flex gap-10 items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-one-cyan/20 to-one-pink/20 border border-white/10 flex items-center justify-center overflow-hidden">
+                        <img src="../img/one-logocolor.png" alt="Logo" class="header-logo w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h2 class="font-exo text-xl font-bold bg-gradient-to-r from-one-cyan to-one-pink bg-clip-text text-transparent">
+                            Panel de Administrador
+                        </h2>
+                        <p class="user-info text-xs text-one-slate" id="userInfo"></p>
+                    </div>
                 </div>
+
+                <button class="btn btn-danger px-5 py-2 rounded-full bg-red-500/20 border border-red-500/40 hover:border-red-500/60 transition-all hover:-translate-y-0.5 text-sm font-semibold flex items-center gap-2" 
+                        onclick="Auth.logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Cerrar Sesión
+                </button>
             </div>
-            <button class="btn btn-danger" onclick="Auth.logout()">Cerrar Sesión</button>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container">
-        <div id="alertContainer"></div>
+    <main class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        
+        <div id="alertContainer" class="mb-6"></div>
         <div id="loadingContainer" class="hidden"></div>
 
         <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon" style="background: #e8f5e9;">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
-                </div>
-                <div class="stat-info">
-                    <h3 id="totalUsers">0</h3>
-                    <p>Usuarios Totales</p>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon" style="background: #fff3e0;">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e65100" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                </div>
-                <div class="stat-info">
-                    <h3 id="pendingUsers">0</h3>
-                    <p>Pendientes de Test</p>
+        <div class="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Total Users -->
+            <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500/10 to-green-600/10 border border-green-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-radial from-green-500/5 to-transparent opacity-50"></div>
+                <div class="relative flex items-center gap-4">
+                    <div class="stat-icon w-16 h-16 rounded-xl bg-green-500/20 flex items-center justify-center">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalUsers" class="text-4xl font-black text-green-400">0</h3>
+                        <p class="text-sm text-gray-400 mt-1">Usuarios Totales</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-icon" style="background: #e3f2fd;">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                        <polyline points="10 9 9 9 8 9"/>
-                    </svg>
+            <!-- Pending Tests -->
+            <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/10 to-orange-600/10 border border-orange-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-radial from-orange-500/5 to-transparent opacity-50"></div>
+                <div class="relative flex items-center gap-4">
+                    <div class="stat-icon w-16 h-16 rounded-xl bg-orange-500/20 flex items-center justify-center">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingUsers" class="text-4xl font-black text-orange-400">0</h3>
+                        <p class="text-sm text-gray-400 mt-1">Pendientes de Test</p>
+                    </div>
                 </div>
-                <div class="stat-info">
-                    <h3 id="completedTests">0</h3>
-                    <p>Tests Completados</p>
+            </div>
+
+            <!-- Completed Tests -->
+            <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-radial from-blue-500/5 to-transparent opacity-50"></div>
+                <div class="relative flex items-center gap-4">
+                    <div class="stat-icon w-16 h-16 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completedTests" class="text-4xl font-black text-blue-400">0</h3>
+                        <p class="text-sm text-gray-400 mt-1">Tests Completados</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Formulario de Nuevo Usuario -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Habilitar Nuevo Usuario</h3>
+        <div class="card mb-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 backdrop-blur-xl overflow-hidden">
+            <div class="card-header px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10">
+                <h3 class="card-title font-exo text-lg font-bold">Habilitar Nuevo Usuario</h3>
             </div>
-            <form id="newUserForm">
-                <div class="form-row">
+            <form id="newUserForm" class="p-6">
+                <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div class="form-group">
-                        <label class="form-label" for="userUsuario">Usuario</label>
-                        <input type="text" id="userUsuario" class="form-input" placeholder="Ej: usuario01" required>
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300" for="userUsuario">Usuario</label>
+                        <input type="text" 
+                               id="userUsuario" 
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white placeholder-gray-500" 
+                               placeholder="Ej: usuario01" 
+                               required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="userPassword">Contraseña</label>
-                        <input type="password" id="userPassword" class="form-input" placeholder="Contraseña" required>
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300" for="userPassword">Contraseña</label>
+                        <div class="relative">
+                            <input type="password" 
+                                   id="userPassword" 
+                                   class="form-input w-full px-4 py-2.5 pr-12 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white placeholder-gray-500" 
+                                   placeholder="Contraseña" 
+                                   required>
+                            <button type="button" 
+                                    onclick="togglePassword()" 
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-one-cyan transition-colors">
+                                <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg id="eyeOffIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div class="form-group">
-                        <label class="form-label" for="userEmail">Email</label>
-                        <input type="email" id="userEmail" class="form-input" placeholder="usuario@ejemplo.com" required>
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300" for="userEmail">Email</label>
+                        <input type="email" 
+                               id="userEmail" 
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white placeholder-gray-500" 
+                               placeholder="usuario@ejemplo.com" 
+                               required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="userNombre">Nombre Completo</label>
-                        <input type="text" id="userNombre" class="form-input" placeholder="Juan Pérez" required>
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300" for="userNombre">Nombre Completo</label>
+                        <input type="text" 
+                               id="userNombre" 
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white placeholder-gray-500" 
+                               placeholder="Juan Pérez" 
+                               required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                <button type="submit" 
+                        id="btnCrearUsuario"
+                        class="btn btn-primary w-full sm:w-auto px-8 py-3 rounded-full bg-gradient-to-r from-one-cyan/20 to-one-pink/20 border border-one-cyan/40 hover:border-one-cyan/60 transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(107,225,227,0.4)] font-bold relative overflow-hidden group disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                    <div class="absolute inset-0 bg-gradient-to-r from-one-cyan/30 to-one-pink/30 blur-xl opacity-50 group-hover:opacity-80 transition-opacity -z-10"></div>
+                    <span id="btnCrearTexto" class="flex items-center justify-center gap-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Crear Usuario
+                    </span>
+                    <span id="btnCrearLoading" class="hidden flex items-center justify-center gap-2">
+                        <svg class="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+                        </svg>
+                        Creando...
+                    </span>
+                </button>
             </form>
         </div>
 
         <!-- Tabla de Usuarios -->
-        <div class="card">
-            <div class="card-header flex-between">
-                <h3 class="card-title">Mis Usuarios</h3>
-                <button class="btn btn-outline" onclick="loadUsers()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+        <div class="card rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 backdrop-blur-xl overflow-hidden">
+            <div class="card-header px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10 flex-between flex flex-col sm:flex-row justify-between items-center gap-4">
+                <h3 class="card-title font-exo text-lg font-bold">Mis Usuarios</h3>
+                <button class="btn btn-outline px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold flex items-center gap-2" 
+                        onclick="loadUsers()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="23 4 23 10 17 10"/>
                         <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
                     </svg>
                     Actualizar
                 </button>
             </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
+            <div class="table-responsive overflow-x-auto">
+                <table class="table w-full">
+                    <thead class="bg-gradient-to-r from-one-ink via-one-pink/20 to-one-ink">
                         <tr>
-                    <th>User</th>
-                    <th>Pass_User</th>
-                    <th>Email_User</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">User</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Pass_User</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Email_User</th>
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">
                         <tr>
-                            <td colspan="7" style="text-align: center; color: #999;">Cargando datos...</td>
+                            <td colspan="3" class="px-6 py-8 text-center text-gray-400">Cargando datos...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -139,5 +250,105 @@
     </main>
 
     <script src="./script.js"></script>
+    <script>
+        /* ── Toggle password visibility ── */
+        function togglePassword() {
+            const input = document.getElementById('userPassword');
+            const eyeOn = document.getElementById('eyeIcon');
+            const eyeOff = document.getElementById('eyeOffIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeOn.classList.add('hidden');
+                eyeOff.classList.remove('hidden');
+            } else {
+                input.type = 'password';
+                eyeOn.classList.remove('hidden');
+                eyeOff.classList.add('hidden');
+            }
+        }
+
+        /* ── Botón con estado loading visual ── */
+        (function() {
+            const form = document.getElementById('newUserForm');
+            const btn  = document.getElementById('btnCrearUsuario');
+            const txtN = document.getElementById('btnCrearTexto');
+            const txtL = document.getElementById('btnCrearLoading');
+
+            function setLoading(on) {
+                btn.disabled = on;
+                txtN.classList.toggle('hidden', on);
+                txtL.classList.toggle('hidden', !on);
+            }
+
+            form.addEventListener('submit', function() {
+                setLoading(true);
+            });
+
+            // Restaurar cuando loadingContainer vuelve a hidden
+            const lc = document.getElementById('loadingContainer');
+            if (lc) {
+                new MutationObserver(function() {
+                    if (lc.classList.contains('hidden')) setLoading(false);
+                }).observe(lc, { attributes: true, attributeFilter: ['class'] });
+            }
+
+            // Fallback 15s
+            form.addEventListener('submit', function() {
+                setTimeout(function() { setLoading(false); }, 15000);
+            });
+        })();
+
+        /* ── Override modal credenciales → tema oscuro ── */
+        showCredentialsModal = function(usuario, password, email) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeIn .2s ease';
+            overlay.innerHTML = `
+                <div style="background:linear-gradient(145deg,#1e1b23,#2a2730);border:1px solid rgba(107,225,227,0.2);border-radius:20px;padding:32px;max-width:480px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 50px rgba(107,225,227,0.06);animation:scaleIn .25s ease">
+                    
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+                        <div style="width:40px;height:40px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <h3 style="margin:0;font-family:'Exo 2',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;">Usuario Creado</h3>
+                    </div>
+
+                    <div style="background:rgba(107,225,227,0.04);border:1.5px dashed rgba(107,225,227,0.2);border-radius:14px;padding:4px 18px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                            <span style="font-weight:600;color:#a4a8c0;font-size:0.9rem;">Usuario</span>
+                            <code style="font-family:'Courier New',monospace;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:8px;color:#6be1e3;border:1px solid rgba(107,225,227,0.15);font-size:0.9rem;">${usuario}</code>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                            <span style="font-weight:600;color:#a4a8c0;font-size:0.9rem;">Contraseña</span>
+                            <code style="font-family:'Courier New',monospace;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:8px;color:#e17bd7;border:1px solid rgba(225,123,215,0.15);font-size:0.9rem;">${password}</code>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;">
+                            <span style="font-weight:600;color:#a4a8c0;font-size:0.9rem;">Email</span>
+                            <code style="font-family:'Courier New',monospace;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:8px;color:#e4c76a;border:1px solid rgba(228,199,106,0.15);font-size:0.9rem;">${email}</code>
+                        </div>
+                    </div>
+
+                    <p style="color:#a4a8c0;font-size:0.85rem;margin:18px 0 22px 0;line-height:1.5;">
+                        ⚠️ Guarda estas credenciales. El usuario las necesitará para acceder al sistema.
+                    </p>
+
+                    <button onclick="this.closest('[style*=fixed]').remove()" 
+                            style="width:100%;padding:13px;border:1px solid rgba(107,225,227,0.35);background:linear-gradient(135deg,rgba(107,225,227,0.12),rgba(225,123,215,0.12));color:#fff;font-family:'Exo 2',sans-serif;font-weight:700;font-size:0.95rem;border-radius:9999px;cursor:pointer;transition:all .2s ease;"
+                            onmouseover="this.style.borderColor='rgba(107,225,227,0.6)';this.style.boxShadow='0 10px 40px rgba(107,225,227,0.15)'"
+                            onmouseout="this.style.borderColor='rgba(107,225,227,0.35)';this.style.boxShadow='none'">
+                        Entendido
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) overlay.remove();
+            });
+        };
+    </script>
+
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
 </body>
 </html>
