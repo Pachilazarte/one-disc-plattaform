@@ -62,6 +62,8 @@ const Auth = {
         const response = await fetch(CONFIG.api.gestionAdmin);
         const data = await response.json();
 
+        console.log("Datos de usuarios obtenidos:", data);
+
         if (!Array.isArray(data)) {
           return { success: false, message: "Error leyendo usuarios" };
         }
@@ -79,7 +81,9 @@ const Auth = {
           usuario: String(userEncontrado.User),
           email: String(userEncontrado.Email_User),
           password: String(userEncontrado.Pass_User),
-          rol: CONFIG.roles.USER
+          rol: CONFIG.roles.USER,
+          userAdmin: String(userEncontrado.Usuario_Admin),
+          emailAdmin: String(userEncontrado.Email_Admin)
         });
 
         return { success: true };
@@ -100,6 +104,10 @@ const Auth = {
     sessionStorage.setItem("userEmail", userData.email);
     sessionStorage.setItem("userPassword", userData.password);
     sessionStorage.setItem("sessionStartTime", String(Date.now()));
+    if (userData.rol === CONFIG.roles.USER) {
+      sessionStorage.setItem("usuarioAdmin", userData.userAdmin);
+      sessionStorage.setItem("emailAdmin", userData.emailAdmin);
+    }
   },
 
   getSession() {
@@ -165,9 +173,9 @@ const Auth = {
     }
 
     // 🔹 REDIRECCIÓN USER
-    if (session.role === CONFIG.roles.USER) {
-      window.location.href = CONFIG.routes.userboard;
-    }
+     if (session.role === CONFIG.roles.USER) {
+       window.location.href = CONFIG.routes.userboard;
+     }
   }
 };
 

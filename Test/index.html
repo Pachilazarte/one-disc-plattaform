@@ -610,8 +610,9 @@
       hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
     });
 
-    const usuarioAdmin = localStorage.getItem('Usuario_Admin') || '';
-    const emailAdmin = localStorage.getItem('Email_Admin') || '';
+    const usuarioAdmin = sessionStorage.getItem('usuarioAdmin') || '';
+    const emailAdmin = sessionStorage.getItem('emailAdmin') || '';
+    const userName = sessionStorage.getItem('userName') || '';
 
     const payload = {
       nombreHoja: "Respuestas",
@@ -619,6 +620,7 @@
         fechaHora,
         usuarioAdmin,
         emailAdmin,
+        userName,
         user.name || "SinNombre",
         user.lastname || "SinApellido",
         user.email || "SinEmail",
