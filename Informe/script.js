@@ -269,8 +269,49 @@ function determinarConsistencia(masDI, masSC, menosDI, menosSC) {
 // ============================================================================
 // UI RENDERING
 // ============================================================================
+/**
+ * Calcula los valores D, I, S, C (0-100) desde las respuestas parseadas
+ */
+function calcularValoresDISC(respuestas) {
+  let D = 0, I = 0, S = 0, C = 0;
+  
+  // Contar selecciones MÁS por dimensión en todas las 28 preguntas
+  for (let q = 1; q <= 28; q++) {
+    let idMas;
+    if (q <= 14) {
+      idMas = (q - 1) * 2 + 1;
+    } else {
+      idMas = 28 + (q - 15) * 2 + 1;
+    }
 
-function renderReport(data, resultado) {
+    const valMas = respuestas[idMas];
+    
+    if (valMas !== undefined) {
+      // Distribución por pregunta (simplificada para visualización)
+      // Alternamos D/I en pares, S/C en pares
+      const isActivo = valMas === 5;
+      const qMod = (q - 1) % 4;
+      
+      if (isActivo) {
+        if (qMod === 0 || qMod === 1) D++;
+        else I++;
+      } else {
+        if (qMod === 0 || qMod === 1) S++;
+        else C++;
+      }
+    }
+  }
+
+  // Normalizar a escala 0-100
+  const total = D + I + S + C;
+  return {
+    D: total > 0 ? Math.round((D / total) * 100) : 0,
+    I: total > 0 ? Math.round((I / total) * 100) : 0,
+    S: total > 0 ? Math.round((S / total) * 100) : 0,
+    C: total > 0 ? Math.round((C / total) * 100) : 0
+  };
+}
+function renderReport(data, resultado, respuestasParsed) {
   const nombreCompleto = `${data.Nombre || ""} ${data.Apellido || ""}`.trim();
 
   // Header
@@ -285,6 +326,18 @@ function renderReport(data, resultado) {
   const initials = (data.Nombre || '').charAt(0) + (data.Apellido || '').charAt(0);
   document.getElementById('userAvatar').textContent = initials.toUpperCase();
 
+  // ⭐ NUEVO: Calcular valores DISC para el gráfico de barras
+  const discValues = calcularValoresDISC(respuestasParsed);
+  
+  // ⭐ NUEVO: Renderizar gráfico de barras DISC
+  if (window.renderDISCBarChart) {
+    window.renderDISCBarChart('discBarChartContainer', discValues);
+  }
+
+  // Score cards
+  renderScoreCard('masDI', resultado.masDI, resultado.pctMasDI, resultado.nivelMasDI);
+  // ... resto del código
+
   // Score cards
   renderScoreCard('masDI', resultado.masDI, resultado.pctMasDI, resultado.nivelMasDI);
   renderScoreCard('masSC', resultado.masSC, resultado.pctMasSC, resultado.nivelMasSC);
@@ -292,7 +345,7 @@ function renderReport(data, resultado) {
   renderScoreCard('menosSC', resultado.menosSC, resultado.pctMenosSC, resultado.nivelMenosSC);
 
   // Charts
-  renderCharts(resultado);
+  // renderCharts(resultado);
 
   // Puntuaciones table
   renderTablaPuntuaciones(resultado);
@@ -314,6 +367,18 @@ function renderReport(data, resultado) {
 
   // Detalle pregunta por pregunta
   renderDetalle(resultado.detallePreguntas);
+
+  // ⭐ RUEDA SUCCESS INSIGHTS
+  renderRuedaDISC(respuestasParsed);
+
+  // ⭐ NUEVAS INTERPRETACIONES ESPECÍFICAS
+  renderPerfilDominante(resultado);
+  renderInterpretacionMasEspecifica('interpMasDI', 'DI', resultado.masDI, resultado.pctMasDI, resultado.nivelMasDI);
+  renderInterpretacionMasEspecifica('interpMasSC', 'SC', resultado.masSC, resultado.pctMasSC, resultado.nivelMasSC);
+  renderInterpretacionMenosEspecifica('interpMenosDI', 'DI', resultado.menosDI, resultado.pctMenosDI, resultado.nivelMenosDI);
+  renderInterpretacionMenosEspecifica('interpMenosSC', 'SC', resultado.menosSC, resultado.pctMenosSC, resultado.nivelMenosSC);
+  renderInterpretacionPartes(resultado);
+  renderImplicacionesPracticas(resultado);
 }
 
 function renderScoreCard(key, val, pct, nivel) {
@@ -327,70 +392,70 @@ function renderScoreCard(key, val, pct, nivel) {
   }, 600);
 }
 
-function renderCharts(r) {
-  const commonFont = { family: "'DM Sans', sans-serif" };
+// function renderCharts(r) {
+//   const commonFont = { family: "'DM Sans', sans-serif" };
 
-  // Bar Chart
-  new Chart(document.getElementById('chartBar'), {
-    type: 'bar',
-    data: {
-      labels: ['MÁS D/I', 'MÁS S/C', 'MENOS D/I', 'MENOS S/C'],
-      datasets: [{
-        data: [r.masDI, r.masSC, r.menosDI, r.menosSC],
-        backgroundColor: ['#dc262680', '#05966980', '#d9770680', '#2563eb80'],
-        borderColor: ['#dc2626', '#059669', '#d97706', '#2563eb'],
-        borderWidth: 2,
-        borderRadius: 8,
-        barThickness: 44
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: {
-          beginAtZero: true, max: 28,
-          ticks: { stepSize: 4, font: { ...commonFont, size: 11 } },
-          grid: { color: '#f1f5f9' }
-        },
-        x: {
-          ticks: { font: { ...commonFont, size: 11 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
+//   // Bar Chart
+//   new Chart(document.getElementById('chartBar'), {
+//     type: 'bar',
+//     data: {
+//       labels: ['MÁS D/I', 'MÁS S/C', 'MENOS D/I', 'MENOS S/C'],
+//       datasets: [{
+//         data: [r.masDI, r.masSC, r.menosDI, r.menosSC],
+//         backgroundColor: ['#dc262680', '#05966980', '#d9770680', '#2563eb80'],
+//         borderColor: ['#dc2626', '#059669', '#d97706', '#2563eb'],
+//         borderWidth: 2,
+//         borderRadius: 8,
+//         barThickness: 44
+//       }]
+//     },
+//     options: {
+//       responsive: true,
+//       maintainAspectRatio: true,
+//       plugins: { legend: { display: false } },
+//       scales: {
+//         y: {
+//           beginAtZero: true, max: 28,
+//           ticks: { stepSize: 4, font: { ...commonFont, size: 11 } },
+//           grid: { color: '#f1f5f9' }
+//         },
+//         x: {
+//           ticks: { font: { ...commonFont, size: 11 } },
+//           grid: { display: false }
+//         }
+//       }
+//     }
+//   });
 
-  // Radar Chart
-  new Chart(document.getElementById('chartRadar'), {
-    type: 'radar',
-    data: {
-      labels: ['MÁS D/I', 'MÁS S/C', 'MENOS D/I', 'MENOS S/C'],
-      datasets: [{
-        data: [r.pctMasDI, r.pctMasSC, r.pctMenosDI, r.pctMenosSC],
-        backgroundColor: 'rgba(11, 74, 110, 0.15)',
-        borderColor: '#0b4a6e',
-        pointBackgroundColor: '#0b4a6e',
-        pointRadius: 5,
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        r: {
-          beginAtZero: true, max: 100,
-          ticks: { stepSize: 25, font: { ...commonFont, size: 10 }, backdropColor: 'transparent' },
-          pointLabels: { font: { ...commonFont, size: 12, weight: 600 } },
-          grid: { color: '#e2e8f0' }
-        }
-      }
-    }
-  });
-}
+//   // Radar Chart
+//   new Chart(document.getElementById('chartRadar'), {
+//     type: 'radar',
+//     data: {
+//       labels: ['MÁS D/I', 'MÁS S/C', 'MENOS D/I', 'MENOS S/C'],
+//       datasets: [{
+//         data: [r.pctMasDI, r.pctMasSC, r.pctMenosDI, r.pctMenosSC],
+//         backgroundColor: 'rgba(11, 74, 110, 0.15)',
+//         borderColor: '#0b4a6e',
+//         pointBackgroundColor: '#0b4a6e',
+//         pointRadius: 5,
+//         borderWidth: 2
+//       }]
+//     },
+//     options: {
+//       responsive: true,
+//       maintainAspectRatio: true,
+//       plugins: { legend: { display: false } },
+//       scales: {
+//         r: {
+//           beginAtZero: true, max: 100,
+//           ticks: { stepSize: 25, font: { ...commonFont, size: 10 }, backdropColor: 'transparent' },
+//           pointLabels: { font: { ...commonFont, size: 12, weight: 600 } },
+//           grid: { color: '#e2e8f0' }
+//         }
+//       }
+//     }
+//   });
+// }
 
 function renderTablaPuntuaciones(r) {
   const tbody = document.getElementById('tbodyPuntuaciones');
@@ -439,7 +504,460 @@ function renderInterpretacion(containerId, title, subtitle, freq, pct, nivel, te
     <div class="interp-badge" style="background:${textoNivel.color};">${pct}%</div>
   `;
 }
+// ============================================================================
+// INTERPRETACIONES ESPECÍFICAS (NO GENÉRICAS)
+// ============================================================================
 
+/**
+ * Genera interpretación específica del perfil dominante
+ */
+function renderPerfilDominante(resultado) {
+  const card = document.getElementById('perfilDominanteCard');
+  if (!card) return;
+
+  const { masDI, masSC, menosDI, menosSC, pctMasDI, pctMasSC } = resultado;
+
+  let perfil, color, gradiente, icono, descripcion;
+
+  // Determinar perfil dominante
+  if (pctMasDI >= 60) {
+    perfil = "Orientación Activa/Extrovertida (D-I)";
+    color = "#dc2626";
+    gradiente = "from-red-900/20 to-orange-900/20";
+    icono = "🚀";
+    descripcion = `Tu perfil muestra una <strong>clara orientación hacia la acción y las relaciones</strong>. Con un ${pctMasDI}% de selecciones en características activas/extrovertidas, tiendes a:
+    <ul class="mt-3 space-y-2">
+      <li>• <strong>Actuar con rapidez</strong> y tomar decisiones de forma ágil</li>
+      <li>• <strong>Buscar interacción social</strong> y disfrutar del contacto con personas</li>
+      <li>• <strong>Preferir entornos dinámicos</strong> con cambios y variedad</li>
+      <li>• <strong>Expresarte abiertamente</strong> y comunicar tus ideas con energía</li>
+      <li>• <strong>Motivarte por resultados</strong> visibles y reconocimiento externo</li>
+    </ul>
+    <p class="mt-4"><strong class="text-white">En el trabajo:</strong> Destacas en roles que requieren liderazgo, persuasión, gestión de cambios o contacto frecuente con clientes y equipos.</p>`;
+  } else if (pctMasSC >= 60) {
+    perfil = "Orientación Reservada/Metódica (S-C)";
+    color = "#059669";
+    gradiente = "from-green-900/20 to-blue-900/20";
+    icono = "🎯";
+    descripcion = `Tu perfil muestra una <strong>clara orientación hacia la estabilidad y la precisión</strong>. Con un ${pctMasSC}% de selecciones en características reservadas/metódicas, tiendes a:
+    <ul class="mt-3 space-y-2">
+      <li>• <strong>Actuar con reflexión</strong> y tomar decisiones tras analizar la información</li>
+      <li>• <strong>Preferir ambientes estables</strong> con procesos claros y predecibles</li>
+      <li>• <strong>Valorar la calidad y precisión</strong> en tu trabajo</li>
+      <li>• <strong>Trabajar de forma metódica</strong> y sistemática</li>
+      <li>• <strong>Mantener relaciones cercanas</strong> de largo plazo con pocas personas</li>
+    </ul>
+    <p class="mt-4"><strong class="text-white">En el trabajo:</strong> Destacas en roles que requieren atención al detalle, consistencia, análisis profundo o mantenimiento de estándares de calidad.</p>`;
+  } else {
+    perfil = "Perfil Balanceado/Adaptable";
+    color = "#7c3aed";
+    gradiente = "from-purple-900/20 to-pink-900/20";
+    icono = "⚖️";
+    descripcion = `Tu perfil muestra un <strong>equilibrio entre características activas y reservadas</strong>. Con MÁS D/I: ${pctMasDI}% y MÁS S/C: ${pctMasSC}%, esto indica:
+    <ul class="mt-3 space-y-2">
+      <li>• <strong>Alta versatilidad conductual</strong> — puedes adaptarte a diferentes contextos</li>
+      <li>• <strong>Capacidad de cambiar de ritmo</strong> según las necesidades de la situación</li>
+      <li>• <strong>No tienes preferencias extremas</strong> por un estilo u otro</li>
+      <li>• <strong>Flexibilidad para trabajar</strong> tanto en equipo como de forma independiente</li>
+      <li>• <strong>Equilibrio entre acción y reflexión</strong></li>
+    </ul>
+    <p class="mt-4"><strong class="text-white">En el trabajo:</strong> Tu adaptabilidad es tu mayor fortaleza. Puedes desempeñarte bien en roles diversos, aunque podrías beneficiarte de definir tu zona de máximo rendimiento.</p>`;
+  }
+
+  card.className = `profile-dominant-card reveal bg-gradient-to-br ${gradiente} border border-l-4 rounded-2xl p-8 mb-10`;
+  card.style.borderLeftColor = color;
+  
+  card.innerHTML = `
+    <div class="flex items-start gap-4 mb-5">
+      <div class="text-5xl">${icono}</div>
+      <div>
+        <h3 class="font-exo text-2xl font-bold mb-2" style="color: ${color};">${perfil}</h3>
+        <div class="flex gap-4 text-sm">
+          <span class="font-mono"><strong>MÁS D/I:</strong> ${pctMasDI}%</span>
+          <span class="font-mono"><strong>MÁS S/C:</strong> ${pctMasSC}%</span>
+        </div>
+      </div>
+    </div>
+    <div class="text-sm leading-relaxed text-gray-300">${descripcion}</div>
+  `;
+}
+
+/**
+ * Genera interpretación específica de cada eje MÁS
+ */
+function renderInterpretacionMasEspecifica(containerId, eje, freq, pct, nivel) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  let color, titulo, interpretacion;
+
+  if (eje === 'DI') {
+    color = '#dc2626';
+    titulo = 'Eje Activo/Extrovertido (D-I)';
+    
+    if (pct >= 75) {
+      interpretacion = `<strong>Identificación muy fuerte (${freq}/28 veces, ${pct}%).</strong> Te identificas profundamente con características activas y extrovertidas. Esto significa que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Eres naturalmente <strong>orientado a la acción</strong> y te impacientas con la inactividad</li>
+        <li>• Prefieres <strong>ritmo rápido</strong> y te aburres con tareas lentas o repetitivas</li>
+        <li>• Disfrutas de la <strong>interacción social</strong> y te energiza estar con personas</li>
+        <li>• Tomas decisiones <strong>rápidamente</strong>, a veces sin analizar todos los detalles</li>
+        <li>• Te motiva el <strong>reconocimiento externo</strong> y los resultados visibles</li>
+      </ul>`;
+    } else if (pct >= 55) {
+      interpretacion = `<strong>Identificación notable (${freq}/28 veces, ${pct}%).</strong> Tiendes hacia características activas y extrovertidas, aunque con cierta flexibilidad. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Prefieres la <strong>acción sobre la espera</strong>, aunque puedes ser paciente cuando es necesario</li>
+        <li>• Disfrutas de la <strong>interacción social</strong> pero también valoras momentos de trabajo individual</li>
+        <li>• Eres <strong>proactivo</strong> pero no impulsivo</li>
+        <li>• Te adaptas bien a <strong>cambios</strong> en el entorno</li>
+      </ul>`;
+    } else if (pct >= 35) {
+      interpretacion = `<strong>Identificación moderada (${freq}/28 veces, ${pct}%).</strong> Muestras un equilibrio entre características activas y otras cualidades. Esto sugiere que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Puedes <strong>alternar entre acción y reflexión</strong> según el contexto</li>
+        <li>• No tienes una preferencia marcada por ritmo rápido o lento</li>
+        <li>• Tu nivel de <strong>extraversión es situacional</strong></li>
+        <li>• Eres <strong>versátil</strong> en diferentes entornos de trabajo</li>
+      </ul>`;
+    } else {
+      interpretacion = `<strong>Identificación baja (${freq}/28 veces, ${pct}%).</strong> No te identificas fuertemente con características activas/extrovertidas. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Probablemente prefieres <strong>ritmos más pausados</strong> y reflexivos</li>
+        <li>• Valoras la <strong>calidad sobre la velocidad</strong></li>
+        <li>• Prefieres <strong>trabajar de forma independiente</strong> o en grupos pequeños</li>
+        <li>• Tu orientación es más hacia <strong>tareas y procesos</strong> que hacia personas</li>
+      </ul>`;
+    }
+  } else {
+    color = '#059669';
+    titulo = 'Eje Reservado/Metódico (S-C)';
+    
+    if (pct >= 75) {
+      interpretacion = `<strong>Identificación muy fuerte (${freq}/28 veces, ${pct}%).</strong> Te identificas profundamente con características reservadas y metódicas. Esto significa que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Valoras la <strong>estabilidad y previsibilidad</strong> en tu entorno</li>
+        <li>• Prefieres <strong>ritmos pausados</strong> que te permitan hacer las cosas bien</li>
+        <li>• Eres <strong>reflexivo y analítico</strong> antes de actuar</li>
+        <li>• Priorizas la <strong>calidad y precisión</strong> sobre la rapidez</li>
+        <li>• Te sientes cómodo con <strong>rutinas y procesos establecidos</strong></li>
+      </ul>`;
+    } else if (pct >= 55) {
+      interpretacion = `<strong>Identificación notable (${freq}/28 veces, ${pct}%).</strong> Tiendes hacia características reservadas y metódicas, con cierta adaptabilidad. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Prefieres <strong>planificar antes que improvisar</strong></li>
+        <li>• Valoras la <strong>consistencia y confiabilidad</strong></li>
+        <li>• Te tomas el tiempo para <strong>hacer las cosas correctamente</strong></li>
+        <li>• Puedes adaptarte a cambios si tienes <strong>tiempo para prepararte</strong></li>
+      </ul>`;
+    } else if (pct >= 35) {
+      interpretacion = `<strong>Identificación moderada (${freq}/28 veces, ${pct}%).</strong> Muestras equilibrio entre características reservadas y otras cualidades. Esto sugiere que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Puedes trabajar tanto con <strong>procesos estructurados como flexibles</strong></li>
+        <li>• No dependes excesivamente de la estabilidad ni del cambio</li>
+        <li>• Balanceas <strong>análisis y acción</strong></li>
+        <li>• Eres adaptable a diferentes ritmos de trabajo</li>
+      </ul>`;
+    } else {
+      interpretacion = `<strong>Identificación baja (${freq}/28 veces, ${pct}%).</strong> No te identificas fuertemente con características reservadas/metódicas. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Probablemente prefieres <strong>ritmos más dinámicos</strong> y acelerados</li>
+        <li>• Te adaptas bien a <strong>cambios e imprevistos</strong></li>
+        <li>• Prefieres la <strong>acción sobre el análisis</strong> prolongado</li>
+        <li>• Tu orientación es más hacia <strong>resultados rápidos</strong> que procesos largos</li>
+      </ul>`;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border-l-4 border border-slate-700/50 rounded-xl p-6" style="border-left-color: ${color};">
+      <div class="flex items-start justify-between gap-4 mb-4">
+        <div class="flex-1">
+          <h4 class="font-exo text-lg font-bold mb-1" style="color: ${color};">${titulo}</h4>
+          <div class="text-xs text-gray-400 font-mono">Frecuencia: ${freq}/28 (${pct}%) — Nivel: ${nivel}</div>
+        </div>
+        <div class="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black" style="background: ${color}; color: white;">
+          ${pct}%
+        </div>
+      </div>
+      <div class="text-sm leading-relaxed text-gray-300">${interpretacion}</div>
+    </div>
+  `;
+}
+
+/**
+ * Genera interpretación específica de cada eje MENOS
+ */
+function renderInterpretacionMenosEspecifica(containerId, eje, freq, pct, nivel) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  let color, titulo, interpretacion;
+
+  if (eje === 'DI') {
+    color = '#ea580c';
+    titulo = 'Rechazo de Características Activas/Extrovertidas (D-I)';
+    
+    if (pct >= 75) {
+      interpretacion = `<strong>Rechazo muy marcado (${freq}/28 veces, ${pct}%).</strong> Rechazas consistentemente las características activas y extrovertidas. Esto revela que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• No te sientes cómodo con <strong>ritmos acelerados</strong> ni presión de tiempo</li>
+        <li>• Prefieres <strong>evitar la confrontación</strong> y el liderazgo directo</li>
+        <li>• La <strong>interacción social intensa</strong> te agota emocionalmente</li>
+        <li>• No disfrutas de <strong>entornos competitivos</strong> o de alta exigencia</li>
+        <li>• Rechazas activamente roles que requieran <strong>toma de decisiones rápidas</strong></li>
+      </ul>`;
+    } else if (pct >= 55) {
+      interpretacion = `<strong>Rechazo notable (${freq}/28 veces, ${pct}%).</strong> Tiendes a evitar características activas/extrovertidas. Esto sugiere que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Prefieres <strong>entornos tranquilos</strong> sin urgencias constantes</li>
+        <li>• La <strong>exposición social prolongada</strong> te resulta agotadora</li>
+        <li>• Evitas <strong>asumir protagonismo</strong> en grupos grandes</li>
+        <li>• No te atrae trabajar bajo <strong>presión constante</strong></li>
+      </ul>`;
+    } else if (pct >= 35) {
+      interpretacion = `<strong>Rechazo moderado (${freq}/28 veces, ${pct}%).</strong> No rechazas fuertemente estas características. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Puedes <strong>tolerar ritmos acelerados</strong> en ciertas circunstancias</li>
+        <li>• La interacción social no te incomoda si es <strong>en dosis moderadas</strong></li>
+        <li>• Tienes cierta <strong>flexibilidad</strong> para adaptarte a diferentes ritmos</li>
+      </ul>`;
+    } else {
+      interpretacion = `<strong>Rechazo bajo (${freq}/28 veces, ${pct}%).</strong> Rara vez rechazas características activas/extrovertidas. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Te sientes cómodo con <strong>dinámicas activas</strong> y sociales</li>
+        <li>• No te incomodan los <strong>cambios ni la presión</strong></li>
+        <li>• Probablemente <strong>disfrutas de la acción</strong> y el movimiento</li>
+      </ul>`;
+    }
+  } else {
+    color = '#2563eb';
+    titulo = 'Rechazo de Características Reservadas/Metódicas (S-C)';
+    
+    if (pct >= 75) {
+      interpretacion = `<strong>Rechazo muy marcado (${freq}/28 veces, ${pct}%).</strong> Rechazas consistentemente características reservadas y metódicas. Esto revela que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Te <strong>frustran las rutinas</strong> y los procesos lentos</li>
+        <li>• No disfrutas de <strong>trabajos repetitivos</strong> o detallistas</li>
+        <li>• Rechazas activamente <strong>ambientes estables</strong> sin variedad</li>
+        <li>• Prefieres la <strong>acción sobre el análisis</strong> prolongado</li>
+        <li>• Te impacientas con <strong>procesos burocráticos</strong> o normativos</li>
+      </ul>`;
+    } else if (pct >= 55) {
+      interpretacion = `<strong>Rechazo notable (${freq}/28 veces, ${pct}%).</strong> Tiendes a evitar características reservadas/metódicas. Esto sugiere que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Prefieres <strong>variedad sobre estabilidad</strong></li>
+        <li>• Te aburres con <strong>tareas demasiado estructuradas</strong></li>
+        <li>• No te atrae el <strong>trabajo minucioso</strong> con detalles</li>
+        <li>• Evitas roles que requieran <strong>mucha paciencia</strong></li>
+      </ul>`;
+    } else if (pct >= 35) {
+      interpretacion = `<strong>Rechazo moderado (${freq}/28 veces, ${pct}%).</strong> No rechazas fuertemente estas características. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Puedes trabajar con <strong>procesos estructurados</strong> cuando es necesario</li>
+        <li>• Toleras la <strong>estabilidad</strong> sin sentirte atrapado</li>
+        <li>• Tienes <strong>cierta paciencia</strong> para trabajos metódicos</li>
+      </ul>`;
+    } else {
+      interpretacion = `<strong>Rechazo bajo (${freq}/28 veces, ${pct}%).</strong> Rara vez rechazas características reservadas/metódicas. Esto indica que:
+      <ul class="mt-2 ml-4 space-y-1.5">
+        <li>• Te sientes cómodo con <strong>procesos estructurados</strong></li>
+        <li>• Valoras la <strong>estabilidad y consistencia</strong></li>
+        <li>• Probablemente <strong>disfrutas del análisis</strong> y el detalle</li>
+      </ul>`;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border-l-4 border border-slate-700/50 rounded-xl p-6" style="border-left-color: ${color};">
+      <div class="flex items-start justify-between gap-4 mb-4">
+        <div class="flex-1">
+          <h4 class="font-exo text-lg font-bold mb-1" style="color: ${color};">${titulo}</h4>
+          <div class="text-xs text-gray-400 font-mono">Frecuencia: ${freq}/28 (${pct}%) — Nivel: ${nivel}</div>
+        </div>
+        <div class="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black" style="background: ${color}; color: white;">
+          ${pct}%
+        </div>
+      </div>
+      <div class="text-sm leading-relaxed text-gray-300">${interpretacion}</div>
+    </div>
+  `;
+}
+
+/**
+ * Genera interpretación de comparativa Parte I vs Parte II
+ */
+function renderInterpretacionPartes(resultado) {
+  const container = document.getElementById('interpretacionPartes');
+  if (!container) return;
+
+  const { masDI_P1, masSC_P1, masDI_P2, masSC_P2 } = resultado;
+  
+  const diffDI = Math.abs(masDI_P1 - masDI_P2);
+  const diffSC = Math.abs(masSC_P1 - masSC_P2);
+  const diffTotal = diffDI + diffSC;
+
+  let titulo, icono, color, interpretacion;
+
+  if (diffTotal <= 4) {
+    titulo = "Perfil Muy Estable";
+    icono = "🎯";
+    color = "#059669";
+    interpretacion = `<strong>Tu comportamiento es consistente entre situaciones normales y bajo presión.</strong> Las diferencias entre Parte I y Parte II son mínimas (${diffTotal} puntos de diferencia total), lo que indica que:
+    <ul class="mt-3 ml-4 space-y-2">
+      <li>• Eres <strong>auténtico</strong> — tu comportamiento natural coincide con tu comportamiento adaptado</li>
+      <li>• <strong>No modificas significativamente</strong> tu conducta bajo estrés o presión</li>
+      <li>• Las personas te perciben como <strong>predecible y congruente</strong></li>
+      <li>• Experimentas <strong>bajo nivel de tensión</strong> entre lo que eres y lo que muestras</li>
+      <li>• Tu entorno laboral actual <strong>te permite ser tú mismo</strong></li>
+    </ul>
+    <p class="mt-3 text-cyan-200"><strong>Implicación:</strong> Esta estabilidad es positiva, aunque asegúrate de que tu entorno realmente te permita desarrollar todo tu potencial.</p>`;
+  } else if (diffTotal <= 8) {
+    titulo = "Perfil Adaptable con Núcleo Estable";
+    icono = "⚖️";
+    color = "#f59e0b";
+    interpretacion = `<strong>Muestras cierta adaptación conductual pero mantienes tu esencia.</strong> Hay diferencias moderadas (${diffTotal} puntos), lo que sugiere que:
+    <ul class="mt-3 ml-4 space-y-2">
+      <li>• <strong>Adaptas tu comportamiento</strong> según el contexto, pero sin forzarte demasiado</li>
+      <li>• Bajo presión, ajustas algunas conductas pero <strong>mantienes tu identidad</strong></li>
+      <li>• Tienes <strong>flexibilidad conductual</strong> sin perder autenticidad</li>
+      <li>• El esfuerzo de adaptación es <strong>manejable y sostenible</strong></li>
+    </ul>
+    <p class="mt-3 text-orange-200"><strong>Implicación:</strong> Este nivel de adaptación es saludable y muestra inteligencia emocional. Monitorea que no aumente con el tiempo.</p>`;
+  } else {
+    titulo = "Perfil con Adaptación Significativa";
+    icono = "⚠️";
+    color = "#dc2626";
+    interpretacion = `<strong>Modificas considerablemente tu comportamiento bajo presión.</strong> Hay diferencias notables (${diffTotal} puntos), lo que indica que:
+    <ul class="mt-3 ml-4 space-y-2">
+      <li>• Existe <strong>disonancia entre tu yo natural y tu yo laboral</strong></li>
+      <li>• Bajo estrés, activas conductas que <strong>no son naturales</strong> para ti</li>
+      <li>• Podrías estar experimentando <strong>tensión o desgaste</strong> por mantener este ajuste</li>
+      <li>• Tu entorno laboral puede estar <strong>exigiéndote ser alguien que no eres</strong></li>
+      <li>• A largo plazo, esta adaptación puede generar <strong>agotamiento</strong></li>
+    </ul>
+    <p class="mt-3 text-red-200"><strong>Recomendación:</strong> Evalúa si tu rol actual es compatible con tus fortalezas naturales. Considera buscar entornos que te permitan ser más auténtico.</p>`;
+  }
+
+  container.innerHTML = `
+    <div class="flex items-start gap-4 mb-4">
+      <div class="text-4xl">${icono}</div>
+      <div class="flex-1">
+        <h3 class="font-exo text-xl font-bold mb-2" style="color: ${color};">${titulo}</h3>
+        <div class="text-xs text-gray-400 font-mono">Diferencia total: ${diffTotal} puntos (D/I: ${diffDI}, S/C: ${diffSC})</div>
+      </div>
+    </div>
+    <div class="text-sm leading-relaxed text-gray-300">${interpretacion}</div>
+  `;
+}
+
+/**
+ * Genera implicaciones prácticas del perfil
+ */
+function renderImplicacionesPracticas(resultado) {
+  const { pctMasDI, pctMasSC } = resultado;
+
+  // Determinar perfil dominante
+  let fortalezas, atencion, comunicacion, entorno;
+
+  if (pctMasDI >= 60) {
+    // Perfil activo/extrovertido
+    fortalezas = [
+      'Capacidad de generar resultados rápidos y tomar decisiones ágiles',
+      'Habilidad para liderar equipos y motivar a otros',
+      'Adaptabilidad a cambios y entornos dinámicos',
+      'Comunicación efectiva y persuasión',
+      'Energía y proactividad en la ejecución de proyectos'
+    ];
+    atencion = [
+      'Puede impacientarse con procesos lentos o detallados',
+      'Riesgo de tomar decisiones sin analizar toda la información',
+      'Tendencia a sobrecargar la agenda con demasiadas actividades',
+      'Necesita recordar la importancia de la planificación',
+      'Puede descuidar el seguimiento de tareas iniciadas'
+    ];
+    comunicacion = [
+      'Sé directo y ve al punto — valora la eficiencia',
+      'Enfócate en resultados y beneficios concretos',
+      'Permite que lidere conversaciones y proponga ideas',
+      'Ofrece variedad y estímulo, evita la monotonía',
+      'Reconoce sus logros públicamente'
+    ];
+    entorno = [
+      'Entornos dinámicos con desafíos constantes',
+      'Oportunidades de liderazgo y toma de decisiones',
+      'Libertad y autonomía para actuar',
+      'Contacto frecuente con personas y equipos',
+      'Reconocimiento visible por resultados'
+    ];
+  } else if (pctMasSC >= 60) {
+    // Perfil reservado/metódico
+    fortalezas = [
+      'Atención excepcional al detalle y precisión en el trabajo',
+      'Capacidad de análisis profundo y pensamiento crítico',
+      'Consistencia y confiabilidad en la ejecución',
+      'Paciencia para procesos largos y complejos',
+      'Construcción de relaciones estables de largo plazo'
+    ];
+    atencion = [
+      'Puede resistirse excesivamente a cambios necesarios',
+      'Riesgo de "parálisis por análisis" — dificultad para decidir',
+      'Tendencia a evitar la confrontación cuando es necesaria',
+      'Necesita salir de su zona de confort periódicamente',
+      'Puede perder oportunidades por exceso de cautela'
+    ];
+    comunicacion = [
+      'Proporciona información detallada y fundamentada',
+      'Dale tiempo para procesar y responder — no lo presiones',
+      'Respeta su necesidad de preparación antes de reuniones',
+      'Valora la calidad de su trabajo, no solo la velocidad',
+      'Comunica cambios con anticipación y explicaciones claras'
+    ];
+    entorno = [
+      'Ambientes estables con procesos claros',
+      'Tiempo suficiente para analizar y planificar',
+      'Estándares de calidad bien definidos',
+      'Relaciones de trabajo armoniosas y predecibles',
+      'Reconocimiento por precisión y consistencia'
+    ];
+  } else {
+    // Perfil balanceado
+    fortalezas = [
+      'Versatilidad para adaptarse a diferentes situaciones',
+      'Equilibrio entre acción y reflexión',
+      'Capacidad de trabajar tanto en equipo como independientemente',
+      'Flexibilidad para cambiar de ritmo según necesidades',
+      'Comprensión de diferentes estilos de trabajo'
+    ];
+    atencion = [
+      'Necesita definir su zona de máximo rendimiento',
+      'Puede dispersarse tratando de ser bueno en todo',
+      'Riesgo de falta de identidad profesional clara',
+      'Importante encontrar el contexto que potencie sus fortalezas',
+      'Debe evitar el rol de "comodín" permanente'
+    ];
+    comunicacion = [
+      'Adapta tu estilo según el contexto — es flexible',
+      'Ofrece tanto desafíos como estabilidad',
+      'Valora su capacidad de adaptación',
+      'Dale oportunidades variadas de desarrollo',
+      'Ayúdale a identificar su zona de excelencia'
+    ];
+    entorno = [
+      'Entornos con variedad de tareas y responsabilidades',
+      'Oportunidades para explorar diferentes roles',
+      'Balance entre estructura y flexibilidad',
+      'Proyectos que combinen acción y análisis',
+      'Equipos diversos con diferentes estilos'
+    ];
+  }
+
+  // Renderizar
+  document.getElementById('fortalezasList').innerHTML = fortalezas.map(f => `<li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>${f}</span></li>`).join('');
+  document.getElementById('atencionList').innerHTML = atencion.map(a => `<li class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">!</span><span>${a}</span></li>`).join('');
+  document.getElementById('comunicacionList').innerHTML = comunicacion.map(c => `<li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">▸</span><span>${c}</span></li>`).join('');
+  document.getElementById('entornoList').innerHTML = entorno.map(e => `<li class="flex items-start gap-2"><span class="text-purple-400 mt-0.5">▸</span><span>${e}</span></li>`).join('');
+}
 function renderTablaPartes(r) {
   const tbody = document.getElementById('tbodyPartes');
   tbody.innerHTML = `
@@ -494,7 +1012,56 @@ function renderDimensiones() {
     </div>`;
   }).join('');
 }
+// ========== RUEDA SUCCESS INSIGHTS ==========
+// ========== RUEDA SUCCESS INSIGHTS ==========
+function renderRuedaDISC(respuestas) {
+  if (!respuestas || Object.keys(respuestas).length === 0) {
+    console.error('No hay respuestas para renderizar la rueda');
+    return;
+  }
 
+  // Verificar que las funciones estén disponibles
+  if (typeof window.discToWheel !== 'function') {
+    console.error('discToWheel no está disponible');
+    return;
+  }
+
+  if (typeof window.renderRuedaSI5 !== 'function') {
+    console.error('renderRuedaSI5 no está disponible');
+    return;
+  }
+
+  try {
+    // Convertir respuestas a coordenadas de rueda
+    const coordenadas = window.discToWheel(respuestas);
+    
+    console.log('🎯 Coordenadas calculadas:', coordenadas);
+
+    // Renderizar la rueda
+    window.renderRuedaSI5("#ruedaSVG", {
+      celdaNatural: coordenadas.natural.cell,
+      celdaAdaptada: coordenadas.adaptado.cell,
+      width: 900,
+      height: 900
+    });
+
+    // Actualizar info de perfiles
+    document.getElementById('naturalInfo').innerHTML = `
+      <strong>Celda:</strong> ${coordenadas.natural.cell}<br>
+      <strong>Ángulo:</strong> ${Math.round(coordenadas.natural.angle)}°<br>
+      <strong>Intensidad:</strong> ${Math.round(coordenadas.natural.radius * 100)}%
+    `;
+
+    document.getElementById('adaptadoInfo').innerHTML = `
+      <strong>Celda:</strong> ${coordenadas.adaptado.cell}<br>
+      <strong>Ángulo:</strong> ${Math.round(coordenadas.adaptado.angle)}°<br>
+      <strong>Intensidad:</strong> ${Math.round(coordenadas.adaptado.radius * 100)}%
+    `;
+
+  } catch (error) {
+    console.error('Error renderizando rueda:', error);
+  }
+}
 function renderDetalle(detallePreguntas) {
   const tbody1 = document.getElementById('detalleParte1');
   const tbody2 = document.getElementById('detalleParte2');
@@ -591,7 +1158,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // Parse and calculate
   const respuestasString = data.Respuestas || "";
   const datosParsed = parsearRespuestasDISC(respuestasString);
 
@@ -603,7 +1169,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultado = calcularResultadosDISC(datosParsed);
 
   // Render everything
-  renderReport(data, resultado);
+  renderReport(data, resultado, datosParsed.respuestas);
   setupNavigation();
 
   // Hide loading, show report
@@ -611,14 +1177,17 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('loadingScreen').classList.add('fade-out');
     document.getElementById('reportContainer').classList.remove('hidden');
 
-    // Setup animations after showing
     setTimeout(() => {
       setupRevealAnimations();
-      triggerReveals(document.getElementById('sec-resumen'));
+      // ⭐ Activar la primera sección (Acerca del Test) al cargar
+      const firstSection = document.getElementById('sec-acerca');
+      if (firstSection) {
+        firstSection.classList.add('active');
+        triggerReveals(firstSection);
+      }
     }, 100);
   }, 1200);
 });
-
 
 /*/ Imprimir Informe /*/
 
@@ -626,102 +1195,27 @@ document.addEventListener("DOMContentLoaded", function () {
 // PDF EXPORT — FIXED
 // ============================================================================
 
+// ============================================================================
+// PDF EXPORT — MEJORADO CON ORDEN CORRECTO Y SALTOS DE PÁGINA
+// ============================================================================
 async function exportPDF() {
-  // Show loading overlay
-  const overlay = document.createElement('div');
-  overlay.className = 'pdf-overlay';
-  overlay.innerHTML = '<div class="pdf-spinner"></div><p>Generando PDF del informe...</p>';
-  document.body.appendChild(overlay);
-
-  // Load html2pdf library dynamically
-  if (!window.html2pdf) {
-    await new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-  }
-
-  // Save current state
-  const activeSection = document.querySelector('.section.active');
-
-  // Activate PDF mode
-  document.body.classList.add('pdf-generating');
-
-  // Show ALL sections
-  document.querySelectorAll('.section').forEach(s => {
-    s.classList.add('active');
-    s.querySelectorAll('.reveal').forEach(r => r.classList.add('visible'));
-  });
-
-  // Wait for reflow + charts to render
-  await new Promise(r => setTimeout(r, 800));
-
-  // Convert Chart.js canvases to static images so html2canvas captures them
-  const canvases = document.querySelectorAll('#reportContainer canvas');
-  const canvasBackups = [];
-  canvases.forEach(canvas => {
+  // Usar el nuevo generador profesional
+  if (typeof window.generarPDFInforme === 'function') {
     try {
-      const img = document.createElement('img');
-      img.src = canvas.toDataURL('image/png');
-      img.style.cssText = canvas.style.cssText;
-      img.style.width = '100%';
-      img.style.height = 'auto';
-      img.className = 'pdf-chart-img';
-      canvas.parentNode.insertBefore(img, canvas);
-      canvas.style.display = 'none';
-      canvasBackups.push({ canvas, img });
-    } catch(e) {
-      console.warn('Could not convert canvas:', e);
+      const stored = sessionStorage.getItem("discUserData");
+      const data = JSON.parse(stored);
+      const respuestasString = data.Respuestas || "";
+      const datosParsed = parsearRespuestasDISC(respuestasString);
+      const resultado = calcularResultadosDISC(datosParsed);
+      
+      await window.generarPDFInforme(data, resultado, datosParsed.respuestas);
+    } catch (error) {
+      console.error('Error generando PDF profesional:', error);
+      alert('Hubo un error al generar el PDF. Por favor, intentá nuevamente.');
     }
-  });
-
-  await new Promise(r => setTimeout(r, 300));
-
-  const container = document.getElementById('reportContainer');
-  const nombreCompleto = document.getElementById('nombreCompleto').textContent || 'evaluado';
-
-  try {
-    await html2pdf().set({
-      margin:       [8, 5, 8, 5],
-      filename:     `Informe DISC - ${nombreCompleto}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        scrollX: 0,
-        scrollY: 0,
-        x: 0,
-        y: 0,
-        width: container.scrollWidth,
-        windowWidth: container.scrollWidth
-      },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak:    {
-        mode: ['avoid-all', 'css', 'legacy'],
-        before: ['.pdf-page-break-before'],
-        avoid: ['.score-card', '.dim-card', '.interp-card', '.consistency-card', '.intro-card', '.about-card', '.notes-card', '.chart-container', 'tr']
-      }
-    }).from(container).save();
-  } catch (err) {
-    console.error('Error generando PDF:', err);
-    alert('Hubo un error al generar el PDF. Intentá de nuevo.');
+    return;
   }
-
-  // Restore canvases
-  canvasBackups.forEach(({ canvas, img }) => {
-    canvas.style.display = '';
-    img.remove();
-  });
-
-  // Restore original state
-  document.body.classList.remove('pdf-generating');
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  if (activeSection) activeSection.classList.add('active');
-
-  // Remove overlay
-  overlay.remove();
+  
+  // Fallback - si algo falla, avisar
+  alert('El generador de PDF no está disponible. Por favor, recargá la página.');
 }

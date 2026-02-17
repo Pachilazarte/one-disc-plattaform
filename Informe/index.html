@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Informe DISC — Perfil de Comportamiento Profesional</title>
-  
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -36,19 +39,26 @@
       }
     }
   </script>
-  
+
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body class="font-dm bg-gradient-to-br from-black via-one-ink to-black text-white">
 
   <!-- Loading Screen -->
-  <div id="loadingScreen" class="loading-screen fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-navy via-one-ink to-black">
+  <div id="loadingScreen"
+    class="loading-screen fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-navy via-one-ink to-black">
     <div class="text-center">
       <div class="loading-rings relative w-32 h-32 mx-auto mb-6">
-        <div class="ring ring-d absolute inset-0 rounded-full border-4 border-transparent border-t-red-500 animate-spin"></div>
-        <div class="ring ring-i absolute inset-[10px] rounded-full border-4 border-transparent border-r-orange-500" style="animation: spin 1.4s linear infinite reverse;"></div>
-        <div class="ring ring-s absolute inset-[20px] rounded-full border-4 border-transparent border-b-green-500" style="animation: spin 1.1s linear infinite;"></div>
-        <div class="ring ring-c absolute inset-[30px] rounded-full border-4 border-transparent border-l-blue-500" style="animation: spin 0.9s linear infinite reverse;"></div>
+        <div
+          class="ring ring-d absolute inset-0 rounded-full border-4 border-transparent border-t-red-500 animate-spin">
+        </div>
+        <div class="ring ring-i absolute inset-[10px] rounded-full border-4 border-transparent border-r-orange-500"
+          style="animation: spin 1.4s linear infinite reverse;"></div>
+        <div class="ring ring-s absolute inset-[20px] rounded-full border-4 border-transparent border-b-green-500"
+          style="animation: spin 1.1s linear infinite;"></div>
+        <div class="ring ring-c absolute inset-[30px] rounded-full border-4 border-transparent border-l-blue-500"
+          style="animation: spin 0.9s linear infinite reverse;"></div>
       </div>
       <p class="loading-text text-white/70 text-sm font-medium tracking-widest uppercase">Generando informe DISC...</p>
     </div>
@@ -57,47 +67,51 @@
   <!-- Main Report -->
   <div id="reportContainer" class="report-container hidden">
 
-<!-- Hero Header -->
-    <header class="hero relative bg-gradient-to-br from-one-ink via-one-pink/40 to-purple-900 pt-16 pb-24 px-6 overflow-hidden">
+    <!-- Hero Header -->
+    <header
+      class="hero relative bg-gradient-to-br from-one-ink via-one-pink/40 to-purple-900 pt-16 pb-24 px-6 overflow-hidden">
       <!-- Background Pattern -->
-      <div class="hero-bg-pattern absolute inset-0 pointer-events-none opacity-40"
-           style="background-image: 
+      <div class="hero-bg-pattern absolute inset-0 pointer-events-none opacity-40" style="background-image: 
                   radial-gradient(circle at 30% 30%, rgba(225,123,215,0.35) 0%, transparent 50%), 
                   radial-gradient(circle at 70% 70%, rgba(168,85,247,0.30) 0%, transparent 50%),
                   radial-gradient(circle at 50% 50%, rgba(107,225,227,0.15) 0%, transparent 60%);">
       </div>
-      
+
       <!-- Hexagon Pattern -->
-      <div class="absolute inset-[-20%] opacity-10 mix-blend-screen transform rotate-[-8deg] pointer-events-none"
-           style="filter: drop-shadow(0 0 12px rgba(107,225,227,.15));
+      <div class="absolute inset-[-20%] opacity-10 mix-blend-screen transform rotate-[-8deg] pointer-events-none" style="filter: drop-shadow(0 0 12px rgba(107,225,227,.15));
                   background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'260\' height=\'150\' viewBox=\'0 0 260 150\'%3E%3Cg fill=\'none\' stroke=\'%23c6c9d7\' stroke-opacity=\'0.85\' stroke-width=\'1\'%3E%3Cpath d=\'M50 20l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M120 20l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M190 20l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M85 55l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M155 55l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M50 90l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M120 90l20-12 20 12v24l-20 12-20-12z\'/%3E%3Cpath d=\'M190 90l20-12 20 12v24l-20 12-20-12z\'/%3E%3C/g%3E%3C/svg%3E');
                   background-size: 260px 150px;
                   background-repeat: repeat;">
       </div>
-      
+
       <!-- Curved Bottom -->
-      <div class="absolute bottom-[-2px] left-0 right-0 h-20 bg-black" style="clip-path: ellipse(55% 100% at 50% 100%);"></div>
-      
+      <div class="absolute bottom-[-2px] left-0 right-0 h-20 bg-black"
+        style="clip-path: ellipse(55% 100% at 50% 100%);"></div>
+
       <div class="hero-content max-w-4xl mx-auto relative z-10">
-        <div class="inline-block bg-white/10 border border-white/20 px-5 py-1.5 rounded-full text-[11px] font-bold tracking-[2.5px] text-white/85 uppercase mb-5 backdrop-blur-sm">
+        <div
+          class="inline-block bg-white/10 border border-white/20 px-5 py-1.5 rounded-full text-[11px] font-bold tracking-[2.5px] text-white/85 uppercase mb-5 backdrop-blur-sm">
           Evaluación de Perfil Conductual
         </div>
-        
+
         <h1 class="font-exo text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-tight mb-2">
           Test DISC
         </h1>
         <p class="text-lg sm:text-xl text-white/90 font-medium mb-1">Perfil de Comportamiento Profesional</p>
         <p class="text-sm text-white/55 mb-9">Basado en el modelo de William Moulton Marston — Método Cleaver</p>
-        
+
         <!-- User Card -->
-        <div class="bg-white/10 border border-white/15 rounded-2xl p-6 backdrop-blur-xl flex flex-col sm:flex-row items-center gap-5">
-          <div id="userAvatar" class="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 via-orange-500 via-green-500 to-blue-500 flex items-center justify-center text-2xl font-black text-white shadow-[0_0_0_3px_rgba(255,255,255,0.2)]"></div>
-          
+        <div
+          class="bg-white/10 border border-white/15 rounded-2xl p-6 backdrop-blur-xl flex flex-col sm:flex-row items-center gap-5">
+          <div id="userAvatar"
+            class="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 via-orange-500 via-green-500 to-blue-500 flex items-center justify-center text-2xl font-black text-white shadow-[0_0_0_3px_rgba(255,255,255,0.2)]">
+          </div>
+
           <div class="flex-1 text-center sm:text-left">
             <h2 id="nombreCompleto" class="font-exo text-2xl font-bold text-white leading-tight"></h2>
             <p id="correoUsuario" class="text-sm text-white/60 mt-0.5"></p>
           </div>
-          
+
           <div class="flex gap-4 flex-wrap justify-center">
             <div class="bg-white/5 rounded-lg px-4 py-2 min-w-[90px]">
               <div class="text-[10px] font-bold uppercase tracking-wider text-white/50">Fecha</div>
@@ -119,135 +133,745 @@
     <!-- Navigation Tabs -->
     <nav class="report-nav sticky top-0 z-30 bg-black/90 backdrop-blur-xl border-b border-white/10">
       <div class="nav-inner max-w-5xl mx-auto flex overflow-x-auto px-4 gap-1 py-2 scrollbar-hide">
+        <button class="nav-tab" data-section="acerca">Acerca del Test</button>
+        <button class="nav-tab" data-section="dimensiones">Dimensiones DISC</button>
         <button class="nav-tab active" data-section="resumen">Resumen</button>
         <button class="nav-tab" data-section="analisis">Análisis</button>
-        <button class="nav-tab" data-section="dimensiones">Dimensiones DISC</button>
+
         <button class="nav-tab" data-section="detalle">Detalle</button>
-        <button class="nav-tab" data-section="acerca">Acerca del Test</button>
-        <button class="nav-btn-print flex-shrink-0 px-4 py-2 rounded-full bg-gradient-to-r from-one-cyan/20 to-one-pink/20 border border-one-cyan/40 hover:border-one-cyan/60 transition-all text-sm font-semibold flex items-center gap-2" onclick="exportPDF()" title="Exportar a PDF">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 9V2h12v7"/>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-            <rect x="6" y="14" width="12" height="8"/>
+        <button
+          class="nav-btn-print flex-shrink-0 px-4 py-2 rounded-full bg-gradient-to-r from-one-cyan/20 to-one-pink/20 border border-one-cyan/40 hover:border-one-cyan/60 transition-all text-sm font-semibold flex items-center gap-2"
+          onclick="exportPDF()" title="Exportar a PDF">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9V2h12v7" />
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+            <rect x="6" y="14" width="12" height="8" />
           </svg>
           <span class="hidden sm:inline">Imprimir</span>
         </button>
       </div>
     </nav>
 
-    <!-- Section: Resumen -->
-    <section id="sec-resumen" class="section active">
-      <div class="section-inner max-w-5xl mx-auto px-6 py-12">
+    <!-- Section: Acerca del Test -->
+    <section id="sec-acerca" class="section hidden">
+      <div class="section-inner max-w-6xl mx-auto px-6 py-12">
 
-        <!-- Intro Card -->
-        <div class="intro-card reveal bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-one-cyan/20 rounded-2xl p-8 mb-12 backdrop-blur-sm">
-          <div class="text-4xl mb-3">📖</div>
-          <h3 class="font-exo text-xl font-bold text-one-cyan mb-3">¿Qué es este informe?</h3>
-          <p class="text-sm leading-relaxed text-gray-300 mb-2.5">
-            Este documento presenta los resultados de la evaluación de perfil de comportamiento profesional mediante el <strong class="text-white">Test DISC</strong>, una herramienta psicométrica utilizada en el ámbito organizacional para comprender los estilos de conducta habituales.
-          </p>
-          <p class="text-sm leading-relaxed text-gray-300">
-            El test evalúa la tendencia del individuo hacia dos grandes ejes conductuales: el eje <strong class="text-white">Activo/Extrovertido (D-I)</strong> y el eje <strong class="text-white">Reservado/Metódico (S-C)</strong>. Se analiza tanto lo que la persona considera que MÁS la describe como lo que MENOS la describe.
+        <!-- Hero Intro -->
+        <div
+          class="about-hero reveal bg-gradient-to-br from-slate-900/80 to-slate-800/80 border-2 border-slate-700/50 rounded-3xl p-10 mb-10 backdrop-blur-sm relative overflow-hidden">
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-gradient-radial from-cyan-500/10 to-transparent rounded-full blur-3xl">
+          </div>
+          <div
+            class="absolute bottom-0 left-0 w-64 h-64 bg-gradient-radial from-purple-500/10 to-transparent rounded-full blur-3xl">
+          </div>
+
+          <div class="relative z-10">
+            <div
+              class="inline-block bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-cyan-300 uppercase mb-5">
+              Fundamentos del Modelo DISC
+            </div>
+
+            <h2 class="font-exo text-4xl font-black text-white mb-5 leading-tight">
+              Modelo DISC de <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">William Moulton
+                Marston</span>
+            </h2>
+
+            <p class="text-base leading-relaxed text-gray-300 mb-4">
+              El modelo DISC fue desarrollado por el psicólogo <strong class="text-white">William Moulton
+                Marston</strong> en 1928 en su obra seminal <em>"Emotions of Normal People"</em>. Marston propuso que el
+              comportamiento observable de las personas puede clasificarse según cuatro dimensiones fundamentales del
+              comportamiento humano.
+            </p>
+
+            <p class="text-base leading-relaxed text-gray-300">
+              Este informe utiliza el <strong class="text-cyan-300">Método Cleaver</strong> (Self Description), una
+              metodología validada internacionalmente que presenta 28 grupos de características conductuales,
+              permitiendo identificar tanto el perfil natural como el adaptado de cada individuo.
+            </p>
+          </div>
+        </div>
+
+        <!-- Los 2 Ejes Fundamentales -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-8 pb-3 border-b border-white/10">
+          Los Dos Ejes Fundamentales del Comportamiento
+        </h2>
+
+        <div class="axes-grid reveal grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <!-- Eje Vertical -->
+          <div
+            class="axis-card bg-gradient-to-br from-red-900/20 via-orange-900/20 to-yellow-900/20 border-2 border-red-500/30 rounded-2xl p-8">
+            <div class="flex items-center gap-4 mb-5">
+              <div
+                class="w-16 h-16 rounded-xl bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/40 flex items-center justify-center text-3xl">
+                ⬍
+              </div>
+              <div>
+                <h3 class="font-exo text-xl font-bold text-red-300">Eje Vertical</h3>
+                <p class="text-sm text-gray-400">Ritmo de respuesta</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="axis-pole">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-sm font-bold text-red-400 uppercase tracking-wide">↑ Ritmo Acelerado</span>
+                  <span class="text-xs font-mono text-red-300 bg-red-500/10 px-2 py-1 rounded">D-I</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                  Las personas con <strong class="text-white">Dominancia (D)</strong> e <strong
+                    class="text-white">Influencia (I)</strong> tienden a actuar con rapidez, tomar decisiones ágiles y
+                  moverse con urgencia en su entorno.
+                </p>
+              </div>
+
+              <div class="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent"></div>
+
+              <div class="axis-pole">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-sm font-bold text-green-400 uppercase tracking-wide">↓ Ritmo Pausado</span>
+                  <span class="text-xs font-mono text-green-300 bg-green-500/10 px-2 py-1 rounded">S-C</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                  Las personas con <strong class="text-white">Estabilidad (S)</strong> y <strong
+                    class="text-white">Cumplimiento (C)</strong> tienden a tomarse su tiempo, reflexionar antes de
+                  actuar y mantener un ritmo más controlado.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Eje Horizontal -->
+          <div
+            class="axis-card bg-gradient-to-br from-blue-900/20 via-cyan-900/20 to-green-900/20 border-2 border-blue-500/30 rounded-2xl p-8">
+            <div class="flex items-center gap-4 mb-5">
+              <div
+                class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/40 flex items-center justify-center text-3xl">
+                ⬌
+              </div>
+              <div>
+                <h3 class="font-exo text-xl font-bold text-blue-300">Eje Horizontal</h3>
+                <p class="text-sm text-gray-400">Orientación focal</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="axis-pole">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-sm font-bold text-orange-400 uppercase tracking-wide">→ Personas</span>
+                  <span class="text-xs font-mono text-orange-300 bg-orange-500/10 px-2 py-1 rounded">I-S</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                  Las personas con <strong class="text-white">Influencia (I)</strong> y <strong
+                    class="text-white">Estabilidad (S)</strong> se orientan hacia las relaciones interpersonales, la
+                  colaboración y el trabajo en equipo.
+                </p>
+              </div>
+
+              <div class="h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+
+              <div class="axis-pole">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-sm font-bold text-purple-400 uppercase tracking-wide">← Tareas</span>
+                  <span class="text-xs font-mono text-purple-300 bg-purple-500/10 px-2 py-1 rounded">D-C</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                  Las personas con <strong class="text-white">Dominancia (D)</strong> y <strong
+                    class="text-white">Cumplimiento (C)</strong> se orientan hacia los resultados, los procesos y la
+                  ejecución de tareas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Los 8 Estilos Conductuales -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-8 pb-3 border-b border-white/10">
+          Los 8 Estilos Conductuales de la Rueda DISC
+        </h2>
+
+        <p class="section-desc reveal text-gray-400 mb-8">
+          La combinación de los dos ejes genera 8 estilos conductuales distintos, cada uno con características,
+          fortalezas y necesidades específicas. Estos estilos representan los segmentos de la Rueda Success Insights.
+        </p>
+
+        <div class="styles-grid reveal grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+          <!-- CONDUCTOR -->
+          <div
+            class="style-card bg-gradient-to-br from-red-900/20 to-red-800/30 border-l-4 border-red-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-2xl">
+                🎯</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-red-300">CONDUCTOR</h4>
+                <p class="text-xs text-gray-400 font-mono">D — Alto ritmo / Orientado a tareas</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Directos, decididos y orientados a resultados. Toman el control, enfrentan desafíos con determinación y
+              actúan con urgencia para alcanzar objetivos.
+            </p>
+          </div>
+
+          <!-- PERSUASOR -->
+          <div
+            class="style-card bg-gradient-to-br from-orange-900/20 to-orange-800/30 border-l-4 border-orange-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-2xl">
+                🚀</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-orange-300">PERSUASOR</h4>
+                <p class="text-xs text-gray-400 font-mono">D/I — Alto ritmo / Balance</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Convencen apelando a la razón y las emociones. Innovadores, emprendedores y creativos en la solución de
+              problemas. Promueven cambios con energía.
+            </p>
+          </div>
+
+          <!-- PROMOTOR -->
+          <div
+            class="style-card bg-gradient-to-br from-yellow-900/20 to-yellow-800/30 border-l-4 border-yellow-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-yellow-500/20 border border-yellow-500/40 flex items-center justify-center text-2xl">
+                🌟</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-yellow-300">PROMOTOR</h4>
+                <p class="text-xs text-gray-400 font-mono">I — Alto ritmo / Orientado a personas</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Expresan lo que piensan para influir. Entusiastas, optimistas y comunicativos. Generan cohesión en equipos
+              y promueven ideas con pasión.
+            </p>
+          </div>
+
+          <!-- RELACIONADOR -->
+          <div
+            class="style-card bg-gradient-to-br from-lime-900/20 to-lime-800/30 border-l-4 border-lime-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-lime-500/20 border border-lime-500/40 flex items-center justify-center text-2xl">
+                🤗</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-lime-300">RELACIONADOR</h4>
+                <p class="text-xs text-gray-400 font-mono">I/S — Balance / Orientado a personas</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Se toman su tiempo y piensan positivamente. Sensibles, empáticos y enfocados en relaciones. Escuchan con
+              atención y ofrecen comprensión.
+            </p>
+          </div>
+
+          <!-- SOSTENEDOR -->
+          <div
+            class="style-card bg-gradient-to-br from-green-900/20 to-green-800/30 border-l-4 border-green-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-green-500/20 border border-green-500/40 flex items-center justify-center text-2xl">
+                🤝</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-green-300">SOSTENEDOR</h4>
+                <p class="text-xs text-gray-400 font-mono">S — Bajo ritmo / Orientado a personas</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Defienden ideas sólidas y trabajan diligentemente. Pacientes, leales y consistentes. Aseguran que los
+              proyectos se completen de principio a fin.
+            </p>
+          </div>
+
+          <!-- COORDINADOR -->
+          <div
+            class="style-card bg-gradient-to-br from-teal-900/20 to-teal-800/30 border-l-4 border-teal-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-2xl">
+                ⚙️</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-teal-300">COORDINADOR</h4>
+                <p class="text-xs text-gray-400 font-mono">S/C — Bajo ritmo / Balance</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Se enfocan en hechos y métodos comprobados. Disciplinados, organizados y orientados a estándares altos.
+              Mantienen sistemas de calidad vigentes.
+            </p>
+          </div>
+
+          <!-- ANALIZADOR -->
+          <div
+            class="style-card bg-gradient-to-br from-blue-900/20 to-blue-800/30 border-l-4 border-blue-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-2xl">
+                📋</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-blue-300">ANALIZADOR</h4>
+                <p class="text-xs text-gray-400 font-mono">C — Bajo ritmo / Orientado a tareas</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Buscan exactitud y los más altos niveles de calidad. Precisos, analíticos y sistemáticos. Recopilan
+              información detallada antes de actuar.
+            </p>
+          </div>
+
+          <!-- IMPLEMENTADOR -->
+          <div
+            class="style-card bg-gradient-to-br from-purple-900/20 to-purple-800/30 border-l-4 border-purple-500 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div
+                class="style-icon w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-2xl">
+                ⚡</div>
+              <div>
+                <h4 class="font-exo text-lg font-bold text-purple-300">IMPLEMENTADOR</h4>
+                <p class="text-xs text-gray-400 font-mono">C/D — Balance / Orientado a tareas</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Evalúan y aprovechan datos para llegar a soluciones. Aplicación creativos de ideas basadas en hechos.
+              Administran bien tiempo y recursos.
+            </p>
+          </div>
+        </div>
+
+        <!-- Aplicaciones del DISC -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-8 pb-3 border-b border-white/10">
+          Aplicaciones del Modelo DISC
+        </h2>
+
+        <div class="applications-grid reveal grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+          <div
+            class="app-card bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/50 transition-all">
+            <div class="text-3xl mb-3">💼</div>
+            <h4 class="font-bold text-white mb-2">Desarrollo Organizacional</h4>
+            <ul class="text-sm text-gray-400 space-y-1">
+              <li>• Selección de personal</li>
+              <li>• Formación de equipos</li>
+              <li>• Resolución de conflictos</li>
+              <li>• Planificación de sucesión</li>
+            </ul>
+          </div>
+
+          <div
+            class="app-card bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 rounded-xl p-6 hover:border-purple-500/50 transition-all">
+            <div class="text-3xl mb-3">📈</div>
+            <h4 class="font-bold text-white mb-2">Liderazgo y Gestión</h4>
+            <ul class="text-sm text-gray-400 space-y-1">
+              <li>• Estilo de liderazgo</li>
+              <li>• Delegación efectiva</li>
+              <li>• Motivación de equipos</li>
+              <li>• Comunicación estratégica</li>
+            </ul>
+          </div>
+
+          <div
+            class="app-card bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 rounded-xl p-6 hover:border-pink-500/50 transition-all">
+            <div class="text-3xl mb-3">🎯</div>
+            <h4 class="font-bold text-white mb-2">Desarrollo Personal</h4>
+            <ul class="text-sm text-gray-400 space-y-1">
+              <li>• Autoconocimiento</li>
+              <li>• Gestión de estrés</li>
+              <li>• Mejora de relaciones</li>
+              <li>• Crecimiento profesional</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Notas Importantes -->
+        <div
+          class="notes-card reveal bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border-2 border-yellow-500/40 rounded-2xl p-8 mb-8">
+          <div class="flex items-start gap-4">
+            <div class="text-4xl flex-shrink-0">⚠️</div>
+            <div class="flex-1">
+              <h3 class="text-xl font-bold text-yellow-300 mb-4">Consideraciones Importantes</h3>
+
+              <div class="space-y-4">
+                <div class="note-item">
+                  <h4 class="font-bold text-yellow-200 mb-1.5 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    No es un test de inteligencia ni aptitud
+                  </h4>
+                  <p class="text-sm text-gray-300 leading-relaxed ml-4">
+                    El DISC evalúa <strong class="text-white">tendencias conductuales</strong>, no capacidad
+                    intelectual, habilidades técnicas ni competencias profesionales. Es complementario a otras
+                    evaluaciones.
+                  </p>
+                </div>
+
+                <div class="note-item">
+                  <h4 class="font-bold text-yellow-200 mb-1.5 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    No hay perfiles "buenos" o "malos"
+                  </h4>
+                  <p class="text-sm text-gray-300 leading-relaxed ml-4">
+                    Cada estilo conductual tiene <strong class="text-white">fortalezas únicas y áreas de
+                      desarrollo</strong>. El perfil ideal depende del contexto, rol y objetivos específicos.
+                  </p>
+                </div>
+
+                <div class="note-item">
+                  <h4 class="font-bold text-yellow-200 mb-1.5 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    Refleja autopercepción en un momento específico
+                  </h4>
+                  <p class="text-sm text-gray-300 leading-relaxed ml-4">
+                    Los resultados pueden variar según <strong class="text-white">estado emocional, contexto laboral y
+                      momento de vida</strong>. Se recomienda re-evaluación periódica.
+                  </p>
+                </div>
+
+                <div class="note-item">
+                  <h4 class="font-bold text-yellow-200 mb-1.5 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    El comportamiento es modificable
+                  </h4>
+                  <p class="text-sm text-gray-300 leading-relaxed ml-4">
+                    Las personas pueden <strong class="text-white">adaptar y desarrollar nuevos patrones</strong> con
+                    autoconocimiento, práctica consciente y entrenamiento adecuado.
+                  </p>
+                </div>
+
+                <div class="note-item">
+                  <h4 class="font-bold text-yellow-200 mb-1.5 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    Se recomienda interpretación profesional
+                  </h4>
+                  <p class="text-sm text-gray-300 leading-relaxed ml-4">
+                    Para máximo aprovechamiento, complementar este informe con una <strong class="text-white">sesión de
+                      devolución con un consultor certificado</strong> en DISC.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div
+          class="footer-card reveal text-center py-8 px-7 border-t border-white/10 text-gray-400 text-sm leading-relaxed">
+          <p class="mb-2 text-base font-semibold text-gray-300">© 2026 Escencial Consultora — Todos los derechos
+            reservados</p>
+          <p class="text-xs mt-2 text-gray-500">Basado en el modelo DISC de William Moulton Marston (1928) • Método
+            Cleaver</p>
+          <p class="footer-conf text-xs mt-3 border-t border-white/5 pt-3">
+            Este informe es <strong class="text-white">confidencial</strong> y de uso exclusivo para <strong
+              class="text-white" id="footerNombre"></strong>
           </p>
         </div>
 
+      </div>
+    </section>
+
+    <!-- Section: Dimensiones DISC -->
+    <section id="sec-dimensiones" class="section hidden">
+      <div class="section-inner max-w-5xl mx-auto px-6 py-12">
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-3 pb-3 border-b border-white/10">Las 4
+          Dimensiones del Modelo DISC</h2>
+        <p class="section-desc reveal text-gray-400 mb-7">Cada persona tiene un grado variable de cada dimensión, y
+          ningún perfil es mejor o peor que otro.</p>
+        <div id="dimensionesContainer" class="space-y-6"></div>
+      </div>
+    </section>
+
+    <!-- Section: Resumen -->
+    <!-- Section: Resumen -->
+    <section id="sec-resumen" class="section active">
+      <div class="section-inner max-w-6xl mx-auto px-6 py-12">
+
+        <!-- Intro Card -->
+        <div
+          class="intro-card reveal bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-one-cyan/20 rounded-2xl p-8 mb-12 backdrop-blur-sm">
+          <div class="text-4xl mb-3">📊</div>
+          <h3 class="font-exo text-xl font-bold text-one-cyan mb-3">Resumen Ejecutivo de tu Perfil DISC</h3>
+          <p class="text-sm leading-relaxed text-gray-300 mb-2.5">
+            Este resumen presenta una visión general de tu perfil conductual basado en el <strong
+              class="text-white">Test DISC</strong>. Los resultados reflejan tus tendencias naturales hacia las cuatro
+            dimensiones fundamentales del comportamiento profesional.
+          </p>
+          <p class="text-sm leading-relaxed text-gray-300">
+            El análisis combina tu <strong class="text-white">Gráfica DISC individual</strong> (que muestra la
+            intensidad de cada dimensión) con tu <strong class="text-white">Rueda Success Insights</strong> (que
+            visualiza tu posición en el espectro conductual de 60 segmentos).
+          </p>
+        </div>
+
+        <!-- Visualizaciones principales: Gráfico + Rueda -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-3 pb-3 border-b border-white/10">Visualizaciones
+          de tu Perfil</h2>
+        <p class="section-desc reveal text-gray-400 mb-8">Representación gráfica de tus resultados DISC a través de dos
+          metodologías complementarias.</p>
+
+        <div class="main-viz-grid reveal grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+
+          <!-- Gráfica DISC del Evaluado -->
+          <div
+            class="viz-card bg-gradient-to-br from-slate-900/80 to-slate-800/80 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-exo text-xl font-bold text-white mb-1">Gráfica DISC del Evaluado</h3>
+                <p class="text-xs text-gray-400">Intensidad de cada dimensión (0-100)</p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 flex items-center justify-center text-xl">
+                📊
+              </div>
+            </div>
+
+            <!-- Gráfico de barras DISC -->
+            <div id="discBarChartContainer" class="my-6"></div>
+
+            <!-- Interpretación del gráfico de barras -->
+            <div class="interpretation-box bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 mt-6">
+              <h4 class="font-bold text-cyan-300 mb-3 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Cómo interpretar esta gráfica
+              </h4>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Altura de barras:</strong> Indica la intensidad de cada dimensión.
+                    Valores altos (>60) muestran características predominantes.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Barra más alta:</strong> Representa tu dimensión conductual
+                    dominante, la que más influye en tu comportamiento.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Combinación de barras:</strong> El patrón completo (no solo la más
+                    alta) define tu estilo único. Por ejemplo, D+I alto = Persuasor.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Valores balanceados:</strong> Si todas las barras están entre 40-60,
+                    indica versatilidad y adaptabilidad conductual.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Rueda Success Insights -->
+          <div
+            class="viz-card bg-gradient-to-br from-slate-900/80 to-slate-800/80 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-exo text-xl font-bold text-white mb-1">Rueda Success Insights</h3>
+                <p class="text-xs text-gray-400">Mapa polar de 60 posiciones conductuales</p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-orange-500/20 border border-pink-500/30 flex items-center justify-center text-xl">
+                🎯
+              </div>
+            </div>
+
+            <!-- Rueda DISC -->
+            <div class="wheel-wrapper bg-slate-950/30 rounded-xl p-4 border border-slate-700/30">
+              <svg id="ruedaSVG" viewBox="0 0 900 900" class="w-full h-auto mx-auto" style="max-width: 500px;"></svg>
+            </div>
+
+            <!-- Leyenda de marcadores -->
+            <div class="wheel-markers-legend grid grid-cols-2 gap-3 mt-4">
+              <div class="marker-item bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 flex items-center gap-2">
+                <span class="text-2xl">○</span>
+                <div class="text-xs">
+                  <div class="font-bold text-blue-300">Natural</div>
+                  <div class="text-gray-400" id="naturalCellBadge">Celda: --</div>
+                </div>
+              </div>
+              <div
+                class="marker-item bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 flex items-center gap-2">
+                <span class="text-2xl">★</span>
+                <div class="text-xs">
+                  <div class="font-bold text-purple-300">Adaptado</div>
+                  <div class="text-gray-400" id="adaptadoCellBadge">Celda: --</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interpretación de la rueda -->
+            <div class="interpretation-box bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 mt-6">
+              <h4 class="font-bold text-pink-300 mb-3 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Cómo interpretar la rueda
+              </h4>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex items-start gap-2">
+                  <span class="text-pink-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Sector de color:</strong> Define tu estilo conductual (CONDUCTOR,
+                    PROMOTOR, SOSTENEDOR, etc.) según la posición angular.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-pink-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Nivel (1-5):</strong> Indica intensidad. Nivel 1 (centro) =
+                    consistente y fuerte. Nivel 5 (externo) = flexible y adaptable.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-pink-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Natural vs Adaptado:</strong> Si ○ y ★ están cerca, tu comportamiento
+                    es estable. Si están lejos, adaptas tu conducta al entorno.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-pink-400 mt-0.5">▸</span>
+                  <span><strong class="text-white">Distancia entre marcadores:</strong> Indica el esfuerzo de
+                    adaptación. Mayor separación = mayor ajuste conductual en el trabajo.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
         <!-- Score Cards -->
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-3 pb-3 border-b border-white/10">Resultados Generales</h2>
-        <p class="section-desc reveal text-gray-400 mb-7">El test presentó 28 grupos de 4 características. Para cada grupo se seleccionó la que MÁS y la que MENOS describe al evaluado.</p>
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-3 pb-3 border-b border-white/10">Resultados
+          Cuantitativos</h2>
+        <p class="section-desc reveal text-gray-400 mb-7">El test presentó 28 grupos de 4 características. Para cada
+          grupo se seleccionó la que MÁS y la que MENOS describe al evaluado.</p>
 
         <div class="score-grid reveal grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <!-- MÁS D/I -->
-          <div class="score-card score-mas-di bg-gradient-to-br from-red-50/10 to-red-100/10 border border-red-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
+          <div
+            class="score-card score-mas-di bg-gradient-to-br from-red-50/10 to-red-100/10 border border-red-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
             <div class="absolute inset-0 opacity-5 bg-gradient-radial from-red-500 to-transparent"></div>
             <div class="score-label text-xs font-bold tracking-wider uppercase text-red-400 opacity-85">MÁS → D/I</div>
             <div class="score-sublabel text-[11px] opacity-60 mb-2 text-red-300">Activo / Extrovertido</div>
-            <div id="val-masDI" class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-red-400">0</div>
+            <div id="val-masDI"
+              class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-red-400">0</div>
             <div class="score-bar-container h-1.5 bg-black/20 rounded-full mx-auto mb-2 w-4/5 overflow-hidden">
-              <div id="bar-masDI" class="score-bar h-full rounded-full bg-red-500 w-0 transition-all duration-1000"></div>
+              <div id="bar-masDI" class="score-bar h-full rounded-full bg-red-500 w-0 transition-all duration-1000">
+              </div>
             </div>
             <div id="pct-masDI" class="score-pct font-mono text-sm font-semibold mb-1 text-red-300">0%</div>
             <div id="lvl-masDI" class="score-level text-xs font-semibold opacity-70 text-red-200"></div>
           </div>
 
           <!-- MÁS S/C -->
-          <div class="score-card score-mas-sc bg-gradient-to-br from-green-50/10 to-green-100/10 border border-green-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
+          <div
+            class="score-card score-mas-sc bg-gradient-to-br from-green-50/10 to-green-100/10 border border-green-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
             <div class="absolute inset-0 opacity-5 bg-gradient-radial from-green-500 to-transparent"></div>
-            <div class="score-label text-xs font-bold tracking-wider uppercase text-green-400 opacity-85">MÁS → S/C</div>
+            <div class="score-label text-xs font-bold tracking-wider uppercase text-green-400 opacity-85">MÁS → S/C
+            </div>
             <div class="score-sublabel text-[11px] opacity-60 mb-2 text-green-300">Reservado / Metódico</div>
-            <div id="val-masSC" class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-green-400">0</div>
+            <div id="val-masSC"
+              class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-green-400">0</div>
             <div class="score-bar-container h-1.5 bg-black/20 rounded-full mx-auto mb-2 w-4/5 overflow-hidden">
-              <div id="bar-masSC" class="score-bar h-full rounded-full bg-green-500 w-0 transition-all duration-1000"></div>
+              <div id="bar-masSC" class="score-bar h-full rounded-full bg-green-500 w-0 transition-all duration-1000">
+              </div>
             </div>
             <div id="pct-masSC" class="score-pct font-mono text-sm font-semibold mb-1 text-green-300">0%</div>
             <div id="lvl-masSC" class="score-level text-xs font-semibold opacity-70 text-green-200"></div>
           </div>
 
           <!-- MENOS D/I -->
-          <div class="score-card score-menos-di bg-gradient-to-br from-orange-50/10 to-orange-100/10 border border-orange-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
+          <div
+            class="score-card score-menos-di bg-gradient-to-br from-orange-50/10 to-orange-100/10 border border-orange-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
             <div class="absolute inset-0 opacity-5 bg-gradient-radial from-orange-500 to-transparent"></div>
-            <div class="score-label text-xs font-bold tracking-wider uppercase text-orange-400 opacity-85">MENOS → D/I</div>
+            <div class="score-label text-xs font-bold tracking-wider uppercase text-orange-400 opacity-85">MENOS → D/I
+            </div>
             <div class="score-sublabel text-[11px] opacity-60 mb-2 text-orange-300">Activo / Extrovertido</div>
-            <div id="val-menosDI" class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-orange-400">0</div>
+            <div id="val-menosDI"
+              class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-orange-400">0
+            </div>
             <div class="score-bar-container h-1.5 bg-black/20 rounded-full mx-auto mb-2 w-4/5 overflow-hidden">
-              <div id="bar-menosDI" class="score-bar h-full rounded-full bg-orange-500 w-0 transition-all duration-1000"></div>
+              <div id="bar-menosDI"
+                class="score-bar h-full rounded-full bg-orange-500 w-0 transition-all duration-1000"></div>
             </div>
             <div id="pct-menosDI" class="score-pct font-mono text-sm font-semibold mb-1 text-orange-300">0%</div>
             <div id="lvl-menosDI" class="score-level text-xs font-semibold opacity-70 text-orange-200"></div>
           </div>
 
           <!-- MENOS S/C -->
-          <div class="score-card score-menos-sc bg-gradient-to-br from-blue-50/10 to-blue-100/10 border border-blue-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
+          <div
+            class="score-card score-menos-sc bg-gradient-to-br from-blue-50/10 to-blue-100/10 border border-blue-500/30 rounded-2xl p-7 text-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl">
             <div class="absolute inset-0 opacity-5 bg-gradient-radial from-blue-500 to-transparent"></div>
-            <div class="score-label text-xs font-bold tracking-wider uppercase text-blue-400 opacity-85">MENOS → S/C</div>
+            <div class="score-label text-xs font-bold tracking-wider uppercase text-blue-400 opacity-85">MENOS → S/C
+            </div>
             <div class="score-sublabel text-[11px] opacity-60 mb-2 text-blue-300">Reservado / Metódico</div>
-            <div id="val-menosSC" class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-blue-400">0</div>
+            <div id="val-menosSC"
+              class="score-value font-exo text-6xl font-black leading-none tracking-tighter mb-3 text-blue-400">0</div>
             <div class="score-bar-container h-1.5 bg-black/20 rounded-full mx-auto mb-2 w-4/5 overflow-hidden">
-              <div id="bar-menosSC" class="score-bar h-full rounded-full bg-blue-500 w-0 transition-all duration-1000"></div>
+              <div id="bar-menosSC" class="score-bar h-full rounded-full bg-blue-500 w-0 transition-all duration-1000">
+              </div>
             </div>
             <div id="pct-menosSC" class="score-pct font-mono text-sm font-semibold mb-1 text-blue-300">0%</div>
             <div id="lvl-menosSC" class="score-level text-xs font-semibold opacity-70 text-blue-200"></div>
           </div>
         </div>
 
-        <div class="legend-card reveal bg-white/5 border border-white/10 rounded-xl p-5 text-sm text-gray-400 leading-relaxed mb-8">
-          <strong class="text-white">Lectura:</strong> 
-          <span class="inline-block px-2 py-0.5 rounded-lg bg-red-500/20 text-red-300 text-xs font-bold mx-1">MÁS D/I</span> = veces que se eligió una característica Activa como la que más describe. 
-          <span class="inline-block px-2 py-0.5 rounded-lg bg-green-500/20 text-green-300 text-xs font-bold mx-1">MÁS S/C</span> = Reservada. 
-          <span class="inline-block px-2 py-0.5 rounded-lg bg-orange-500/20 text-orange-300 text-xs font-bold mx-1">MENOS D/I</span> = veces que se rechazó una Activa. 
-          <span class="inline-block px-2 py-0.5 rounded-lg bg-blue-500/20 text-blue-300 text-xs font-bold mx-1">MENOS S/C</span> = Reservada. Cada par suma 28.
-        </div>
-
-        <!-- Charts Row -->
-        <div class="charts-row reveal grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
-          <div class="chart-container bg-white/5 border border-white/10 rounded-2xl p-7 backdrop-blur-sm">
-            <h3 class="chart-title text-xs font-bold tracking-widest uppercase text-gray-400 text-center mb-5">Distribución de Elecciones</h3>
-            <canvas id="chartBar"></canvas>
-          </div>
-          <div class="chart-container bg-white/5 border border-white/10 rounded-2xl p-7 backdrop-blur-sm">
-            <h3 class="chart-title text-xs font-bold tracking-widest uppercase text-gray-400 text-center mb-5">Perfil Radar</h3>
-            <canvas id="chartRadar"></canvas>
-          </div>
+        <div
+          class="legend-card reveal bg-white/5 border border-white/10 rounded-xl p-5 text-sm text-gray-400 leading-relaxed">
+          <strong class="text-white">Lectura:</strong>
+          <span class="inline-block px-2 py-0.5 rounded-lg bg-red-500/20 text-red-300 text-xs font-bold mx-1">MÁS
+            D/I</span> = veces que se eligió una característica Activa como la que más describe.
+          <span class="inline-block px-2 py-0.5 rounded-lg bg-green-500/20 text-green-300 text-xs font-bold mx-1">MÁS
+            S/C</span> = Reservada.
+          <span
+            class="inline-block px-2 py-0.5 rounded-lg bg-orange-500/20 text-orange-300 text-xs font-bold mx-1">MENOS
+            D/I</span> = veces que se rechazó una Activa.
+          <span class="inline-block px-2 py-0.5 rounded-lg bg-blue-500/20 text-blue-300 text-xs font-bold mx-1">MENOS
+            S/C</span> = Reservada. Cada par suma 28.
         </div>
 
       </div>
     </section>
 
     <!-- Section: Análisis -->
+    <!-- Section: Análisis -->
     <section id="sec-analisis" class="section hidden">
       <div class="section-inner max-w-5xl mx-auto px-6 py-12">
 
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Tabla de Puntuaciones</h2>
-        <div class="table-wrap reveal overflow-x-auto mb-5 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
+        <!-- Intro interpretativa -->
+        <div
+          class="analysis-intro reveal bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-2xl p-8 mb-12 backdrop-blur-sm">
+          <div class="text-4xl mb-3">🔍</div>
+          <h3 class="font-exo text-xl font-bold text-purple-300 mb-3">Análisis Interpretativo de tu Perfil</h3>
+          <p class="text-sm leading-relaxed text-gray-300">
+            Esta sección traduce tus puntuaciones DISC en <strong class="text-white">conclusiones concretas sobre tu
+              estilo conductual</strong>. No solo muestra los números, sino que explica qué significan para ti en
+            términos de comportamiento, preferencias y tendencias naturales.
+          </p>
+        </div>
+
+        <!-- Interpretación del Perfil Dominante -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Tu Perfil
+          Conductual Dominante</h2>
+
+        <div id="perfilDominanteCard" class="profile-dominant-card reveal rounded-2xl p-8 mb-10 border-l-4">
+          <!-- Se llenará dinámicamente con JavaScript -->
+        </div>
+
+        <!-- Tabla de Puntuaciones con Interpretación -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Desglose de
+          Puntuaciones</h2>
+        <div
+          class="table-wrap reveal overflow-x-auto mb-5 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
           <table class="data-table w-full text-sm" id="tablaPuntuaciones">
             <thead class="bg-gradient-to-r from-navy via-teal to-navy">
               <tr>
-                <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-left">Eje Conductual</th>
+                <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-left">Eje Conductual
+                </th>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">MÁS</th>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">%</th>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">Nivel MÁS</th>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">MENOS</th>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">%</th>
-                <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">Nivel MENOS</th>
+                <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">Nivel MENOS
+                </th>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-center">Neto</th>
               </tr>
             </thead>
@@ -255,12 +879,9 @@
           </table>
         </div>
 
-        <div class="help-card reveal bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-5 text-sm text-yellow-100 leading-relaxed mb-8">
-          <strong class="text-yellow-300">¿Cómo leer la tabla?</strong> "MÁS" indica cuántas veces se eligieron características de ese eje como las que más describen. "MENOS" cuántas veces se rechazaron. El "Neto" (MÁS − MENOS) indica la tendencia resultante.
-        </div>
-
-        <!-- Consistencia -->
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Análisis de Consistencia</h2>
+        <!-- Análisis de Consistencia -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Consistencia del
+          Perfil</h2>
         <div class="consistency-card reveal rounded-2xl p-8 mb-6 border-l-4" id="consistenciaCard">
           <h3 id="consistenciaTitulo" class="font-exo text-xl font-bold mb-3"></h3>
           <p id="consistenciaTexto" class="text-sm leading-relaxed text-gray-300"></p>
@@ -270,67 +891,184 @@
           </div>
         </div>
 
-        <p class="section-desc reveal text-gray-400 mb-8">La consistencia indica si las elecciones de "MÁS" y "MENOS" son complementarias. Un perfil consistente refleja claridad en la autopercepción.</p>
-
-        <!-- Interpretación MÁS -->
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Interpretación: "MÁS me describe"</h2>
-        <div class="interp-note interp-mas reveal bg-red-500/10 border-l-4 border-red-500 px-5 py-3.5 rounded-lg text-sm font-semibold text-red-200 mb-4">
-          La selección "MÁS" refleja las características con las que el evaluado se identifica activamente.
+        <!-- Interpretación MÁS: Explicación específica -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Análisis: "MÁS
+          me describe"</h2>
+        <div
+          class="interp-note interp-mas reveal bg-red-500/10 border-l-4 border-red-500 px-5 py-3.5 rounded-lg text-sm font-semibold text-red-200 mb-6">
+          Las características que elegiste como "MÁS" revelan tu identidad conductual natural y tus preferencias
+          espontáneas.
         </div>
-        <div class="interp-card reveal bg-white/5 border border-white/10 rounded-xl p-6 mb-4 border-l-4 flex flex-col sm:flex-row justify-between items-start gap-5" id="interpMasDI"></div>
-        <div class="interp-card reveal bg-white/5 border border-white/10 rounded-xl p-6 mb-4 border-l-4 flex flex-col sm:flex-row justify-between items-start gap-5" id="interpMasSC"></div>
 
-        <!-- Interpretación MENOS -->
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Interpretación: "MENOS me describe"</h2>
-        <div class="interp-note interp-menos reveal bg-blue-500/10 border-l-4 border-blue-500 px-5 py-3.5 rounded-lg text-sm font-semibold text-blue-200 mb-4">
-          La selección "MENOS" refleja las características que el evaluado rechaza o con las que menos se identifica.
+        <div id="interpMasDI" class="interp-card-analysis reveal mb-6"></div>
+        <div id="interpMasSC" class="interp-card-analysis reveal mb-6"></div>
+
+        <!-- Interpretación MENOS: Explicación específica -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Análisis: "MENOS
+          me describe"</h2>
+        <div
+          class="interp-note interp-menos reveal bg-blue-500/10 border-l-4 border-blue-500 px-5 py-3.5 rounded-lg text-sm font-semibold text-blue-200 mb-6">
+          Las características que rechazaste como "MENOS" indican conductas que te resultan incómodas o poco naturales.
         </div>
-        <div class="interp-card reveal bg-white/5 border border-white/10 rounded-xl p-6 mb-4 border-l-4 flex flex-col sm:flex-row justify-between items-start gap-5" id="interpMenosDI"></div>
-        <div class="interp-card reveal bg-white/5 border border-white/10 rounded-xl p-6 mb-4 border-l-4 flex flex-col sm:flex-row justify-between items-start gap-5" id="interpMenosSC"></div>
 
-        <!-- Comparativa P1 vs P2 -->
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Comparativa: Parte I vs Parte II</h2>
-        <p class="section-desc reveal text-gray-400 mb-5"><em>La Parte I (1-14) presenta características en contexto positivo. La Parte II (15-28) incluye características bajo presión. Comparar ambas permite identificar estabilidad del perfil.</em></p>
-        <div class="table-wrap reveal overflow-x-auto mb-5 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
+        <div id="interpMenosDI" class="interp-card-analysis reveal mb-6"></div>
+        <div id="interpMenosSC" class="interp-card-analysis reveal mb-6"></div>
+
+        <!-- Comparativa P1 vs P2 con interpretación -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">Estabilidad del
+          Perfil: Parte I vs Parte II</h2>
+        <p class="section-desc reveal text-gray-400 mb-5">
+          La Parte I refleja tus <strong class="text-white">fortalezas naturales</strong>. La Parte II refleja tu
+          comportamiento <strong class="text-white">bajo presión</strong>. Comparar ambas revela si tu perfil es estable
+          o si modificas tu conducta en situaciones exigentes.
+        </p>
+
+        <div
+          class="table-wrap reveal overflow-x-auto mb-5 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
           <table class="data-table w-full text-sm" id="tablaPartes">
             <thead class="bg-gradient-to-r from-navy via-teal to-navy">
               <tr>
                 <th class="px-4 py-3.5 text-white text-xs font-bold uppercase tracking-wide text-left">Parte</th>
-                <th class="c-di-mas px-4 py-3.5 text-red-300 text-xs font-bold uppercase tracking-wide text-center">MÁS D/I</th>
-                <th class="c-sc-mas px-4 py-3.5 text-green-300 text-xs font-bold uppercase tracking-wide text-center">MÁS S/C</th>
-                <th class="c-di-menos px-4 py-3.5 text-orange-300 text-xs font-bold uppercase tracking-wide text-center">MENOS D/I</th>
-                <th class="c-sc-menos px-4 py-3.5 text-blue-300 text-xs font-bold uppercase tracking-wide text-center">MENOS S/C</th>
+                <th class="c-di-mas px-4 py-3.5 text-red-300 text-xs font-bold uppercase tracking-wide text-center">MÁS
+                  D/I</th>
+                <th class="c-sc-mas px-4 py-3.5 text-green-300 text-xs font-bold uppercase tracking-wide text-center">
+                  MÁS S/C</th>
+                <th
+                  class="c-di-menos px-4 py-3.5 text-orange-300 text-xs font-bold uppercase tracking-wide text-center">
+                  MENOS D/I</th>
+                <th class="c-sc-menos px-4 py-3.5 text-blue-300 text-xs font-bold uppercase tracking-wide text-center">
+                  MENOS S/C</th>
               </tr>
             </thead>
             <tbody id="tbodyPartes"></tbody>
           </table>
         </div>
-        <div class="help-card reveal bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-5 text-sm text-yellow-100 leading-relaxed">
-          <strong class="text-yellow-300">Interpretación:</strong> Si los valores de ambas partes son similares, el perfil es estable. Si hay diferencias significativas, la persona modifica su comportamiento según las circunstancias.
+
+        <!-- Interpretación de la comparativa -->
+        <div id="interpretacionPartes"
+          class="interpretation-parts reveal bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 rounded-xl p-7">
+          <!-- Se llenará dinámicamente -->
+        </div>
+
+        <!-- Implicaciones Prácticas -->
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10 mt-12">
+          Implicaciones Prácticas de tu Perfil</h2>
+
+        <div class="implications-grid reveal grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <!-- Fortalezas -->
+          <div id="fortalezasCard"
+            class="implication-card bg-gradient-to-br from-green-900/20 to-emerald-900/20 border border-green-500/30 rounded-xl p-7">
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-lg bg-green-500/20 border border-green-500/40 flex items-center justify-center text-2xl">
+                💪</div>
+              <h3 class="font-exo text-lg font-bold text-green-300">Tus Fortalezas Naturales</h3>
+            </div>
+            <ul id="fortalezasList" class="space-y-2 text-sm text-gray-300">
+              <!-- Se llenará dinámicamente -->
+            </ul>
+          </div>
+
+          <!-- Áreas de Atención -->
+          <div id="atencionCard"
+            class="implication-card bg-gradient-to-br from-orange-900/20 to-red-900/20 border border-orange-500/30 rounded-xl p-7">
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-lg bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-2xl">
+                ⚠️</div>
+              <h3 class="font-exo text-lg font-bold text-orange-300">Áreas de Atención</h3>
+            </div>
+            <ul id="atencionList" class="space-y-2 text-sm text-gray-300">
+              <!-- Se llenará dinámicamente -->
+            </ul>
+          </div>
+
+          <!-- Estilo de Comunicación Preferido -->
+          <div id="comunicacionCard"
+            class="implication-card bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-7">
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-2xl">
+                💬</div>
+              <h3 class="font-exo text-lg font-bold text-blue-300">Cómo Comunicarte con Esta Persona</h3>
+            </div>
+            <ul id="comunicacionList" class="space-y-2 text-sm text-gray-300">
+              <!-- Se llenará dinámicamente -->
+            </ul>
+          </div>
+
+          <!-- Entorno Ideal -->
+          <div id="entornoCard"
+            class="implication-card bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-xl p-7">
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-2xl">
+                🏢</div>
+              <h3 class="font-exo text-lg font-bold text-purple-300">Entorno de Trabajo Ideal</h3>
+            </div>
+            <ul id="entornoList" class="space-y-2 text-sm text-gray-300">
+              <!-- Se llenará dinámicamente -->
+            </ul>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- Section: Dimensiones DISC -->
-    <section id="sec-dimensiones" class="section hidden">
+
+
+    <!-- Section: Rueda Success Insights -->
+    <!-- <section id="sec-rueda" class="section hidden">
       <div class="section-inner max-w-5xl mx-auto px-6 py-12">
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-3 pb-3 border-b border-white/10">Las 4 Dimensiones del Modelo DISC</h2>
-        <p class="section-desc reveal text-gray-400 mb-7">Cada persona tiene un grado variable de cada dimensión, y ningún perfil es mejor o peor que otro.</p>
-        <div id="dimensionesContainer" class="space-y-6"></div>
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-7 pb-3 border-b border-white/10">
+          Rueda Success Insights
+        </h2>
+
+        <div
+          class="wheel-info reveal bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-one-cyan/20 rounded-2xl p-8 mb-8 backdrop-blur-sm">
+          <div class="text-4xl mb-3">🎯</div>
+          <h3 class="font-exo text-xl font-bold text-one-cyan mb-3">Mapa Conductual Polar</h3>
+          <p class="text-sm leading-relaxed text-gray-300 mb-2.5">
+            La rueda Success Insights muestra tu perfil conductual en un mapa polar de 60 posiciones organizadas en 5
+            niveles de intensidad. Cada sector representa uno de los 8 estilos conductuales DISC.
+          </p>
+          <p class="text-sm leading-relaxed text-gray-300">
+            <strong class="text-white">○ Natural:</strong> Tu estilo innato (Parte I).
+            <strong class="text-white">★ Adaptado:</strong> Tu estilo en el entorno laboral (Parte II).
+            La separación entre ambos indica el nivel de adaptación conductual.
+          </p>
+        </div>
+
+        <div class="wheel-container reveal bg-white/5 border border-white/10 rounded-2xl p-7 backdrop-blur-sm">
+          <svg id="ruedaSVG" viewBox="0 0 900 900" class="w-full h-auto mx-auto" style="max-width: 800px;"></svg>
+        </div>
+
+        <div class="wheel-legend reveal mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="legend-card bg-white/5 border border-white/10 rounded-xl p-5">
+            <h4 class="font-bold text-white mb-2">Perfil Natural <span class="text-2xl">○</span></h4>
+            <div class="text-sm text-gray-300" id="naturalInfo">Cargando...</div>
+          </div>
+          <div class="legend-card bg-white/5 border border-white/10 rounded-xl p-5">
+            <h4 class="font-bold text-white mb-2">Perfil Adaptado <span class="text-2xl">★</span></h4>
+            <div class="text-sm text-gray-300" id="adaptadoInfo">Cargando...</div>
+          </div>
+        </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- Section: Detalle -->
     <section id="sec-detalle" class="section hidden">
       <div class="section-inner max-w-6xl mx-auto px-6 py-12">
-        <h2 class="section-title reveal font-exo text-3xl font-bold mb-9 pb-3 border-b border-white/10">Detalle Pregunta por Pregunta</h2>
+        <h2 class="section-title reveal font-exo text-3xl font-bold mb-9 pb-3 border-b border-white/10">Detalle Pregunta
+          por Pregunta</h2>
 
         <h3 class="part-title reveal font-exo text-lg font-bold mb-3.5 flex items-center gap-3">
-          📋 Parte I — Preguntas 1-14 
-          <span class="part-badge part-badge-1 text-xs font-bold px-3 py-1 rounded-xl bg-blue-500/20 text-blue-300 tracking-wide">Fortalezas</span>
+          📋 Parte I — Preguntas 1-14
+          <span
+            class="part-badge part-badge-1 text-xs font-bold px-3 py-1 rounded-xl bg-blue-500/20 text-blue-300 tracking-wide">Fortalezas</span>
         </h3>
-        <div class="table-wrap reveal overflow-x-auto mb-8 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
+        <div
+          class="table-wrap reveal overflow-x-auto mb-8 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
           <table class="detail-table w-full text-sm">
             <thead class="bg-gradient-to-r from-navy via-teal to-navy">
               <tr>
@@ -348,10 +1086,13 @@
         </div>
 
         <h3 class="part-title reveal font-exo text-lg font-bold mb-3.5 flex items-center gap-3">
-          📋 Parte II — Preguntas 15-28 
-          <span class="part-badge part-badge-2 text-xs font-bold px-3 py-1 rounded-xl bg-green-500/20 text-green-300 tracking-wide">Bajo Presión</span>
+          📋 Parte II — Preguntas 15-28
+          <span
+            class="part-badge part-badge-2 text-xs font-bold px-3 py-1 rounded-xl bg-green-500/20 text-green-300 tracking-wide">Bajo
+            Presión</span>
         </h3>
-        <div class="table-wrap reveal overflow-x-auto mb-6 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
+        <div
+          class="table-wrap reveal overflow-x-auto mb-6 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm">
           <table class="detail-table w-full text-sm">
             <thead class="bg-gradient-to-r from-navy via-teal to-navy">
               <tr>
@@ -368,61 +1109,47 @@
           </table>
         </div>
 
-        <div class="legend-card reveal bg-white/5 border border-white/10 rounded-xl p-5 text-sm text-gray-400 leading-relaxed">
-          <strong class="text-white">Leyenda:</strong> Cada fila muestra los 4 adjetivos del grupo. 
-          <span class="inline-block px-2 py-0.5 rounded-lg bg-red-500/20 text-red-300 text-xs font-bold mx-1">D/I</span> = activo/extrovertido, 
-          <span class="inline-block px-2 py-0.5 rounded-lg bg-green-500/20 text-green-300 text-xs font-bold mx-1">S/C</span> = reservado/metódico.
+        <div
+          class="legend-card reveal bg-white/5 border border-white/10 rounded-xl p-5 text-sm text-gray-400 leading-relaxed">
+          <strong class="text-white">Leyenda:</strong> Cada fila muestra los 4 adjetivos del grupo.
+          <span class="inline-block px-2 py-0.5 rounded-lg bg-red-500/20 text-red-300 text-xs font-bold mx-1">D/I</span>
+          = activo/extrovertido,
+          <span
+            class="inline-block px-2 py-0.5 rounded-lg bg-green-500/20 text-green-300 text-xs font-bold mx-1">S/C</span>
+          = reservado/metódico.
         </div>
       </div>
     </section>
 
-    <!-- Section: Acerca del Test -->
-    <section id="sec-acerca" class="section hidden">
-      <div class="section-inner max-w-5xl mx-auto px-6 py-12">
-        <div class="about-card reveal bg-gradient-to-br from-navy via-teal/30 to-navy rounded-3xl p-11 mb-7 backdrop-blur-sm">
-          <h2 class="font-exo text-3xl font-bold text-white mb-5">Sobre el Test DISC</h2>
-          <p class="text-sm leading-relaxed text-white/85 mb-3.5">
-            El <strong>modelo DISC</strong> fue desarrollado por el psicólogo <strong>William Moulton Marston</strong> en 1928 en su obra "Emotions of Normal People". Marston propuso que el comportamiento observable puede clasificarse en cuatro dimensiones: <strong>Dominancia (D)</strong>, <strong>Influencia (I)</strong>, <strong>Estabilidad (S)</strong> y <strong>Cumplimiento (C)</strong>.
-          </p>
-          <p class="text-sm leading-relaxed text-white/85 mb-3.5">
-            Esta versión utiliza el <strong>Método Cleaver</strong> (Self Description), que presenta 28 grupos de 4 características. En cada grupo, la persona selecciona la que MÁS la describe y la que MENOS la describe.
-          </p>
-          <p class="text-sm leading-relaxed text-white/85 mb-3.5">
-            El DISC no es un test de inteligencia ni de aptitud; es un instrumento de evaluación conductual. No existen perfiles "buenos" o "malos": cada configuración tiene fortalezas y áreas de desarrollo.
-          </p>
-          <p class="text-sm leading-relaxed text-white/85">
-            El modelo organiza las 4 dimensiones en dos ejes: el eje <strong>vertical (Activo vs Pasivo)</strong> y el eje <strong>horizontal (Tareas vs Personas)</strong>. El instrumento cuenta con amplia validación internacional.
-          </p>
-        </div>
 
-        <div class="notes-card reveal bg-yellow-900/20 border-2 border-yellow-500/40 rounded-2xl p-7 mb-7">
-          <h3 class="text-lg font-bold text-yellow-300 mb-3.5">⚠️ Notas Importantes</h3>
-          <p class="text-sm leading-relaxed text-gray-300 mb-2.5">
-            Este informe refleja la <strong class="text-white">autopercepción</strong> del evaluado al momento del test. Los resultados pueden variar según el estado emocional y el contexto.
-          </p>
-          <p class="text-sm leading-relaxed text-gray-300 mb-2.5">
-            El perfil DISC describe <strong class="text-white">tendencias conductuales</strong>, no rasgos fijos. Las personas pueden modificar su comportamiento con autoconocimiento y práctica.
-          </p>
-          <p class="text-sm leading-relaxed text-gray-300">
-            No existe un perfil "ideal" universal. Se recomienda complementar con una <strong class="text-white">entrevista de devolución</strong> profesional.
-          </p>
-        </div>
 
-        <div class="footer-card reveal text-center py-7 px-7 border-t border-white/10 text-gray-400 text-sm leading-relaxed">
-          <p class="mb-1">© 2026 Escencial Consultora — Todos los derechos reservados</p>
-          <p class="footer-conf text-xs mt-1">Este informe es confidencial y de uso exclusivo para <strong class="text-white" id="footerNombre"></strong></p>
-        </div>
-      </div>
-    </section>
 
     <!-- Botón Volver al Panel -->
-    <a href="../Userboard/index.html" class="btn-back fixed top-4 left-4 z-[200] inline-flex items-center gap-1.5 px-5 py-2.5 bg-white/95 text-teal rounded-full border border-white/20 text-sm font-semibold backdrop-blur-lg transition-all hover:bg-teal hover:text-white hover:shadow-2xl hover:-translate-y-0.5" title="Volver al panel">
+    <a href="../Userboard/index.html"
+      class="btn-back fixed top-4 left-4 z-[200] inline-flex items-center gap-1.5 px-5 py-2.5 bg-white/95 text-teal rounded-full border border-white/20 text-sm font-semibold backdrop-blur-lg transition-all hover:bg-teal hover:text-white hover:shadow-2xl hover:-translate-y-0.5"
+      title="Volver al panel">
       ← Volver al Panel
     </a>
 
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <!-- D3 PRIMERO -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+
+  <!-- jsPDF para generación de PDF -->
+  <!-- jsPDF para generación de PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Módulos DISC -->
+  <script src="./discToWheel.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script> -->
+  <script src="./ruedaSuccessInsights5niveles.js"></script>
+  <script src="./discBarChart.js"></script>
+
+  <script src="./pdfGenerator.js"></script>
+  <!-- Script principal -->
   <script src="./script.js"></script>
+
+
 </body>
+
 </html>
