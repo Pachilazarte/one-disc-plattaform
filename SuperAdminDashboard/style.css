@@ -20,7 +20,16 @@
 
 /* Utility classes */
 .hidden {
-    display: none !important;
+    display: none;
+}
+
+/* Override hidden specifically for modals when shown via inline style */
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-overlay[style*="display: flex"] {
+    display: flex !important;
 }
 
 .flex-between {
@@ -59,8 +68,63 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
+}
+
+/* Action button icons */
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.7);
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+}
+
+.btn-action-edit {
+    border-color: rgba(107,225,227,0.25);
+}
+.btn-action-edit:hover {
+    background: rgba(107,225,227,0.15);
+    border-color: rgba(107,225,227,0.5);
+    color: #6be1e3;
+}
+
+.btn-action-deactivate {
+    border-color: rgba(239,68,68,0.25);
+}
+.btn-action-deactivate:hover {
+    background: rgba(239,68,68,0.15);
+    border-color: rgba(239,68,68,0.5);
+    color: #ef4444;
+}
+
+.btn-action-activate {
+    border-color: rgba(34,197,94,0.25);
+}
+.btn-action-activate:hover {
+    background: rgba(34,197,94,0.15);
+    border-color: rgba(34,197,94,0.5);
+    color: #22c55e;
+}
+
+.btn-action-reset {
+    border-color: rgba(234,179,8,0.25);
+}
+.btn-action-reset:hover {
+    background: rgba(234,179,8,0.15);
+    border-color: rgba(234,179,8,0.5);
+    color: #eab308;
 }
 
 /* Button small variant */
@@ -71,7 +135,7 @@
 
 /* Table styling improvements */
 .table tbody tr {
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .table tbody tr:nth-child(odd) {
@@ -83,7 +147,7 @@
 }
 
 .table tbody tr:hover {
-    background-color: rgba(107, 225, 227, 0.1);
+    background-color: rgba(107, 225, 227, 0.08);
 }
 
 .table tbody td {
@@ -96,7 +160,64 @@
     font-weight: 700;
 }
 
-/* Responsive helpers */
+/* ============================================================
+   MODALES
+   ============================================================ */
+.modal-overlay {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.modal-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-overlay .modal-content {
+    transform: scale(0.92) translateY(16px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.modal-overlay.modal-visible .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* ============================================================
+   TOAST NOTIFICATIONS
+   ============================================================ */
+.toast-item {
+    min-width: 280px;
+    max-width: 420px;
+    animation: toast-shadow 0.3s ease forwards;
+}
+
+@keyframes toast-shadow {
+    to {
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+}
+
+/* ============================================================
+   PASSWORD VISIBILITY
+   ============================================================ */
+.pass-text {
+    min-width: 80px;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   SEARCH INPUT
+   ============================================================ */
+#searchInput::placeholder {
+    font-size: 0.8125rem;
+}
+
+/* ============================================================
+   Responsive helpers
+   ============================================================ */
 @media (max-width: 640px) {
     .dashboard-header .flex-between {
         flex-direction: column;
@@ -113,5 +234,10 @@
     
     .table-responsive {
         overflow-x: auto;
+    }
+
+    .btn-action {
+        width: 30px;
+        height: 30px;
     }
 }

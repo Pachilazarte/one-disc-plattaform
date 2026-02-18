@@ -81,13 +81,13 @@
         <div id="loadingContainer" class="hidden"></div>
 
         <!-- Stats Cards -->
-        <div class="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Total Users -->
             <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500/10 to-green-600/10 border border-green-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
                 <div class="absolute inset-0 bg-gradient-radial from-green-500/5 to-transparent opacity-50"></div>
                 <div class="relative flex items-center gap-4">
-                    <div class="stat-icon w-16 h-16 rounded-xl bg-green-500/20 flex items-center justify-center">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                    <div class="stat-icon w-14 h-14 rounded-xl bg-green-500/20 flex items-center justify-center">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                             <circle cx="9" cy="7" r="4"/>
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -95,8 +95,27 @@
                         </svg>
                     </div>
                     <div class="stat-info">
-                        <h3 id="totalUsers" class="text-4xl font-black text-green-400">0</h3>
-                        <p class="text-sm text-gray-400 mt-1">Usuarios Totales</p>
+                        <h3 id="totalUsers" class="text-3xl font-black text-green-400">0</h3>
+                        <p class="text-xs text-gray-400 mt-1">Usuarios Totales</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Users -->
+            <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-radial from-cyan-500/5 to-transparent opacity-50"></div>
+                <div class="relative flex items-center gap-4">
+                    <div class="stat-icon w-14 h-14 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <line x1="19" y1="8" x2="19" y2="14"/>
+                            <line x1="22" y1="11" x2="16" y2="11"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="activeUsers" class="text-3xl font-black text-cyan-400">0</h3>
+                        <p class="text-xs text-gray-400 mt-1">Activos</p>
                     </div>
                 </div>
             </div>
@@ -105,15 +124,15 @@
             <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/10 to-orange-600/10 border border-orange-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
                 <div class="absolute inset-0 bg-gradient-radial from-orange-500/5 to-transparent opacity-50"></div>
                 <div class="relative flex items-center gap-4">
-                    <div class="stat-icon w-16 h-16 rounded-xl bg-orange-500/20 flex items-center justify-center">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2">
+                    <div class="stat-icon w-14 h-14 rounded-xl bg-orange-500/20 flex items-center justify-center">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2">
                             <circle cx="12" cy="12" r="10"/>
                             <polyline points="12 6 12 12 16 14"/>
                         </svg>
                     </div>
                     <div class="stat-info">
-                        <h3 id="pendingUsers" class="text-4xl font-black text-orange-400">0</h3>
-                        <p class="text-sm text-gray-400 mt-1">Pendientes de Test</p>
+                        <h3 id="pendingUsers" class="text-3xl font-black text-orange-400">0</h3>
+                        <p class="text-xs text-gray-400 mt-1">Pendientes Test</p>
                     </div>
                 </div>
             </div>
@@ -122,18 +141,17 @@
             <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
                 <div class="absolute inset-0 bg-gradient-radial from-blue-500/5 to-transparent opacity-50"></div>
                 <div class="relative flex items-center gap-4">
-                    <div class="stat-icon w-16 h-16 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                    <div class="stat-icon w-14 h-14 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                             <polyline points="14 2 14 8 20 8"/>
                             <line x1="16" y1="13" x2="8" y2="13"/>
                             <line x1="16" y1="17" x2="8" y2="17"/>
-                            <polyline points="10 9 9 9 8 9"/>
                         </svg>
                     </div>
                     <div class="stat-info">
-                        <h3 id="completedTests" class="text-4xl font-black text-blue-400">0</h3>
-                        <p class="text-sm text-gray-400 mt-1">Tests Completados</p>
+                        <h3 id="completedTests" class="text-3xl font-black text-blue-400">0</h3>
+                        <p class="text-xs text-gray-400 mt-1">Tests Completados</p>
                     </div>
                 </div>
             </div>
@@ -163,15 +181,14 @@
                                    placeholder="Contraseña" 
                                    required>
                             <button type="button" 
-                                    onclick="togglePassword()" 
+                                    onclick="toggleInputPassword('userPassword', this)" 
                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-one-cyan transition-colors">
-                                <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
                                 </svg>
-                                <svg id="eyeOffIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
-                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                                <svg class="eye-closed hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
                                     <line x1="1" y1="1" x2="23" y2="23"/>
                                 </svg>
                             </button>
@@ -219,29 +236,50 @@
 
         <!-- Tabla de Usuarios -->
         <div class="card rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 backdrop-blur-xl overflow-hidden">
-            <div class="card-header px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10 flex-between flex flex-col sm:flex-row justify-between items-center gap-4">
-                <h3 class="card-title font-exo text-lg font-bold">Mis Usuarios</h3>
-                <button class="btn btn-outline px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold flex items-center gap-2" 
-                        onclick="loadUsers()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="23 4 23 10 17 10"/>
-                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                    </svg>
-                    Actualizar
-                </button>
+            <div class="card-header px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h3 class="card-title font-exo text-lg font-bold">Mis Usuarios</h3>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                        <!-- Barra de búsqueda -->
+                        <div class="relative flex-1 sm:flex-initial">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" 
+                                   id="searchInput" 
+                                   class="w-full sm:w-64 pl-10 pr-4 py-2 rounded-full bg-black/40 border border-white/15 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-sm text-white placeholder-gray-500" 
+                                   placeholder="Buscar por usuario o email..."
+                                   oninput="filterUsers()">
+                        </div>
+                        <button class="btn btn-outline px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold flex items-center justify-center gap-2" 
+                                onclick="loadUsers()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 4 23 10 17 10"/>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                            </svg>
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="table-responsive overflow-x-auto">
                 <table class="table w-full">
                     <thead class="bg-gradient-to-r from-one-ink via-one-pink/20 to-one-ink">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">User</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Pass_User</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Email_User</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Usuario</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Email</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Contraseña</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Nombre</th>
+                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">Estado</th>
+                            <!-- ✅ Nueva columna: Test -->
+                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">Test</th>
+                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">
                         <tr>
-                            <td colspan="3" class="px-6 py-8 text-center text-gray-400">Cargando datos...</td>
+                            <td colspan="7" class="px-6 py-8 text-center text-gray-400">Cargando datos...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -249,107 +287,99 @@
         </div>
     </main>
 
-    <script src="./script.js"></script>
-    <script>
-        /* ── Toggle password visibility ── */
-        function togglePassword() {
-            const input = document.getElementById('userPassword');
-            const eyeOn = document.getElementById('eyeIcon');
-            const eyeOff = document.getElementById('eyeOffIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                eyeOn.classList.add('hidden');
-                eyeOff.classList.remove('hidden');
-            } else {
-                input.type = 'password';
-                eyeOn.classList.remove('hidden');
-                eyeOff.classList.add('hidden');
-            }
-        }
-
-        /* ── Botón con estado loading visual ── */
-        (function() {
-            const form = document.getElementById('newUserForm');
-            const btn  = document.getElementById('btnCrearUsuario');
-            const txtN = document.getElementById('btnCrearTexto');
-            const txtL = document.getElementById('btnCrearLoading');
-
-            function setLoading(on) {
-                btn.disabled = on;
-                txtN.classList.toggle('hidden', on);
-                txtL.classList.toggle('hidden', !on);
-            }
-
-            form.addEventListener('submit', function() {
-                setLoading(true);
-            });
-
-            // Restaurar cuando loadingContainer vuelve a hidden
-            const lc = document.getElementById('loadingContainer');
-            if (lc) {
-                new MutationObserver(function() {
-                    if (lc.classList.contains('hidden')) setLoading(false);
-                }).observe(lc, { attributes: true, attributeFilter: ['class'] });
-            }
-
-            // Fallback 15s
-            form.addEventListener('submit', function() {
-                setTimeout(function() { setLoading(false); }, 15000);
-            });
-        })();
-
-        /* ── Override modal credenciales → tema oscuro ── */
-        showCredentialsModal = function(usuario, password, email) {
-            const overlay = document.createElement('div');
-            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeIn .2s ease';
-            overlay.innerHTML = `
-                <div style="background:linear-gradient(145deg,#1e1b23,#2a2730);border:1px solid rgba(107,225,227,0.2);border-radius:20px;padding:32px;max-width:480px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 50px rgba(107,225,227,0.06);animation:scaleIn .25s ease">
-                    
-                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-                        <div style="width:40px;height:40px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        </div>
-                        <h3 style="margin:0;font-family:'Exo 2',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;">Usuario Creado</h3>
+    <!-- Modal de Editar Usuario -->
+    <div id="editModal" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeEditModal()"></div>
+        <div class="modal-content relative w-full max-w-lg rounded-2xl bg-gradient-to-br from-one-ink to-black border border-white/15 backdrop-blur-xl shadow-2xl overflow-hidden transform transition-all">
+            <div class="px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10 flex items-center justify-between">
+                <h3 class="font-exo text-lg font-bold">Editar Usuario</h3>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="editUserForm" class="p-6">
+                <input type="hidden" id="editOriginalUsuario">
+                <div class="space-y-4">
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Usuario <span class="text-gray-500 text-xs">(identificador único, no editable)</span></label>
+                        <input type="text" id="editUsuario" readonly
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 text-gray-400 cursor-not-allowed transition-all" tabindex="-1">
                     </div>
-
-                    <div style="background:rgba(107,225,227,0.04);border:1.5px dashed rgba(107,225,227,0.2);border-radius:14px;padding:4px 18px;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
-                            <span style="font-weight:600;color:#a4a8c0;font-size:0.9rem;">Usuario</span>
-                            <code style="font-family:'Courier New',monospace;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:8px;color:#6be1e3;border:1px solid rgba(107,225,227,0.15);font-size:0.9rem;">${usuario}</code>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
-                            <span style="font-weight:600;color:#a4a8c0;font-size:0.9rem;">Contraseña</span>
-                            <code style="font-family:'Courier New',monospace;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:8px;color:#e17bd7;border:1px solid rgba(225,123,215,0.15);font-size:0.9rem;">${password}</code>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;">
-                            <span style="font-weight:600;color:#a4a8c0;font-size:0.9rem;">Email</span>
-                            <code style="font-family:'Courier New',monospace;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:8px;color:#e4c76a;border:1px solid rgba(228,199,106,0.15);font-size:0.9rem;">${email}</code>
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Email</label>
+                        <input type="email" id="editEmail" 
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Nombre Completo</label>
+                        <input type="text" id="editNombre" 
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Nueva Contraseña <span class="text-gray-500 text-xs">(dejar vacío para no cambiar)</span></label>
+                        <div class="relative">
+                            <input type="password" id="editPassword" 
+                                   class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white pr-12" 
+                                   placeholder="••••••••">
+                            <button type="button" onclick="toggleInputPassword('editPassword', this)" 
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-one-cyan transition-colors">
+                                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-closed hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-
-                    <p style="color:#a4a8c0;font-size:0.85rem;margin:18px 0 22px 0;line-height:1.5;">
-                        ⚠️ Guarda estas credenciales. El usuario las necesitará para acceder al sistema.
-                    </p>
-
-                    <button onclick="this.closest('[style*=fixed]').remove()" 
-                            style="width:100%;padding:13px;border:1px solid rgba(107,225,227,0.35);background:linear-gradient(135deg,rgba(107,225,227,0.12),rgba(225,123,215,0.12));color:#fff;font-family:'Exo 2',sans-serif;font-weight:700;font-size:0.95rem;border-radius:9999px;cursor:pointer;transition:all .2s ease;"
-                            onmouseover="this.style.borderColor='rgba(107,225,227,0.6)';this.style.boxShadow='0 10px 40px rgba(107,225,227,0.15)'"
-                            onmouseout="this.style.borderColor='rgba(107,225,227,0.35)';this.style.boxShadow='none'">
-                        Entendido
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeEditModal()" 
+                            class="flex-1 px-6 py-2.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold">
+                        Cancelar
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-2.5 rounded-full bg-gradient-to-r from-one-cyan/20 to-one-pink/20 border border-one-cyan/40 hover:border-one-cyan/60 transition-all font-bold text-sm">
+                        Guardar Cambios
                     </button>
                 </div>
-            `;
-            document.body.appendChild(overlay);
-            overlay.addEventListener('click', function(e) {
-                if (e.target === overlay) overlay.remove();
-            });
-        };
-    </script>
- 
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación Genérico -->
+    <div id="confirmModal" class="modal-overlay hidden fixed inset-0 z-[110] flex items-center justify-center p-4">
+        <div class="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeConfirmModal()"></div>
+        <div class="modal-content relative w-full max-w-md rounded-2xl bg-gradient-to-br from-one-ink to-black border border-white/15 backdrop-blur-xl shadow-2xl overflow-hidden transform transition-all">
+            <div class="p-6 text-center">
+                <div id="confirmIcon" class="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4"></div>
+                <h3 id="confirmTitle" class="font-exo text-xl font-bold mb-2"></h3>
+                <p id="confirmMessage" class="text-gray-400 text-sm mb-6"></p>
+                <div class="flex gap-3">
+                    <button onclick="closeConfirmModal()" 
+                            class="flex-1 px-6 py-2.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold">
+                        Cancelar
+                    </button>
+                    <button id="confirmBtn" 
+                            class="flex-1 px-6 py-2.5 rounded-full transition-all font-bold text-sm cursor-pointer">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-6 right-6 z-[120] flex flex-col gap-3 pointer-events-none"></div>
+
+    <script src="./script.js"></script>
 
     <style>
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </body>
-</html> 
+</html>

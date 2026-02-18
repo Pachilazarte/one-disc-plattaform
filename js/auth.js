@@ -46,6 +46,12 @@ const Auth = {
           return { success: false, message: "Credenciales inválidas" };
         }
 
+        // ✅ VALIDAR ESTADO ADMIN
+        const estadoAdmin = String(adminEncontrado.Estado || "").trim().toLowerCase();
+        if (estadoAdmin === "inactivo") {
+          return { success: false, message: "Tu cuenta de administrador está inactiva" };
+        }
+
         this.setSession({
           usuario: String(adminEncontrado.Usuario_Admin),
           email: String(adminEncontrado.Email_Admin),
@@ -55,6 +61,7 @@ const Auth = {
 
         return { success: true };
       }
+
 
       // 🔹 3. USER DINÁMICO DESDE GOOGLE SHEETS
       if (rol === CONFIG.roles.USER) {
@@ -77,6 +84,12 @@ const Auth = {
           return { success: false, message: "Credenciales inválidas" };
         }
 
+        // ✅ VALIDAR ESTADO USER
+        const estadoUser = String(userEncontrado.Estado_User || "").trim().toLowerCase();
+        if (estadoUser === "inactivo") {
+          return { success: false, message: "Tu cuenta está inactiva" };
+        }
+
         this.setSession({
           usuario: String(userEncontrado.User),
           email: String(userEncontrado.Email_User),
@@ -88,6 +101,7 @@ const Auth = {
 
         return { success: true };
       }
+
 
       return { success: false, message: "Rol no válido" };
 
@@ -173,9 +187,9 @@ const Auth = {
     }
 
     // 🔹 REDIRECCIÓN USER
-     if (session.role === CONFIG.roles.USER) {
-       window.location.href = CONFIG.routes.userboard;
-     }
+    if (session.role === CONFIG.roles.USER) {
+      window.location.href = CONFIG.routes.userboard;
+    }
   }
 };
 

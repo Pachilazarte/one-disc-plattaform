@@ -81,7 +81,7 @@
         <div id="loadingContainer" class="hidden"></div>
 
         <!-- Stats Cards -->
-        <div class="stats-grid grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        <div class="stats-grid grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
             <!-- Total Admins -->
             <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
                 <div class="absolute inset-0 bg-gradient-radial from-blue-500/5 to-transparent opacity-50"></div>
@@ -119,6 +119,25 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Inactive Admins -->
+            <div class="stat-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500/10 to-red-600/10 border border-red-500/20 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-radial from-red-500/5 to-transparent opacity-50"></div>
+                <div class="relative flex items-center gap-4">
+                    <div class="stat-icon w-16 h-16 rounded-xl bg-red-500/20 flex items-center justify-center">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <line x1="17" y1="8" x2="23" y2="14"/>
+                            <line x1="23" y1="8" x2="17" y2="14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="inactiveAdmins" class="text-4xl font-black text-red-400">0</h3>
+                        <p class="text-sm text-gray-400 mt-1">Inactivos</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Formulario de Nuevo Administrador -->
@@ -138,11 +157,24 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label block text-sm font-semibold mb-2 text-gray-300" for="adminPassword">Contraseña</label>
-                        <input type="password" 
-                               id="adminPassword" 
-                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white placeholder-gray-500" 
-                               placeholder="Contraseña segura" 
-                               required>
+                        <div class="relative">
+                            <input type="password" 
+                                   id="adminPassword" 
+                                   class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white placeholder-gray-500 pr-12" 
+                                   placeholder="Contraseña segura" 
+                                   required>
+                            <button type="button" onclick="toggleInputPassword('adminPassword', this)" 
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-one-cyan transition-colors">
+                                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-closed hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group mb-6">
@@ -169,16 +201,32 @@
 
         <!-- Tabla de Administradores -->
         <div class="card rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 backdrop-blur-xl overflow-hidden">
-            <div class="card-header px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10 flex-between flex flex-col sm:flex-row justify-between items-center gap-4">
-                <h3 class="card-title font-exo text-lg font-bold">Lista de Administradores</h3>
-                <button class="btn btn-outline px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold flex items-center gap-2" 
-                        onclick="loadAdmins()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="23 4 23 10 17 10"/>
-                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                    </svg>
-                    Actualizar
-                </button>
+            <div class="card-header px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h3 class="card-title font-exo text-lg font-bold">Lista de Administradores</h3>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                        <!-- Barra de búsqueda -->
+                        <div class="relative flex-1 sm:flex-initial">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" 
+                                   id="searchInput" 
+                                   class="w-full sm:w-64 pl-10 pr-4 py-2 rounded-full bg-black/40 border border-white/15 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-sm text-white placeholder-gray-500" 
+                                   placeholder="Buscar por usuario o email..."
+                                   oninput="filterAdmins()">
+                        </div>
+                        <button class="btn btn-outline px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold flex items-center justify-center gap-2" 
+                                onclick="loadAdmins()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 4 23 10 17 10"/>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                            </svg>
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="table-responsive overflow-x-auto">
                 <table class="table w-full">
@@ -186,6 +234,7 @@
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Usuario</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Email</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Contraseña</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">Fecha Alta</th>
                             <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">Estado</th>
                             <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">Acciones</th>
@@ -193,13 +242,96 @@
                     </thead>
                     <tbody id="adminsTableBody">
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-gray-400">Cargando datos...</td>
+                            <td colspan="6" class="px-6 py-8 text-center text-gray-400">Cargando datos...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
+
+    <!-- Modal de Editar Administrador -->
+    <div id="editModal" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeEditModal()"></div>
+        <div class="modal-content relative w-full max-w-lg rounded-2xl bg-gradient-to-br from-one-ink to-black border border-white/15 backdrop-blur-xl shadow-2xl overflow-hidden transform transition-all">
+            <div class="px-6 py-4 border-b border-white/10 bg-gradient-to-r from-one-cyan/10 to-one-pink/10 flex items-center justify-between">
+                <h3 class="font-exo text-lg font-bold">Editar Administrador</h3>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="editAdminForm" class="p-6">
+                <input type="hidden" id="editOriginalUsuario">
+                <div class="space-y-4">
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Usuario <span class="text-gray-500 text-xs">(identificador único, no editable)</span></label>
+                        <input type="text" id="editUsuario" readonly
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 text-gray-400 cursor-not-allowed transition-all" tabindex="-1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Email</label>
+                        <input type="email" id="editEmail" 
+                               class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-semibold mb-2 text-gray-300">Nueva Contraseña <span class="text-gray-500 text-xs">(dejar vacío para no cambiar)</span></label>
+                        <div class="relative">
+                            <input type="password" id="editPassword" 
+                                   class="form-input w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 focus:border-one-cyan/50 focus:outline-none focus:ring-2 focus:ring-one-cyan/20 transition-all text-white pr-12" 
+                                   placeholder="••••••••">
+                            <button type="button" onclick="toggleInputPassword('editPassword', this)" 
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-one-cyan transition-colors">
+                                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-closed hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeEditModal()" 
+                            class="flex-1 px-6 py-2.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold">
+                        Cancelar
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-2.5 rounded-full bg-gradient-to-r from-one-cyan/20 to-one-pink/20 border border-one-cyan/40 hover:border-one-cyan/60 transition-all font-bold text-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación Genérico -->
+    <div id="confirmModal" class="modal-overlay hidden fixed inset-0 z-[110] flex items-center justify-center p-4">
+        <div class="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeConfirmModal()"></div>
+        <div class="modal-content relative w-full max-w-md rounded-2xl bg-gradient-to-br from-one-ink to-black border border-white/15 backdrop-blur-xl shadow-2xl overflow-hidden transform transition-all">
+            <div class="p-6 text-center">
+                <div id="confirmIcon" class="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4"></div>
+                <h3 id="confirmTitle" class="font-exo text-xl font-bold mb-2"></h3>
+                <p id="confirmMessage" class="text-gray-400 text-sm mb-6"></p>
+                <div class="flex gap-3">
+                    <button onclick="closeConfirmModal()" 
+                            class="flex-1 px-6 py-2.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold">
+                        Cancelar
+                    </button>
+                    <button id="confirmBtn" onclick="" 
+                            class="flex-1 px-6 py-2.5 rounded-full transition-all font-bold text-sm">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de éxito/error -->
+    <div id="toastContainer" class="fixed top-6 right-6 z-[120] flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- Hidden Form for Tunnel -->
     <form id="hidden-form" method="POST" target="hidden-iframe" style="display: none;">

@@ -84,6 +84,9 @@ function showPendingStatus() {
     const container = document.getElementById('testStatusContainer');
     const session = Auth.getSession();
 
+    // Asegurar que los botones del hero estén habilitados
+    enableStartButton(true);
+
     container.innerHTML = `
         <div class="flex justify-center items-center min-h-[60vh] px-4">
             <div class="w-full max-w-3xl p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-gray-900/95 to-gray-950/98 border border-white/10 shadow-[0_60px_160px_rgba(0,0,0,0.9)] text-center relative overflow-hidden">
@@ -141,6 +144,13 @@ function showPendingStatus() {
 function showCompletedStatus() {
     const container = document.getElementById('testStatusContainer');
 
+    // ✅ FIX 1: Deshabilitar botón "Comenzar evaluación" del header
+    enableStartButton(false);
+
+    // ✅ FIX 2: Obtener texto de informe con fallback para evitar "undefined"
+    const informeTexto = userResult.Informe || userResult.informe || userResult.TipoPerfil || userResult.Perfil || 'Completado';
+    const fechaTexto = userResult.Fecha || userResult.fecha || 'Sin fecha';
+
     container.innerHTML = `
         <div class="flex justify-center items-center min-h-[60vh] px-4">
             <div class="w-full max-w-3xl p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-gray-900/95 to-gray-950/98 border border-white/10 shadow-[0_60px_160px_rgba(0,0,0,0.9)] text-center relative overflow-hidden">
@@ -168,11 +178,11 @@ function showCompletedStatus() {
                 <div class="grid sm:grid-cols-2 gap-4 mb-8 max-w-lg mx-auto">
                     <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
                         <div class="text-xs text-gray-500 mb-1">Fecha</div>
-                        <div class="font-bold text-base">${Helpers.formatDate(userResult.Fecha)}</div>
+                        <div class="font-bold text-base">${Helpers.formatDate(fechaTexto)}</div>
                     </div>
                     <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
                         <div class="text-xs text-gray-500 mb-1">Informe</div>
-                        <div class="font-bold text-base">${userResult.Informe}</div>
+                        <div class="font-bold text-base">${informeTexto}</div>
                     </div>
                 </div>
                 
@@ -188,9 +198,39 @@ function showCompletedStatus() {
 }
 
 /**
+ * ✅ Habilitar/deshabilitar botón de iniciar test (header + hero)
+ */
+function enableStartButton(enabled) {
+    const btnStart = document.getElementById('btnStartTest');
+    if (!btnStart) return;
+
+    if (enabled) {
+        btnStart.disabled = false;
+        btnStart.classList.remove('opacity-40', 'cursor-not-allowed');
+        btnStart.innerHTML = 'Comenzar evaluación';
+        btnStart.onclick = () => { window.location.href = CONFIG.routes.test; };
+    } else {
+        btnStart.disabled = true;
+        btnStart.classList.add('opacity-40', 'cursor-not-allowed');
+        btnStart.classList.remove('hover:bg-white/10', 'hover:-translate-y-1');
+        btnStart.innerHTML = '✓ Evaluación completada';
+        btnStart.onclick = (e) => {
+            e.preventDefault();
+            alert('Ya completaste tu evaluación DISC. Puedes ver tu informe.');
+        };
+    }
+}
+
+/**
  * Iniciar el test DISC
  */
 function startTest() {
+    // ✅ FIX 1: Doble verificación — si ya tiene resultado, no dejar pasar
+    if (userResult) {
+        alert('Ya completaste tu evaluación DISC. Puedes ver tu informe.');
+        return;
+    }
+
     // Guardar en sessionStorage que viene del userboard
     sessionStorage.setItem('fromUserboard', 'true');
     

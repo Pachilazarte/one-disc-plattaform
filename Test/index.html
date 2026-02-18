@@ -1,685 +1,457 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DISC - Test de Perfil Profesional</title>
   <link rel="icon" href="img/favicon.png">
   <style>
-    /* === ESTILOS GLOBALES === */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif; min-height: 100vh;
       background-image: url('./img/fondo-escencial.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      padding: 24px;
-      color: #1e293b;
+      background-size: cover; background-position: center; background-attachment: fixed;
+      padding: 24px; color: #1e293b;
     }
     .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
-      min-height: 600px;
-      display: flex;
-      flex-direction: column;
+      max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px); border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      padding: 40px; position: relative; overflow: hidden;
+      min-height: 600px; display: flex; flex-direction: column;
     }
-
-    /* HEADER */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      background-color: white;
-      border-radius: 15px;
-      margin-bottom: 20px;
-    }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-    }
-    .header-logo-wrap { flex-shrink: 0; }
-    .header-logo {
-      width: 250px;
-      height: auto;
-      display: block;
-    }
-    .header-info {
-      flex: 1;
-      text-align: right;
-    }
-    .header-info h1 {
-      margin: 0;
-      font-size: 24px;
-      color: #1a2a3a;
-      line-height: 1.2;
-      font-family: sans-serif;
-    }
-    .timer-badge {
-      background: #0b4a6e;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 700;
-      box-shadow: 0 4px 6px rgba(11, 74, 110, 0.2);
-      display: none;
-      margin-top: 8px;
-      display: none;
-    }
-    .part-badge {
-      background: #059669;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-left: 10px;
-    }
-
-    /* SECCIONES */
-    .section { display: none; animation: fadeIn 0.4s ease-in-out; }
-    .section.active { display: block; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* FORMULARIOS */
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; }
-    .form-input {
-      width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px;
-      font-size: 16px; transition: 0.3s;
-    }
-    .form-input:focus { border-color: #0b4a6e; outline: none; box-shadow: 0 0 0 3px rgba(11, 74, 110, 0.1); }
-
-    /* BOTONES */
-    .btn {
-      background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
-      color: white; border: none; padding: 14px 28px; border-radius: 10px;
-      font-size: 16px; font-weight: 600; cursor: pointer; width: 100%;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(11, 74, 110, 0.3); }
-    .btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
-
-    /* INSTRUCCIONES */
-    .instructions-box {
-      background: #f1f5f9; padding: 25px; border-radius: 12px; border-left: 5px solid #0b4a6e;
-      margin-bottom: 25px; line-height: 1.7; font-size: 15px; text-align: justify;
-    }
-    .instructions-box ul { margin-left: 20px; margin-top: 10px; }
-    .instructions-box li { margin-bottom: 5px; }
-
-    /* BADGES */
-    .index-info {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
-      padding: 15px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      border-radius: 10px; border: 1px solid #e2e8f0; justify-content: center;
-    }
-    .index-badge { padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
-    .badge-d { background: #fee2e2; color: #991b1b; }
-    .badge-i { background: #fef3c7; color: #92400e; }
-    .badge-s { background: #dcfce7; color: #166534; }
-    .badge-c { background: #dbeafe; color: #1e40af; }
-
-    /* PROGRESS BAR */
-    .progress-container { margin-bottom: 25px; }
-    .progress-bar { height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
-    .progress-fill {
-      height: 100%; background: linear-gradient(90deg, #0b4a6e, #1e88e5);
-      transition: width 0.3s; border-radius: 5px;
-    }
-    .progress-info { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-    .progress-text { font-size: 13px; color: #64748b; font-weight: 500; }
-    .progress-percentage { font-size: 13px; color: #0b4a6e; font-weight: 700; }
-
-    /* QUESTION */
-    .question-container {
-      flex: 1; display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .question-card {
-      background: #f8fafc; padding: 30px; border-radius: 15px;
-      border: 2px solid #e2e8f0; margin-bottom: 20px;
-      display: flex; flex-direction: column;
-    }
-    .question-number { font-size: 14px; color: #64748b; font-weight: 600; margin-bottom: 10px; }
-    .question-text {
-      font-size: 20px; color: #0f172a; font-weight: 600; margin-bottom: 24px; line-height: 1.5;
-    }
-
-    /* DISC SELECTION */
-    .selection-group { margin-bottom: 20px; }
-    .selection-label {
-      display: inline-block; padding: 8px 16px; border-radius: 8px;
-      font-size: 14px; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.3px;
-    }
-    .label-mas { background: #dcfce7; color: #166534; }
-    .label-menos { background: #fee2e2; color: #991b1b; }
-
-    .trait-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-    .trait-btn {
-      padding: 16px 20px; border: 2px solid #cbd5e1; border-radius: 12px;
-      background: white; cursor: pointer; transition: all 0.2s;
-      font-size: 15px; text-align: center; color: #475569; font-weight: 500;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    .trait-btn:hover {
-      border-color: #0b4a6e; background: #f0f9ff; transform: translateY(-2px);
-    }
-    .trait-btn.selected-mas {
-      border-color: #059669; background: #059669; color: white;
-      font-weight: 600; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
-    }
-    .trait-btn.selected-menos {
-      border-color: #dc2626; background: #dc2626; color: white;
-      font-weight: 600; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25);
-    }
-    .trait-btn.disabled-trait { opacity: 0.3; pointer-events: none; }
-
-    /* NAVIGATION */
-    .navigation-buttons { display: flex; gap: 15px; margin-top: 20px; }
-    .nav-btn {
-      flex: 1; padding: 14px 24px; border: none; border-radius: 10px;
-      font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-    }
-    .nav-btn-prev { background: #e2e8f0; color: #475569; }
-    .nav-btn-prev:hover { background: #cbd5e1; }
-    .nav-btn-prev:disabled { opacity: 0.5; cursor: not-allowed; }
-    .nav-btn-next {
-      background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%); color: white;
-    }
-    .nav-btn-next:hover {
-      transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(11, 74, 110, 0.3);
-    }
-    .nav-btn-next:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
-
-    /* INTERMISSION & FINAL */
-    .intermission { text-align: center; padding: 40px; }
-    .intermission h2 { color: #0b4a6e; margin-bottom: 15px; }
-
-    /* BTN VOLVER */
-    .btn-back-panel {
-      background: rgba(255, 255, 255, 0.95); border: 2px solid #0b4a6e;
-      color: #0b4a6e; padding: 8px 16px; border-radius: 10px;
-      font-size: 14px; font-weight: 600; cursor: pointer;
-      transition: all 0.2s ease; box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-    }
-    .btn-back-panel:hover { background: #0b4a6e; color: #ffffff; }
-
-    /* RESPONSIVE */
-    @media (max-width: 600px) {
-      .container { padding: 20px; }
-      .header-info h1 { font-size: 16px; }
-      .header-logo { width: 160px; }
-      .trait-options { grid-template-columns: 1fr; }
-      .question-text { font-size: 18px; }
-      .trait-btn { padding: 14px 18px; font-size: 14px; }
-    }
+    .header { display:flex; align-items:center; justify-content:space-between; padding:20px; background-color:white; border-radius:15px; margin-bottom:20px; }
+    .header-inner { display:flex; align-items:center; gap:20px; width:100%; }
+    .header-logo-wrap { flex-shrink:0; }
+    .header-logo { width:250px; height:auto; display:block; }
+    .header-info { flex:1; text-align:right; }
+    .header-info h1 { margin:0; font-size:24px; color:#1a2a3a; line-height:1.2; font-family:sans-serif; }
+    .timer-badge { background:#0b4a6e; color:white; padding:8px 16px; border-radius:12px; font-size:18px; font-weight:700; box-shadow:0 4px 6px rgba(11,74,110,0.2); display:none; margin-top:8px; }
+    .section { display:none; animation:fadeIn 0.4s ease-in-out; }
+    .section.active { display:block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; margin-bottom:8px; font-weight:600; color:#475569; }
+    .form-input { width:100%; padding:12px; border:2px solid #cbd5e1; border-radius:10px; font-size:16px; transition:0.3s; }
+    .form-input:focus { border-color:#0b4a6e; outline:none; box-shadow:0 0 0 3px rgba(11,74,110,0.1); }
+    .btn { background:linear-gradient(135deg,#0b4a6e 0%,#020f27 100%); color:white; border:none; padding:14px 28px; border-radius:10px; font-size:16px; font-weight:600; cursor:pointer; width:100%; transition:transform 0.2s,box-shadow 0.2s; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 10px 15px -3px rgba(11,74,110,0.3); }
+    .btn:disabled { background:#94a3b8; cursor:not-allowed; transform:none; }
+    .instructions-box { background:#f1f5f9; padding:25px; border-radius:12px; border-left:5px solid #0b4a6e; margin-bottom:25px; line-height:1.7; font-size:15px; text-align:justify; }
+    .instructions-box ul { margin-left:20px; margin-top:10px; }
+    .instructions-box li { margin-bottom:5px; }
+    .index-info { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; padding:15px; background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%); border-radius:10px; border:1px solid #e2e8f0; justify-content:center; }
+    .index-badge { padding:6px 12px; border-radius:6px; font-size:0.8rem; font-weight:600; }
+    .badge-d { background:#fee2e2; color:#991b1b; } .badge-i { background:#fef3c7; color:#92400e; }
+    .badge-s { background:#dcfce7; color:#166534; } .badge-c { background:#dbeafe; color:#1e40af; }
+    .progress-container { margin-bottom:25px; }
+    .progress-bar { height:10px; background:#e2e8f0; border-radius:5px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,#0b4a6e,#1e88e5); transition:width 0.3s; border-radius:5px; }
+    .progress-info { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+    .progress-text { font-size:13px; color:#64748b; font-weight:500; }
+    .progress-percentage { font-size:13px; color:#0b4a6e; font-weight:700; }
+    .question-container { flex:1; display:flex; flex-direction:column; justify-content:space-between; }
+    .question-card { background:#f8fafc; padding:30px; border-radius:15px; border:2px solid #e2e8f0; margin-bottom:20px; display:flex; flex-direction:column; }
+    .question-number { font-size:14px; color:#64748b; font-weight:600; margin-bottom:10px; }
+    .question-text { font-size:20px; color:#0f172a; font-weight:600; margin-bottom:24px; line-height:1.5; }
+    .selection-group { margin-bottom:20px; }
+    .selection-label { display:inline-block; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:700; margin-bottom:12px; letter-spacing:0.3px; }
+    .label-mas { background:#dcfce7; color:#166534; } .label-menos { background:#fee2e2; color:#991b1b; }
+    .trait-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .trait-btn { padding:16px 20px; border:2px solid #cbd5e1; border-radius:12px; background:white; cursor:pointer; transition:all 0.2s; font-size:15px; text-align:center; color:#475569; font-weight:500; font-family:'Segoe UI',sans-serif; }
+    .trait-btn:hover { border-color:#0b4a6e; background:#f0f9ff; transform:translateY(-2px); }
+    .trait-btn.selected-mas { border-color:#059669; background:#059669; color:white; font-weight:600; box-shadow:0 4px 10px rgba(5,150,105,0.25); }
+    .trait-btn.selected-menos { border-color:#dc2626; background:#dc2626; color:white; font-weight:600; box-shadow:0 4px 10px rgba(220,38,38,0.25); }
+    .trait-btn.disabled-trait { opacity:0.3; pointer-events:none; }
+    .navigation-buttons { display:flex; gap:15px; margin-top:20px; }
+    .nav-btn { flex:1; padding:14px 24px; border:none; border-radius:10px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+    .nav-btn-prev { background:#e2e8f0; color:#475569; } .nav-btn-prev:hover { background:#cbd5e1; } .nav-btn-prev:disabled { opacity:0.5; cursor:not-allowed; }
+    .nav-btn-next { background:linear-gradient(135deg,#0b4a6e 0%,#020f27 100%); color:white; }
+    .nav-btn-next:hover { transform:translateY(-2px); box-shadow:0 10px 15px -3px rgba(11,74,110,0.3); }
+    .nav-btn-next:disabled { background:#94a3b8; cursor:not-allowed; transform:none; }
+    .intermission { text-align:center; padding:40px; } .intermission h2 { color:#0b4a6e; margin-bottom:15px; }
+    .btn-back-panel { background:rgba(255,255,255,0.95); border:2px solid #0b4a6e; color:#0b4a6e; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s ease; box-shadow:0 6px 14px rgba(0,0,0,0.25); }
+    .btn-back-panel:hover { background:#0b4a6e; color:#ffffff; }
+    .loading-spinner { display:inline-block; width:20px; height:20px; border:3px solid rgba(11,74,110,0.2); border-top-color:#0b4a6e; border-radius:50%; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    @media(max-width:600px) { .container{padding:20px} .header-info h1{font-size:16px} .header-logo{width:160px} .trait-options{grid-template-columns:1fr} .question-text{font-size:18px} .trait-btn{padding:14px 18px;font-size:14px} }
   </style>
 </head>
+
 <body>
-
 <div class="container">
-  <!-- ===== HEADER ===== -->
-  <div class="header">
-    <div class="header-inner">
-      <div class="header-logo-wrap">
-        <img src="./img/escencial-logo.png" alt="Escencial Consultora" class="header-logo" />
-      </div>
-      <div class="header-info">
-        <h1 id="pageTitle">DISC - Test de Perfil Profesional</h1>
-        <div id="timerDisplay" class="timer-badge">00:00</div>
-      </div>
-    </div>
-  </div>
+  <div class="header"><div class="header-inner"><div class="header-logo-wrap"><img src="./img/escencial-logo.png" alt="Escencial Consultora" class="header-logo"/></div><div class="header-info"><h1 id="pageTitle">DISC - Test de Perfil Profesional</h1><div id="timerDisplay" class="timer-badge">00:00</div></div></div></div>
 
-  <!-- ===== REGISTRO ===== -->
   <div id="loginSection" class="section active">
-    <h2 style="margin-bottom: 20px; color: #0f172a;">Registro del Evaluado</h2>
-    <div class="form-group">
-      <label>Nombre</label>
-      <input type="text" id="userName" class="form-input" placeholder="Ingrese su nombre">
-    </div>
-    <div class="form-group">
-      <label>Apellido</label>
-      <input type="text" id="userLast" class="form-input" placeholder="Ingrese su apellido">
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="userEmail" class="form-input" placeholder="Ingrese su correo">
-    </div>
+    <h2 style="margin-bottom:20px;color:#0f172a;">Registro del Evaluado</h2>
+    <div class="form-group"><label>Nombre</label><input type="text" id="userName" class="form-input" placeholder="Ingrese su nombre"></div>
+    <div class="form-group"><label>Apellido</label><input type="text" id="userLast" class="form-input" placeholder="Ingrese su apellido"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="userEmail" class="form-input" placeholder="Ingrese su correo"></div>
     <button class="btn" onclick="goToInstructions()">Continuar</button>
   </div>
 
-  <!-- ===== INSTRUCCIONES ===== -->
   <div id="instSection" class="section">
-    <h2 style="margin-bottom: 20px; color: #0f172a;">Instrucciones del Test DISC</h2>
+    <h2 style="margin-bottom:20px;color:#0f172a;">Instrucciones del Test DISC</h2>
     <div class="instructions-box">
-      <p>El <strong>Test DISC</strong> es una evaluación profesional de comportamiento que identifica su estilo de personalidad predominante a través de cuatro dimensiones:</p>
-      <br>
+      <p>El <strong>Test DISC</strong> es una evaluación profesional de comportamiento que identifica su estilo de personalidad predominante a través de cuatro dimensiones:</p><br>
       <div class="index-info">
-        <span class="index-badge badge-d">D - Dominancia</span>
-        <span class="index-badge badge-i">I - Influencia</span>
-        <span class="index-badge badge-s">S - Estabilidad</span>
-        <span class="index-badge badge-c">C - Cumplimiento</span>
-      </div>
-      <br>
-      <p><strong>Dominancia (D):</strong> Orientación hacia resultados, toma de decisiones y control del entorno.</p>
-      <br>
-      <p><strong>Influencia (I):</strong> Capacidad de comunicación, persuasión y entusiasmo social.</p>
-      <br>
-      <p><strong>Estabilidad (S):</strong> Paciencia, lealtad, trabajo en equipo y preferencia por ambientes predecibles.</p>
-      <br>
-      <p><strong>Cumplimiento (C):</strong> Precisión, orientación analítica y seguimiento de normas y procedimientos.</p>
-      <br>
+        <span class="index-badge badge-d">D - Dominancia</span><span class="index-badge badge-i">I - Influencia</span>
+        <span class="index-badge badge-s">S - Estabilidad</span><span class="index-badge badge-c">C - Cumplimiento</span>
+      </div><br>
+      <p><strong>Dominancia (D):</strong> Orientación hacia resultados, toma de decisiones y control del entorno.</p><br>
+      <p><strong>Influencia (I):</strong> Capacidad de comunicación, persuasión y entusiasmo social.</p><br>
+      <p><strong>Estabilidad (S):</strong> Paciencia, lealtad, trabajo en equipo y preferencia por ambientes predecibles.</p><br>
+      <p><strong>Cumplimiento (C):</strong> Precisión, orientación analítica y seguimiento de normas y procedimientos.</p><br>
       <p><strong>¿Cómo funciona?</strong></p>
       <ul>
         <li>Se presentan 28 grupos de cuatro características cada uno</li>
-        <li>En cada grupo, seleccione la característica que <strong>MÁS</strong> lo describe</li>
-        <li>Luego seleccione la que <strong>MENOS</strong> lo describe</li>
+        <li>En cada grupo, seleccione la que <strong>MÁS</strong> lo describe</li>
+        <li>Luego la que <strong>MENOS</strong> lo describe</li>
         <li>No puede elegir la misma para ambas</li>
         <li>No hay respuestas correctas ni incorrectas — sea sincero/a</li>
-        <li>El test se divide en dos partes de 14 preguntas cada una</li>
-        <li>Puede volver a preguntas anteriores si lo necesita</li>
+        <li>El test se divide en dos partes de 14 preguntas</li>
+        <li>Puede volver a preguntas anteriores</li>
         <li>Tiempo estimado: 8-12 minutos</li>
       </ul>
     </div>
     <button class="btn" onclick="startTest()">COMENZAR TEST</button>
   </div>
 
-  <!-- ===== TEST ===== -->
   <div id="testSection" class="section">
-    <div class="progress-container">
-      <div class="progress-bar"><div id="progressBar" class="progress-fill" style="width: 0%"></div></div>
-      <div class="progress-info">
-        <span class="progress-text">Pregunta <span id="currentQuestion">1</span> de <span id="totalQuestions">28</span></span>
-        <span class="progress-percentage" id="progressPercent">0%</span>
-      </div>
-    </div>
-
+    <div class="progress-container"><div class="progress-bar"><div id="progressBar" class="progress-fill" style="width:0%"></div></div><div class="progress-info"><span class="progress-text">Pregunta <span id="currentQuestion">1</span> de <span id="totalQuestions">28</span></span><span class="progress-percentage" id="progressPercent">0%</span></div></div>
     <div class="question-container">
-      <div class="question-card" id="questionCard">
-        <div class="question-number" id="questionNumber">Pregunta 1 de 28</div>
-        <div class="question-text" id="questionText"></div>
-
-        <div class="selection-group">
-          <div class="selection-label label-mas">▲ Seleccione la que MÁS lo describe</div>
-          <div class="trait-options" id="gridMas"></div>
-        </div>
-
-        <div class="selection-group">
-          <div class="selection-label label-menos">▼ Seleccione la que MENOS lo describe</div>
-          <div class="trait-options" id="gridMenos"></div>
-        </div>
+      <div class="question-card" id="questionCard"><div class="question-number" id="questionNumber">Pregunta 1 de 28</div><div class="question-text" id="questionText"></div>
+        <div class="selection-group"><div class="selection-label label-mas">▲ Seleccione la que MÁS lo describe</div><div class="trait-options" id="gridMas"></div></div>
+        <div class="selection-group"><div class="selection-label label-menos">▼ Seleccione la que MENOS lo describe</div><div class="trait-options" id="gridMenos"></div></div>
       </div>
-
-      <div class="navigation-buttons">
-        <button class="nav-btn nav-btn-prev" id="btnPrev" onclick="previousQuestion()" disabled>← Anterior</button>
-        <button class="nav-btn nav-btn-next" id="btnNext" onclick="nextQuestion()" disabled>Siguiente →</button>
-      </div>
+      <div class="navigation-buttons"><button class="nav-btn nav-btn-prev" id="btnPrev" onclick="previousQuestion()" disabled>← Anterior</button><button class="nav-btn nav-btn-next" id="btnNext" onclick="nextQuestion()" disabled>Siguiente →</button></div>
     </div>
   </div>
 
-  <!-- ===== INTERMEDIO ===== -->
   <div id="intermissionSection" class="section intermission">
-    <h2>¡Primera Parte Completada!</h2>
-    <div style="font-size: 50px; margin: 20px 0;">✅</div>
+    <h2>¡Primera Parte Completada!</h2><div style="font-size:50px;margin:20px 0;">✅</div>
     <p>Ha completado las primeras 14 preguntas de la <strong>Parte I</strong>.</p>
-    <p style="margin-top: 10px; color: #64748b;">Ahora continuará con las siguientes 14 preguntas de la <strong>Parte II</strong>.</p>
-    <p style="margin-top: 20px; font-size: 14px; color: #94a3b8;">Tiempo utilizado: <span id="timePart1">--:--</span></p>
-    <button class="btn" style="margin-top: 25px; max-width: 300px; margin-left: auto; margin-right: auto;" onclick="continueToPartII()">CONTINUAR</button>
+    <p style="margin-top:10px;color:#64748b;">Ahora continuará con las siguientes 14 preguntas de la <strong>Parte II</strong>.</p>
+    <p style="margin-top:20px;font-size:14px;color:#94a3b8;">Tiempo utilizado: <span id="timePart1">--:--</span></p>
+    <button class="btn" style="margin-top:25px;max-width:300px;margin-left:auto;margin-right:auto;" onclick="continueToPartII()">CONTINUAR</button>
   </div>
 
-  <!-- ===== FINAL ===== -->
   <div id="finalSection" class="section intermission">
-    <h2 style="color: #059669;">¡Test DISC Completado!</h2>
-    <div style="font-size: 60px; margin: 20px 0;">✅</div>
+    <h2 style="color:#059669;">¡Test DISC Completado!</h2><div style="font-size:60px;margin:20px 0;">✅</div>
     <p>Ha completado el Test de Perfil Profesional DISC.</p>
-    <p style="margin-top: 10px;">Sus respuestas han sido registradas correctamente.</p>
-    <div id="loadingMsg" style="margin-top:20px; color:#0b4a6e; font-weight:bold;">Guardando datos...</div>
-    <button class="btn-back-panel" style="margin-top: 30px;" onclick="volverAlPanel()">⬅ Volver al panel</button>
+    <p style="margin-top:10px;">Sus respuestas han sido registradas correctamente.</p>
+    <div id="loadingMsg" style="margin-top:20px;color:#0b4a6e;font-weight:bold;"><span class="loading-spinner"></span> Guardando resultados...</div>
+    <button class="btn-back-panel" style="margin-top:30px;display:none;" id="btnVolver" onclick="volverAlPanel()">⬅ Volver al panel</button>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="../Informe/discToWheel.js"></script>
+<script src="../Informe/ruedaSuccessInsights5niveles.js"></script>
+<!-- DEPENDENCIAS PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/5.0.2/jspdf.plugin.autotable.min.js"></script>
+
+<!-- GENERADOR PDF (módulo ES6) -->
+<script type="module">
+  import { crearDocumento, paginacion } from '../Informe/pdfGenerator/pdfConfig.js';
+  import {
+    generarPortada, generarIndice, generarIntroduccion, generarHistoria,
+    generarEjes, generarEstilos, generarDimensionesCompletas, generarAplicaciones,
+    generarConsideraciones, generarResumen, generarGraficoBarras, generarRueda,
+    generarAnalisisCompleto, generarConsistencia, generarComparativaPartes,
+    generarImplicaciones, generarDetalle,
+  } from '../Informe/pdfGenerator/pdfSections.js';
+
+  async function generarPDFBase64(data, resultado, respuestasParsed) {
+    const doc = crearDocumento();
+    if (!doc) throw new Error('No se pudo crear el documento PDF');
+    paginacion.actual = 0;
+    const nombreCompleto = `${data.Nombre || ''} ${data.Apellido || ''}`.trim();
+    const fecha = data.Fecha ? new Date(data.Fecha).toLocaleDateString('es-AR',{year:'numeric',month:'long',day:'numeric'}) : '';
+    console.log('📄 Generando PDF...');
+    generarPortada(doc, data, resultado, nombreCompleto, fecha);
+    generarIndice(doc, nombreCompleto);
+    generarIntroduccion(doc, nombreCompleto);
+    generarHistoria(doc, nombreCompleto);
+    generarEjes(doc, nombreCompleto);
+    generarEstilos(doc, nombreCompleto);
+    generarDimensionesCompletas(doc, nombreCompleto);
+    generarAplicaciones(doc, nombreCompleto);
+    generarConsideraciones(doc, nombreCompleto);
+    generarResumen(doc, resultado, nombreCompleto);
+    await generarGraficoBarras(doc, resultado, respuestasParsed, nombreCompleto);
+    await generarRueda(doc, respuestasParsed, nombreCompleto);
+    generarAnalisisCompleto(doc, resultado, nombreCompleto);
+    generarConsistencia(doc, resultado, nombreCompleto);
+    generarComparativaPartes(doc, resultado, nombreCompleto);
+    generarImplicaciones(doc, resultado, nombreCompleto);
+    generarDetalle(doc, resultado, nombreCompleto);
+    const dataUri = doc.output('datauristring');
+    const base64 = dataUri.split(',')[1];
+    console.log('✅ PDF base64: ' + Math.round(base64.length/1024) + ' KB');
+    return base64;
+  }
+
+  window.generarPDFBase64 = generarPDFBase64;
+  console.log('✅ generarPDFBase64 listo');
+</script>
 
 <script>
-  // ========== PREGUNTAS DISC (28 GRUPOS - CLEAVER) ==========
   const DISC_QUESTIONS = [
-    { id:1,  D:"Enérgico",                  I:"Animado",         S:"Plácido",      C:"Preciso"        },
-    { id:2,  D:"Competitivo",               I:"Expresivo",       S:"Leal",         C:"Diplomático"    },
-    { id:3,  D:"Directo",                   I:"Alentador",       S:"Bondadoso",    C:"Meticuloso"     },
-    { id:4,  D:"Atrevido",                  I:"Encantador",      S:"Amable",       C:"Sistemático"    },
-    { id:5,  D:"Decidido",                  I:"Optimista",       S:"Sereno",       C:"Perfeccionista"  },
-    { id:6,  D:"Audaz",                     I:"Comunicativo",    S:"Paciente",     C:"Reflexivo"      },
-    { id:7,  D:"Exigente",                  I:"Entusiasta",      S:"Cooperativo",  C:"Lógico"         },
-    { id:8,  D:"Dominante",                 I:"Popular",         S:"Tolerante",    C:"Analítico"      },
-    { id:9,  D:"Arriesgado",                I:"Sociable",        S:"Confiable",    C:"Detallista"     },
-    { id:10, D:"Firme",                     I:"Persuasivo",      S:"Moderado",     C:"Cauteloso"      },
-    { id:11, D:"Orientado a resultados",    I:"Entusiasta",      S:"Colaborador",  C:"Ordenado"       },
-    { id:12, D:"Emprendedor",               I:"Inspirador",      S:"Estable",      C:"Cuidadoso"      },
-    { id:13, D:"Desafiante",                I:"Influyente",      S:"Servicial",    C:"Organizado"     },
-    { id:14, D:"Impaciente",                I:"Extrovertido",    S:"De apoyo",     C:"Metódico"       },
-    { id:15, D:"Independiente",             I:"Amigable",        S:"Moderado",     C:"Convencional"   },
-    { id:16, D:"Asertivo",                  I:"Estimulante",     S:"Comprensivo",  C:"Reservado"      },
-    { id:17, D:"Determinado",               I:"Positivo",        S:"Paciente",     C:"Controlado"     },
-    { id:18, D:"Agresivo",                  I:"Afectuoso",       S:"Receptivo",    C:"Perfeccionista"  },
-    { id:19, D:"Toma rápida de decisiones", I:"Sociable",        S:"Considerado",  C:"Meticuloso"     },
-    { id:20, D:"Líder nato",                I:"Promotor",        S:"Consistente",  C:"Formal"         },
-    { id:21, D:"Pragmático",                I:"Emocional",       S:"Conciliador",  C:"Normativo"      },
-    { id:22, D:"Obstinado",                 I:"Confiado",        S:"Tolerante",    C:"Evasivo"        },
-    { id:23, D:"Inflexible",                I:"Egocéntrico",     S:"Indeciso",     C:"Terco"          },
-    { id:24, D:"Argumentador",              I:"Descuidado",      S:"Dubitativo",   C:"Quisquilloso"   },
-    { id:25, D:"Impulsivo",                 I:"Imprudente",      S:"Tímido",       C:"Crítico"        },
-    { id:26, D:"Intolerante",               I:"Poco organizado", S:"Pasivo",       C:"Pesimista"      },
-    { id:27, D:"Insensible",                I:"Hablador",        S:"Sin ambición", C:"Distante"       },
-    { id:28, D:"Dominante",                 I:"Desordenado",     S:"Dependiente",  C:"Desconfiado"    }
+    {id:1,D:"Enérgico",I:"Animado",S:"Plácido",C:"Preciso"},{id:2,D:"Competitivo",I:"Expresivo",S:"Leal",C:"Diplomático"},
+    {id:3,D:"Directo",I:"Alentador",S:"Bondadoso",C:"Meticuloso"},{id:4,D:"Atrevido",I:"Encantador",S:"Amable",C:"Sistemático"},
+    {id:5,D:"Decidido",I:"Optimista",S:"Sereno",C:"Perfeccionista"},{id:6,D:"Audaz",I:"Comunicativo",S:"Paciente",C:"Reflexivo"},
+    {id:7,D:"Exigente",I:"Entusiasta",S:"Cooperativo",C:"Lógico"},{id:8,D:"Dominante",I:"Popular",S:"Tolerante",C:"Analítico"},
+    {id:9,D:"Arriesgado",I:"Sociable",S:"Confiable",C:"Detallista"},{id:10,D:"Firme",I:"Persuasivo",S:"Moderado",C:"Cauteloso"},
+    {id:11,D:"Orientado a resultados",I:"Entusiasta",S:"Colaborador",C:"Ordenado"},{id:12,D:"Emprendedor",I:"Inspirador",S:"Estable",C:"Cuidadoso"},
+    {id:13,D:"Desafiante",I:"Influyente",S:"Servicial",C:"Organizado"},{id:14,D:"Impaciente",I:"Extrovertido",S:"De apoyo",C:"Metódico"},
+    {id:15,D:"Independiente",I:"Amigable",S:"Moderado",C:"Convencional"},{id:16,D:"Asertivo",I:"Estimulante",S:"Comprensivo",C:"Reservado"},
+    {id:17,D:"Determinado",I:"Positivo",S:"Paciente",C:"Controlado"},{id:18,D:"Agresivo",I:"Afectuoso",S:"Receptivo",C:"Perfeccionista"},
+    {id:19,D:"Toma rápida de decisiones",I:"Sociable",S:"Considerado",C:"Meticuloso"},{id:20,D:"Líder nato",I:"Promotor",S:"Consistente",C:"Formal"},
+    {id:21,D:"Pragmático",I:"Emocional",S:"Conciliador",C:"Normativo"},{id:22,D:"Obstinado",I:"Confiado",S:"Tolerante",C:"Evasivo"},
+    {id:23,D:"Inflexible",I:"Egocéntrico",S:"Indeciso",C:"Terco"},{id:24,D:"Argumentador",I:"Descuidado",S:"Dubitativo",C:"Quisquilloso"},
+    {id:25,D:"Impulsivo",I:"Imprudente",S:"Tímido",C:"Crítico"},{id:26,D:"Intolerante",I:"Poco organizado",S:"Pasivo",C:"Pesimista"},
+    {id:27,D:"Insensible",I:"Hablador",S:"Sin ambición",C:"Distante"},{id:28,D:"Dominante",I:"Desordenado",S:"Dependiente",C:"Desconfiado"}
   ];
 
-  const DIMS = ['D', 'I', 'S', 'C'];
-  const DIM_MAP = { D: 5, I: 5, S: 1, C: 1 };
-  const PART1_END = 14;
-  const TOTAL = DISC_QUESTIONS.length;
+  const DIMS=['D','I','S','C'], DIM_MAP={D:5,I:5,S:1,C:1}, PART1_END=14, TOTAL=DISC_QUESTIONS.length;
+  let user={}, answers=[], currentIdx=0, timeStart=0, timePart1End=0, timerInterval, elapsedSeconds=0;
+  for(let i=0;i<TOTAL;i++) answers.push({mas:null,menos:null});
 
-  // ========== ESTADO ==========
-  let user = {};
-  let answers = [];
-  let currentIdx = 0;
-  let timeStart = 0;
-  let timePart1End = 0;
-  let timerInterval;
-  let elapsedSeconds = 0;
+  function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+  function goToInstructions(){const n=document.getElementById('userName').value.trim(),l=document.getElementById('userLast').value.trim(),e=document.getElementById('userEmail').value.trim();if(!n||!l||!e)return alert("Complete todos los campos");user={name:n,lastname:l,email:e};showSection('instSection');}
+  function startTimer(){updateTimerUI();timerInterval=setInterval(()=>{elapsedSeconds++;updateTimerUI();},1000);}
+  function updateTimerUI(){const m=Math.floor(elapsedSeconds/60).toString().padStart(2,'0'),s=(elapsedSeconds%60).toString().padStart(2,'0');document.getElementById('timerDisplay').innerText=`${m}:${s}`;}
+  function fmtTime(a,b){if(!a||!b)return"0m 0s";const t=Math.floor((b-a)/1000);return`${Math.floor(t/60)}m ${t%60}s`;}
+  function startTest(){currentIdx=0;timeStart=Date.now();showSection('testSection');document.getElementById('timerDisplay').style.display='block';elapsedSeconds=0;startTimer();renderQuestion();}
 
-  for (let i = 0; i < TOTAL; i++) answers.push({ mas: null, menos: null });
-
-  // ========== SECCIONES ==========
-  function showSection(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
+  function renderQuestion(){
+    const q=DISC_QUESTIONS[currentIdx],part=currentIdx<PART1_END?'I':'II';
+    document.getElementById('currentQuestion').innerText=currentIdx+1;
+    document.getElementById('totalQuestions').innerText=TOTAL;
+    document.getElementById('questionNumber').innerText=`Pregunta ${currentIdx+1} de ${TOTAL}`;
+    const pct=Math.round(((currentIdx+1)/TOTAL)*100);
+    document.getElementById('progressBar').style.width=pct+'%';
+    document.getElementById('progressPercent').innerText=pct+'%';
+    const bg=currentIdx<PART1_END?'#dbeafe':'#dcfce7',tx=currentIdx<PART1_END?'#1e40af':'#166534';
+    document.getElementById('questionText').innerHTML=`<div style="background:${bg};padding:10px;border-radius:8px;margin-bottom:15px;font-size:14px;color:${tx};font-weight:600;">Parte ${part} — Grupo ${q.id}</div>Seleccione la característica que más y menos lo describe:`;
+    const gM=document.getElementById('gridMas');gM.innerHTML='';
+    DIMS.forEach(d=>{const b=document.createElement('button');b.className='trait-btn';b.innerText=q[d];b.dataset.dim=d;b.onclick=()=>pick(d,'mas');gM.appendChild(b);});
+    const gL=document.getElementById('gridMenos');gL.innerHTML='';
+    DIMS.forEach(d=>{const b=document.createElement('button');b.className='trait-btn';b.innerText=q[d];b.dataset.dim=d;b.onclick=()=>pick(d,'menos');gL.appendChild(b);});
+    applyVisual();updateNav();
   }
 
-  function goToInstructions() {
-    const n = document.getElementById('userName').value.trim();
-    const l = document.getElementById('userLast').value.trim();
-    const e = document.getElementById('userEmail').value.trim();
-    if (!n || !l || !e) return alert("Complete todos los campos");
-    user = { name: n, lastname: l, email: e };
-    showSection('instSection');
+  function pick(dim,type){const a=answers[currentIdx];a[type]=(a[type]===dim)?null:dim;applyVisual();updateNav();}
+  function applyVisual(){
+    const a=answers[currentIdx];
+    document.getElementById('gridMas').querySelectorAll('.trait-btn').forEach(b=>{const d=b.dataset.dim;b.className='trait-btn';if(a.mas===d)b.classList.add('selected-mas');if(a.menos&&a.menos===d&&a.mas!==d)b.classList.add('disabled-trait');});
+    document.getElementById('gridMenos').querySelectorAll('.trait-btn').forEach(b=>{const d=b.dataset.dim;b.className='trait-btn';if(a.menos===d)b.classList.add('selected-menos');if(a.mas&&a.mas===d&&a.menos!==d)b.classList.add('disabled-trait');});
   }
+  function updateNav(){const a=answers[currentIdx],ok=a.mas&&a.menos&&a.mas!==a.menos;document.getElementById('btnNext').disabled=!ok;document.getElementById('btnPrev').disabled=currentIdx===0;const btn=document.getElementById('btnNext');if(currentIdx===TOTAL-1)btn.innerText='Finalizar →';else if(currentIdx===PART1_END-1)btn.innerText='Completar Parte I →';else btn.innerText='Siguiente →';}
+  function previousQuestion(){if(currentIdx>0){currentIdx--;renderQuestion();}}
+  function nextQuestion(){const a=answers[currentIdx];if(!a.mas||!a.menos||a.mas===a.menos)return;if(currentIdx===PART1_END-1){clearInterval(timerInterval);timePart1End=Date.now();document.getElementById('timePart1').innerText=fmtTime(timeStart,timePart1End);showSection('intermissionSection');return;}if(currentIdx===TOTAL-1){finishTest();return;}currentIdx++;renderQuestion();}
+  function continueToPartII(){currentIdx=PART1_END;showSection('testSection');elapsedSeconds=0;startTimer();renderQuestion();}
+  function finishTest(){clearInterval(timerInterval);document.getElementById('timerDisplay').style.display='none';showSection('finalSection');sendResults();}
 
-  // ========== TIMER ==========
-  function startTimer() {
-    updateTimerUI();
-    timerInterval = setInterval(() => { elapsedSeconds++; updateTimerUI(); }, 1000);
-  }
-
-  function updateTimerUI() {
-    const m = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
-    const s = (elapsedSeconds % 60).toString().padStart(2, '0');
-    document.getElementById('timerDisplay').innerText = `${m}:${s}`;
-  }
-
-  function fmtTime(startMs, endMs) {
-    if (!startMs || !endMs) return "0m 0s";
-    const t = Math.floor((endMs - startMs) / 1000);
-    return `${Math.floor(t / 60)}m ${t % 60}s`;
-  }
-
-  // ========== INICIAR ==========
-  function startTest() {
-    currentIdx = 0;
-    timeStart = Date.now();
-    showSection('testSection');
-    document.getElementById('timerDisplay').style.display = 'block';
-    elapsedSeconds = 0;
-    startTimer();
-    renderQuestion();
-  }
-
-  // ========== RENDER ==========
-  function renderQuestion() {
-    const q = DISC_QUESTIONS[currentIdx];
-    const part = currentIdx < PART1_END ? 'I' : 'II';
-
-    document.getElementById('currentQuestion').innerText = currentIdx + 1;
-    document.getElementById('totalQuestions').innerText = TOTAL;
-    document.getElementById('questionNumber').innerText = `Pregunta ${currentIdx + 1} de ${TOTAL}`;
-
-    const pct = Math.round(((currentIdx + 1) / TOTAL) * 100);
-    document.getElementById('progressBar').style.width = pct + '%';
-    document.getElementById('progressPercent').innerText = pct + '%';
-
-    const bgColor = currentIdx < PART1_END ? '#dbeafe' : '#dcfce7';
-    const txColor = currentIdx < PART1_END ? '#1e40af' : '#166534';
-    document.getElementById('questionText').innerHTML =
-      `<div style="background:${bgColor};padding:10px;border-radius:8px;margin-bottom:15px;font-size:14px;color:${txColor};font-weight:600;">Parte ${part} — Grupo ${q.id}</div>` +
-      `Seleccione la característica que más y menos lo describe:`;
-
-    // MÁS grid
-    const gM = document.getElementById('gridMas');
-    gM.innerHTML = '';
-    DIMS.forEach(d => {
-      const b = document.createElement('button');
-      b.className = 'trait-btn';
-      b.innerText = q[d];
-      b.dataset.dim = d;
-      b.onclick = () => pick(d, 'mas');
-      gM.appendChild(b);
-    });
-
-    // MENOS grid
-    const gL = document.getElementById('gridMenos');
-    gL.innerHTML = '';
-    DIMS.forEach(d => {
-      const b = document.createElement('button');
-      b.className = 'trait-btn';
-      b.innerText = q[d];
-      b.dataset.dim = d;
-      b.onclick = () => pick(d, 'menos');
-      gL.appendChild(b);
-    });
-
-    applyVisual();
-    updateNav();
-  }
-
-  // ========== SELECCIÓN ==========
-  function pick(dim, type) {
-    const a = answers[currentIdx];
-    a[type] = (a[type] === dim) ? null : dim;
-    applyVisual();
-    updateNav();
-  }
-
-  function applyVisual() {
-    const a = answers[currentIdx];
-
-    document.getElementById('gridMas').querySelectorAll('.trait-btn').forEach(b => {
-      const d = b.dataset.dim;
-      b.className = 'trait-btn';
-      if (a.mas === d) b.classList.add('selected-mas');
-      if (a.menos && a.menos === d && a.mas !== d) b.classList.add('disabled-trait');
-    });
-
-    document.getElementById('gridMenos').querySelectorAll('.trait-btn').forEach(b => {
-      const d = b.dataset.dim;
-      b.className = 'trait-btn';
-      if (a.menos === d) b.classList.add('selected-menos');
-      if (a.mas && a.mas === d && a.menos !== d) b.classList.add('disabled-trait');
-    });
-  }
-
-  function updateNav() {
-    const a = answers[currentIdx];
-    const ok = a.mas && a.menos && a.mas !== a.menos;
-    document.getElementById('btnNext').disabled = !ok;
-    document.getElementById('btnPrev').disabled = currentIdx === 0;
-
-    const btn = document.getElementById('btnNext');
-    if (currentIdx === TOTAL - 1) btn.innerText = 'Finalizar →';
-    else if (currentIdx === PART1_END - 1) btn.innerText = 'Completar Parte I →';
-    else btn.innerText = 'Siguiente →';
-  }
-
-  // ========== NAVEGACIÓN ==========
-  function previousQuestion() {
-    if (currentIdx > 0) { currentIdx--; renderQuestion(); }
-  }
-
-  function nextQuestion() {
-    const a = answers[currentIdx];
-    if (!a.mas || !a.menos || a.mas === a.menos) return;
-
-    if (currentIdx === PART1_END - 1) {
-      clearInterval(timerInterval);
-      timePart1End = Date.now();
-      document.getElementById('timePart1').innerText = fmtTime(timeStart, timePart1End);
-      showSection('intermissionSection');
-      return;
-    }
-
-    if (currentIdx === TOTAL - 1) {
-      finishTest();
-      return;
-    }
-
-    currentIdx++;
-    renderQuestion();
-  }
-
-  function continueToPartII() {
-    currentIdx = PART1_END;
-    showSection('testSection');
-    elapsedSeconds = 0;
-    startTimer();
-    renderQuestion();
-  }
-
-  // ========== FINALIZAR ==========
-  function finishTest() {
-    clearInterval(timerInterval);
-    document.getElementById('timerDisplay').style.display = 'none';
-    showSection('finalSection');
-    sendResults();
-  }
-
-  // ========== STRING RESPUESTAS ==========
-  function buildRespuestas() {
-    const t1 = fmtTime(timeStart, timePart1End);
-    const t2 = fmtTime(timePart1End, Date.now());
-
-    let idx = 1, p1 = [], p2 = [];
-
-    for (let i = 0; i < TOTAL; i++) {
-      const a = answers[i];
-      const mv = a.mas ? DIM_MAP[a.mas] : 0;
-      const lv = a.menos ? DIM_MAP[a.menos] : 0;
-
-      if (i < PART1_END) {
-        p1.push(`${idx};${mv}`); idx++;
-        p1.push(`${idx};${lv}`); idx++;
-      } else {
-        p2.push(`${idx};${mv}`); idx++;
-        p2.push(`${idx};${lv}`); idx++;
-      }
-    }
-
+  function buildRespuestas(){
+    const t1=fmtTime(timeStart,timePart1End),t2=fmtTime(timePart1End,Date.now());
+    let idx=1,p1=[],p2=[];
+    for(let i=0;i<TOTAL;i++){const a=answers[i],mv=a.mas?DIM_MAP[a.mas]:0,lv=a.menos?DIM_MAP[a.menos]:0;
+      if(i<PART1_END){p1.push(`${idx};${mv}`);idx++;p1.push(`${idx};${lv}`);idx++;}
+      else{p2.push(`${idx};${mv}`);idx++;p2.push(`${idx};${lv}`);idx++;}}
     return `{PI: ${t1} - ${p1.join(', ')}} {PII: ${t2} - ${p2.join(', ')}}`;
   }
 
-  // ========== ENVIAR ==========
-  function sendResults() {
-    const respuestasFinal = buildRespuestas();
-
-    const now = new Date();
-    const fechaHora = now.toLocaleString('es-AR', {
-      day:'2-digit', month:'2-digit', year:'numeric',
-      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
-    });
-
-    const usuarioAdmin = sessionStorage.getItem('usuarioAdmin') || '';
-    const emailAdmin = sessionStorage.getItem('emailAdmin') || '';
-    const userName = sessionStorage.getItem('userName') || '';
-
-    const payload = {
-      nombreHoja: "Respuestas",
-      fila: [
-        fechaHora,
-        usuarioAdmin,
-        emailAdmin,
-        userName,
-        user.name || "SinNombre",
-        user.lastname || "SinApellido",
-        user.email || "SinEmail",
-        respuestasFinal
-      ]
-    };
-
-    console.log("Enviando a la base de datos:", payload);
-
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkxjimUNTAbVNMsC1nVyoaNY-3sAcSmtryhMPF2i5FeEywJHKzVYT_V_65BuVmJgxu/exec';
-
-    enviarConReenvioSimultaneo(payload, GOOGLE_SCRIPT_URL);
-
-    const msg = document.getElementById('loadingMsg');
-    msg.innerText = "¡Resultados DISC guardados correctamente!";
-    msg.style.color = "#059669";
+  function buildRespuestasParsed(){
+    const p={};let idx=1;
+    for(let i=0;i<TOTAL;i++){const a=answers[i];p[idx]=a.mas?DIM_MAP[a.mas]:0;idx++;p[idx]=a.menos?DIM_MAP[a.menos]:0;idx++;}
+    return p;
   }
 
-  // ========== ENVÍO CON REENVÍO ==========
-  function enviarConReenvioSimultaneo(payload, googleScriptUrl) {
-    fetch(googleScriptUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    }).then(() => {
-      console.log("Datos enviados correctamente");
-    }).catch(err => {
-      console.error("Error al enviar:", err);
-    });
+  /**
+   * ════════════════════════════════════════════════════════
+   * ENVIAR RESULTADOS — 2 PASOS CON FORM-ENCODED
+   * 
+   * CLAVE: Usamos URLSearchParams + parameter "data" 
+   * para que Google Apps Script lea e.parameter.data
+   * Esto funciona con mode:'no-cors' de forma confiable.
+   * ════════════════════════════════════════════════════════
+   */
+  async function sendResults() {
+  const msg = document.getElementById('loadingMsg');
+  const btnVolver = document.getElementById('btnVolver');
 
-    const sessionUser = JSON.parse(localStorage.getItem('sessionUser')) || {};
-    let permisoRaw = localStorage.getItem('PERMISO_REENVIO') || 'NO';
-    const permisoReenvio = permisoRaw.replace(/"/g, '');
+  const respuestasFinal = buildRespuestas();
+  const now = new Date();
+  const fechaHora = now.toLocaleString('es-AR', {
+    day:'2-digit', month:'2-digit', year:'numeric',
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
+  });
 
-    const emailAdminSession = sessionUser.adminEmail || null;
-    const emailUsuario = payload.fila[5] || null;
+  const usuarioAdmin = sessionStorage.getItem('usuarioAdmin') || '';
+  const emailAdmin = sessionStorage.getItem('emailAdmin') || '';
+  const userNameAdmin = sessionStorage.getItem('userName') || '';
 
-    const enviar = (emailDestino) => {
-      const copia = JSON.parse(JSON.stringify(payload));
-      copia.fila[5] = emailDestino;
-      return fetch(googleScriptUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(copia)
-      });
-    };
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzs9L_Ni9ZvO9SZhQVn9qO160GHZKCWDYrD2743pWMvT2lEHAUh2doukLkj7Uu5NsPw/exec';
+  
 
-    if (emailAdminSession) enviar(emailAdminSession);
-    if (permisoReenvio === "SI" && emailUsuario) {
-      setTimeout(() => enviar(emailUsuario), 400);
+  // =========================
+  // PASO 1: Guardar fila (SIN accion) -> GAS appendRow
+  // =========================
+  msg.innerHTML = '<span class="loading-spinner"></span> Guardando resultados...';
+
+  const payloadFila = {
+    nombreHoja: "Respuestas",
+    // IMPORTANTE: esto es lo que tu GAS reconoce en Paso 1
+    fila: [
+      fechaHora,
+      usuarioAdmin,
+      emailAdmin,
+      userNameAdmin,
+      user.name || "SinNombre",
+      user.lastname || "SinApellido",
+      user.email || "SinEmail",
+      respuestasFinal
+    ]
+  };
+
+  let row = null;
+  let discId = null;
+
+  try {
+    // Form-encoded (tu GAS lo soporta y es súper estable)
+    const fd1 = new URLSearchParams();
+    fd1.append('data', JSON.stringify(payloadFila));
+
+    const r1 = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: fd1 });
+    const t1 = await r1.text();
+
+    // Tu GAS nuevo devuelve JSON. Si todavía devuelve "Guardado", esto lo tolera.
+    let res1;
+    try { res1 = JSON.parse(t1); } catch { res1 = null; }
+
+    if (res1 && res1.success === false) {
+      throw new Error(res1.error || 'Paso 1 falló');
     }
+
+    // Si devuelve JSON con row/disc_id, genial
+    if (res1 && res1.success) {
+      row = res1.row;
+      discId = res1.disc_id;
+    }
+
+    console.log('✅ Paso 1 OK', { row, discId, raw: t1.slice(0, 200) });
+  } catch (e) {
+    console.error('❌ Paso 1 error:', e);
+    msg.innerHTML = '❌ Error guardando resultados. Se enviará sin PDF.';
+    msg.style.color = '#dc2626';
+    btnVolver.style.display = 'inline-block';
+    return;
   }
 
-  // ========== VOLVER ==========
-  function volverAlPanel() {
-    window.location.href = "../Userboard/index.html";
+  // =========================
+  // PASO 2: Generar PDF y subirlo (accion:'guardarPdf')
+  // =========================
+  let pdfEnviado = false;
+
+  try {
+    msg.innerHTML = '<span class="loading-spinner"></span> Generando informe PDF...';
+
+    let intentos = 0;
+    while (!window.generarPDFBase64 && intentos < 60) {
+      await new Promise(r => setTimeout(r, 100));
+      intentos++;
+    }
+    if (!window.generarPDFBase64) throw new Error('generarPDFBase64 no disponible');
+
+    const respuestasParsed = buildRespuestasParsed();
+    const dataPdf = {
+      Nombre: user.name || 'SinNombre',
+      Apellido: user.lastname || 'SinApellido',
+      Correo: user.email || '',
+      Fecha: now.toISOString()
+    };
+    const resultado = calcularResultadoParaPDF(respuestasParsed);
+
+    const pdfBase64 = await window.generarPDFBase64(dataPdf, resultado, respuestasParsed);
+
+    msg.innerHTML = '<span class="loading-spinner"></span> Subiendo informe PDF...';
+    console.log(`📤 Subiendo PDF (${Math.round(pdfBase64.length/1024)} KB)...`, { row, discId });
+
+    const payloadPdf = {
+      nombreHoja: "Respuestas",
+      accion: "guardarPdf",      // ✅ tu GAS lo reconoce
+      row: row,                  // ✅ si tu GAS es el mejorado que te pasé
+      disc_id: discId,           // opcional
+      pdfBase64: pdfBase64,      // ✅ tu GAS lo reconoce
+      pdfNombre: `Informe_DISC_${(user.name||'')}_${(user.lastname||'')}${discId ? '_' + discId : ''}.pdf`
+    };
+
+    const fd2 = new URLSearchParams();
+    fd2.append('data', JSON.stringify(payloadPdf));
+
+    const r2 = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: fd2 });
+    const t2 = await r2.text();
+
+    let res2;
+    try { res2 = JSON.parse(t2); } catch { res2 = null; }
+    if (res2 && res2.success === false) throw new Error(res2.error || 'Paso 2 falló');
+
+    pdfEnviado = true;
+    console.log('✅ Paso 2 OK', { raw: t2.slice(0, 250) });
+
+  } catch (e) {
+    console.error('⚠️ Paso 2 (PDF) error:', e);
+    pdfEnviado = false;
   }
+
+  // =========================
+  // PASO 3: UI final
+  // =========================
+  msg.innerHTML = pdfEnviado
+    ? '✅ ¡Resultados DISC e informe PDF guardados correctamente!'
+    : '✅ ¡Resultados DISC guardados correctamente! (PDF no enviado)';
+  msg.style.color = '#059669';
+  btnVolver.style.display = 'inline-block';
+}
+
+
+
+  function calcularResultadoParaPDF(rp){
+    let masDI=0,masSC=0,menosDI=0,menosSC=0;
+    let masDI_P1=0,masSC_P1=0,menosDI_P1=0,menosSC_P1=0;
+    let masDI_P2=0,masSC_P2=0,menosDI_P2=0,menosSC_P2=0;
+    const det=[];
+    for(let q=1;q<=28;q++){
+      let idM,idL;if(q<=14){idM=(q-1)*2+1;idL=(q-1)*2+2;}else{idM=28+(q-15)*2+1;idL=28+(q-15)*2+2;}
+      const vM=rp[idM],vL=rp[idL];
+      if(vM!==undefined&&vL!==undefined){
+        if(vM===5)masDI++;else masSC++;if(vL===5)menosDI++;else menosSC++;
+        if(q<=14){if(vM===5)masDI_P1++;else masSC_P1++;if(vL===5)menosDI_P1++;else menosSC_P1++;}
+        else{if(vM===5)masDI_P2++;else masSC_P2++;if(vL===5)menosDI_P2++;else menosSC_P2++;}
+        const g=DISC_QUESTIONS[q-1];
+        det.push({numero:q,parte:q<=14?"I":"II",textoD:g.D,textoI:g.I,textoS:g.S,textoC:g.C,valorMas:vM,valorMenos:vL,masGrupo:vM===5?"D/I":"S/C",menosGrupo:vL===5?"D/I":"S/C"});
+      }
+    }
+    const pm=Math.round((masDI/28)*100),ps=Math.round((masSC/28)*100),pmd=Math.round((menosDI/28)*100),pms=Math.round((menosSC/28)*100);
+    const nv=p=>{if(p>=75)return"Muy Alto";if(p>=55)return"Alto";if(p>=35)return"Moderado";if(p>=15)return"Bajo";return"Muy Bajo";};
+    let tc='mixto';
+    if(masDI>=18&&menosSC>=18)tc='consistente_DI';
+    else if(masSC>=18&&menosDI>=18)tc='consistente_SC';
+    else if(masDI>masSC&&menosSC>menosDI)tc='consistente_DI';
+    else if(masSC>masDI&&menosDI>menosSC)tc='consistente_SC';
+    else if((masDI>masSC&&menosDI>menosSC)||(masSC>masDI&&menosSC>menosDI))tc='contradictorio';
+    return{masDI,masSC,menosDI,menosSC,netoDI:masDI-menosDI,netoSC:masSC-menosSC,pctMasDI:pm,pctMasSC:ps,pctMenosDI:pmd,pctMenosSC:pms,nivelMasDI:nv(pm),nivelMasSC:nv(ps),nivelMenosDI:nv(pmd),nivelMenosSC:nv(pms),masDI_P1,masSC_P1,menosDI_P1,menosSC_P1,masDI_P2,masSC_P2,menosDI_P2,menosSC_P2,tipoConsistencia:tc,detallePreguntas:det,preguntasRespondidas:det.length,tiempoParte1:fmtTime(timeStart,timePart1End),tiempoParte2:fmtTime(timePart1End,Date.now())};
+  }
+
+  function volverAlPanel(){window.location.href="../Userboard/index.html";}
 </script>
+<!-- Contenedor oculto para renderizar la rueda SOLO para exportación -->
+<div id="ruedaExport"
+     style="position:fixed; left:-10000px; top:-10000px; width:800px; height:800px; overflow:hidden;">
+</div>
+
 </body>
 </html>

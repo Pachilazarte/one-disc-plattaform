@@ -1038,12 +1038,40 @@ function renderRuedaDISC(respuestas) {
     console.log('🎯 Coordenadas calculadas:', coordenadas);
 
     // Renderizar la rueda
-    window.renderRuedaSI5("#ruedaSVG", {
-      celdaNatural: coordenadas.natural.cell,
-      celdaAdaptada: coordenadas.adaptado.cell,
-      width: 900,
-      height: 900
-    });
+    // Renderizar la rueda
+window.renderRuedaSI5("#ruedaSVG", {
+  celdaNatural: coordenadas.natural.cell,
+  celdaAdaptada: coordenadas.adaptado.cell,
+  width: 900,
+  height: 900
+});
+
+// ✅ Actualizar badges del resumen (los que sí existen)
+const nBadge = document.getElementById('naturalCellBadge');
+if (nBadge) nBadge.textContent = `Celda: ${coordenadas.natural.cell}`;
+
+const aBadge = document.getElementById('adaptadoCellBadge');
+if (aBadge) aBadge.textContent = `Celda: ${coordenadas.adaptado.cell}`;
+
+// (Opcional) Solo actualizar naturalInfo/adaptadoInfo si existen
+const nInfo = document.getElementById('naturalInfo');
+if (nInfo) {
+  nInfo.innerHTML = `
+    <strong>Celda:</strong> ${coordenadas.natural.cell}<br>
+    <strong>Ángulo:</strong> ${Math.round(coordenadas.natural.angle)}°<br>
+    <strong>Intensidad:</strong> ${Math.round(coordenadas.natural.radius * 100)}%
+  `;
+}
+
+const aInfo = document.getElementById('adaptadoInfo');
+if (aInfo) {
+  aInfo.innerHTML = `
+    <strong>Celda:</strong> ${coordenadas.adaptado.cell}<br>
+    <strong>Ángulo:</strong> ${Math.round(coordenadas.adaptado.angle)}°<br>
+    <strong>Intensidad:</strong> ${Math.round(coordenadas.adaptado.radius * 100)}%
+  `;
+}
+
 
     // Actualizar info de perfiles
     document.getElementById('naturalInfo').innerHTML = `
@@ -1178,14 +1206,23 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('reportContainer').classList.remove('hidden');
 
     setTimeout(() => {
-      setupRevealAnimations();
-      // ⭐ Activar la primera sección (Acerca del Test) al cargar
-      const firstSection = document.getElementById('sec-acerca');
-      if (firstSection) {
-        firstSection.classList.add('active');
-        triggerReveals(firstSection);
-      }
-    }, 100);
+  setupRevealAnimations();
+
+  // ✅ Mostrar la sección que ya viene activa en el HTML (o la del tab activo)
+  const activeTab = document.querySelector('.nav-tab.active');
+  const key = activeTab?.dataset.section || 'resumen';
+
+  // Apagar todas
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+
+  // Encender solo la correcta
+  const initialSection = document.getElementById(`sec-${key}`);
+  if (initialSection) {
+    initialSection.classList.add('active');
+    triggerReveals(initialSection);
+  }
+}, 100);
+
   }, 1200);
 });
 
