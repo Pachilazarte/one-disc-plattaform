@@ -36,6 +36,7 @@ async function checkTestStatus() {
 
         if (!userName) {
             showPendingStatus();
+            enableManualSection(false);
             return;
         }
 
@@ -56,22 +57,25 @@ async function checkTestStatus() {
             if (userData.Respuestas && userData.Respuestas.trim() !== "") {
 
                 // 🔥 GUARDAMOS TODO EL OBJETO COMPLETO
-                sessionStorage.setItem(
-                    "discUserData",
-                    JSON.stringify(userData)
-                );
+sessionStorage.setItem(
+    "discUserData",
+    JSON.stringify(userData)
+);
 
-                userResult = userData;
-                showCompletedStatus();
-                return;
+userResult = userData;
+showCompletedStatus();
+enableManualSection(true, userData);
+return;
             }
         }
 
         showPendingStatus();
+        enableManualSection(false);
 
     } catch (error) {
         console.error("Error consultando informes:", error);
         showPendingStatus();
+        enableManualSection(false);
     } finally {
         Helpers.showLoading(false);
     }
@@ -246,4 +250,116 @@ function viewReport() {
     
     // Navegar al informe en la misma página
     window.location.href = `${CONFIG.routes.informe}?email=${encodeURIComponent(session.userEmail)}`;
+}
+
+
+function enableManualSection(enabled, data = null) {
+    const section = document.getElementById('manualSection');
+    const button = document.getElementById('btnDownloadManual');
+    const status = document.getElementById('manualStatusText');
+
+    if (!section || !button || !status) return;
+
+    section.classList.remove('hidden');
+
+    if (enabled) {
+        button.disabled = false;
+        section.classList.remove('manual-section-disabled');
+
+        status.classList.remove('is-error', 'is-loading');
+        status.classList.add('is-ready');
+        status.textContent = 'Manual habilitado. Ya podés descargarlo.';
+
+        if (data) {
+            sessionStorage.setItem('discUserData', JSON.stringify(data));
+        }
+
+        return;
+    }
+
+    button.disabled = true;
+    section.classList.add('manual-section-disabled');
+
+    status.classList.remove('is-ready', 'is-loading');
+    status.classList.add('is-error');
+    status.textContent = 'El manual se habilita cuando el alumno tiene informe disponible.';
+}
+
+
+
+function setManualButtonState(state, message) {
+    const button = document.getElementById('btnDownloadManual');
+    const status = document.getElementById('manualStatusText');
+
+    if (!button || !status) return;
+
+    status.classList.remove('is-ready', 'is-loading', 'is-error');
+
+    if (state === 'loading') {
+        button.disabled = true;
+        status.classList.add('is-loading');
+        status.textContent = message || 'Generando manual personalizado...';
+        return;
+    }
+
+    if (state === 'success') {
+        button.disabled = false;
+        status.classList.add('is-ready');
+        status.textContent = message || 'Manual generado correctamente.';
+        return;
+    }
+
+    if (state === 'error') {
+        button.disabled = false;
+        status.classList.add('is-error');
+        status.textContent = message || 'No se pudo generar el manual.';
+        return;
+    }
+
+    button.disabled = false;
+    status.textContent = message || 'Preparado para generar el recurso del alumno.';
+}
+
+async function downloadStudyManual() {
+    try {
+        const rawData = sessionStorage.getItem('discUserData');
+
+        if (!rawData) {
+            setManualButtonState('error', 'No hay datos del informe para generar el manual.');
+            return;
+        }
+
+        const data = JSON.parse(rawData);
+
+        setManualButtonState('loading', 'Preparando manual personalizado...');
+
+        if (typeof window.descargarManualPersonalizado === 'function') {
+            await window.descargarManualPersonalizado(data);
+            setManualButtonState('success', 'Manual descargado correctamente.');
+            return;
+        }
+
+        if (typeof window.generarManualPersonalizado === 'function') {
+            await window.generarManualPersonalizado(data);
+            setManualButtonState('success', 'Manual descargado correctamente.');
+            return;
+        }
+
+        if (window.Manual && typeof window.Manual.descargar === 'function') {
+            await window.Manual.descargar(data);
+            setManualButtonState('success', 'Manual descargado correctamente.');
+            return;
+        }
+
+        if (window.Manual && typeof window.Manual.generar === 'function') {
+            await window.Manual.generar(data);
+            setManualButtonState('success', 'Manual descargado correctamente.');
+            return;
+        }
+
+        throw new Error('Manual.js no expone una función compatible');
+    } catch (error) {
+        console.error('Error al generar el manual:', error);
+        setManualButtonState('error', 'Ocurrió un error al generar el manual.');
+    }
 }

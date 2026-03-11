@@ -152,6 +152,55 @@
             <div id="testStatusContainer"></div>
         </section>
 
+        </section>
+        <section id="manualSection" class="hidden mt-10">
+    <div class="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_30px_100px_rgba(0,0,0,0.45)]">
+        <div class="absolute inset-0 bg-gradient-to-br from-disc-cyan/10 via-transparent to-disc-pink/10 pointer-events-none"></div>
+
+        <div class="relative z-10 p-6 sm:p-8 lg:p-10">
+            <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+                <div class="flex-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-disc-gold/25 bg-disc-gold/10 text-disc-gold text-xs font-bold uppercase tracking-[0.24em] mb-5">
+                        Recurso personalizado
+                    </div>
+
+                    <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                        Manual de estudio personalizado
+                    </h3>
+
+                    <p class="mt-3 text-sm sm:text-base text-gray-300 leading-7 max-w-3xl">
+                        Descargá una guía creada a partir del informe DISC del alumno.
+                    </p>
+                </div>
+
+                <div class="xl:w-[360px] shrink-0">
+                    <div class="manual-action-card">
+                        <div class="manual-action-badge">
+                            Disponible con informe cargado
+                        </div>
+
+                        <button
+                            id="btnDownloadManual"
+                            type="button"
+                            class="manual-download-btn mt-6"
+                            onclick="downloadStudyManual()"
+                        >
+                            Descargar manual
+                        </button>
+
+                        <div id="manualStatusText" class="manual-status-text mt-4">
+                            Preparado para generar el recurso del alumno.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br><br>
+</section>
+
         <!-- DISC Model -->
         <section>
             <div class="text-center mb-10">
@@ -190,7 +239,7 @@
                 </div>
 
             </div>
-        </section>
+
 
         <!-- Footer -->
         <footer class="mt-20 pt-8 border-t border-white/10">
@@ -202,43 +251,29 @@
 
     </main>
 
-    <script src="./script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../Manual/ManualTheme.js"></script>
+<script src="../Manual/Manual.js"></script>
+<script src="./script.js"></script>
 
-    <script>
-        /* CONTROL UI ENTERPRISE */
-        document.addEventListener("DOMContentLoaded", function(){
-            const btnStart = document.getElementById("btnStartTest");
-            const btnReport = document.getElementById("btnViewReport");
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        const percent = 100; 
+        setProgress(percent);
+    });
 
-            if(btnStart){
-                btnStart.addEventListener("click", ()=>{
-                    window.location.href = CONFIG.routes.test;
-                });
-            }
+    function setProgress(value){
+        const circle = document.querySelector(".progress-ring-fill");
+        const radius = 110;
+        const circumference = 2 * Math.PI * radius;
 
-            if(btnReport){
-                btnReport.addEventListener("click", ()=>{
-                    window.location.href = CONFIG.routes.informe;
-                });
-            }
+        circle.style.strokeDasharray = circumference;
+        const offset = circumference - (value / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
 
-            /* Simulación dinámica progreso */
-            const percent = 100; 
-            setProgress(percent);
-        });
-
-        function setProgress(value){
-            const circle = document.querySelector(".progress-ring-fill");
-            const radius = 110;
-            const circumference = 2 * Math.PI * radius;
-
-            circle.style.strokeDasharray = circumference;
-            const offset = circumference - (value / 100) * circumference;
-            circle.style.strokeDashoffset = offset;
-
-            document.getElementById("progressPercent").innerText = value + "%";
-        }
-    </script>
+        document.getElementById("progressPercent").innerText = value + "%";
+    }
+</script>
 
 </body>
 </html>
