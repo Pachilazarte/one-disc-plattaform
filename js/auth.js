@@ -3,30 +3,32 @@ const Auth = {
   async login(usuario, password, rol) {
     try {
 
-      // 🔹 1. SUPERADMIN LOCAL (FIJO)
-      if (rol === CONFIG.roles.SUPERADMIN) {
+// 🔹 1. SUPERADMIN LOCAL (FIJO)
+if (rol === CONFIG.roles.SUPERADMIN) {
+    const superadmin = {
+        usuario: "superadmin",
+        password: "admin123",
+        email: "superadmin@local",
+        rol: CONFIG.roles.SUPERADMIN
+    };
 
-        const superadmin = {
-          usuario: "superadmin",
-          password: "admin123",
-          email: "superadmin@local",
-          rol: CONFIG.roles.SUPERADMIN
-        };
-
-        if (usuario === superadmin.usuario && password === superadmin.password) {
-
-          this.setSession({
+    if (usuario === superadmin.usuario && password === superadmin.password) {
+        // CORRECCIÓN: Usamos directamente el objeto 'superadmin' 
+        // y le damos packStatus "01" para que tenga todos los permisos.
+this.setSession({
             usuario: superadmin.usuario,
             email: superadmin.email,
             password: superadmin.password,
-            rol: superadmin.rol
-          });
+            rol: CONFIG.roles.SUPERADMIN, // Usá el rol de superadmin acá
+            packStatus: "01" 
+        });
 
-          return { success: true };
-        }
 
-        return { success: false, message: "Credenciales inválidas" };
-      }
+        return { success: true };
+    }
+
+    return { success: false, message: "Credenciales inválidas" };
+}
 
       // 🔹 2. ADMIN DINÁMICO DESDE GOOGLE SHEETS
       if (rol === CONFIG.roles.ADMIN) {
@@ -52,11 +54,13 @@ const Auth = {
           return { success: false, message: "Tu cuenta de administrador está inactiva" };
         }
 
-        this.setSession({
+// ✅ CORRECCIÓN PARA EL BLOQUE USER
+this.setSession({
           usuario: String(adminEncontrado.Usuario_Admin),
           email: String(adminEncontrado.Email_Admin),
           password: String(adminEncontrado.Pass_Admin),
-          rol: CONFIG.roles.ADMIN
+          rol: CONFIG.roles.ADMIN,
+          packStatus: String(adminEncontrado.Pack_Status || "").trim()
         });
 
         return { success: true };
@@ -90,13 +94,14 @@ const Auth = {
           return { success: false, message: "Tu cuenta está inactiva" };
         }
 
-        this.setSession({
+this.setSession({
           usuario: String(userEncontrado.User),
           email: String(userEncontrado.Email_User),
           password: String(userEncontrado.Pass_User),
           rol: CONFIG.roles.USER,
           userAdmin: String(userEncontrado.Usuario_Admin),
-          emailAdmin: String(userEncontrado.Email_Admin)
+          emailAdmin: String(userEncontrado.Email_Admin),
+          packStatus: String(userEncontrado.Pack_Status || "").trim()
         });
 
         return { success: true };
@@ -111,20 +116,24 @@ const Auth = {
     }
   },
 
-  setSession(userData) {
+setSession(userData) {
     sessionStorage.setItem("isLoggedIn", "true");
     sessionStorage.setItem("userRole", userData.rol);
     sessionStorage.setItem("userName", userData.usuario);
     sessionStorage.setItem("userEmail", userData.email);
     sessionStorage.setItem("userPassword", userData.password);
     sessionStorage.setItem("sessionStartTime", String(Date.now()));
-    if (userData.rol === CONFIG.roles.USER) {
-      sessionStorage.setItem("usuarioAdmin", userData.userAdmin);
-      sessionStorage.setItem("emailAdmin", userData.emailAdmin);
-    }
-  },
+    
+    // ✅ NUEVA LÍNEA: Persiste el código "01" o vacío
+    sessionStorage.setItem("packStatus", userData.packStatus || "");
 
-  getSession() {
+    if (userData.rol === CONFIG.roles.USER) {
+        sessionStorage.setItem("usuarioAdmin", userData.userAdmin);
+        sessionStorage.setItem("emailAdmin", userData.emailAdmin);
+    }
+},
+
+getSession() {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     if (!isLoggedIn) return null;
 
@@ -132,18 +141,20 @@ const Auth = {
     const currentTime = Date.now();
 
     if (currentTime - startTime > CONFIG.system.sessionTimeout) {
-      this.logout();
-      return null;
+        this.logout();
+        return null;
     }
 
     return {
-      isLoggedIn: true,
-      role: sessionStorage.getItem("userRole"),
-      userName: sessionStorage.getItem("userName"),
-      userEmail: sessionStorage.getItem("userEmail"),
-      userPassword: sessionStorage.getItem("userPassword")
+        isLoggedIn: true,
+        role: sessionStorage.getItem("userRole"),
+        userName: sessionStorage.getItem("userName"),
+        userEmail: sessionStorage.getItem("userEmail"),
+        userPassword: sessionStorage.getItem("userPassword"),
+        // ✅ NUEVA LÍNEA: Recupera el código para las validaciones en los dashboards
+        packStatus: sessionStorage.getItem("packStatus") || "" 
     };
-  },
+},
 
   isAuthenticated() {
     return this.getSession() !== null;

@@ -644,22 +644,23 @@
       
       try {
         let rol = currentMode === 'user' ? 'user' : 'admin';
-        const result = await Auth.login(usuario, password, rol);
-        
-        if (result.success) {
-          showAlert('¡Inicio de sesión exitoso!', 'success');
-          setTimeout(() => { Auth.redirectToDashboard(); }, 800);
-        } else {
-          if (currentMode === 'admin') {
-            const superadminResult = await Auth.login(usuario, password, 'superadmin');
-            if (superadminResult.success) {
-              showAlert('¡Inicio de sesión exitoso!', 'success');
-              setTimeout(() => { Auth.redirectToDashboard(); }, 800);
-              return;
-            }
-          }
-          showAlert(result.message || 'Credenciales inválidas', 'error');
+const result = await Auth.login(usuario, password, rol);
+
+if (result.success) {
+    showAlert('¡Inicio de sesión exitoso!', 'success');
+    setTimeout(() => { Auth.redirectToDashboard(); }, 800);
+} else {
+    // Si falló como admin, intentamos verificar si es el superadmin local
+    if (currentMode === 'admin') {
+        const superadminResult = await Auth.login(usuario, password, CONFIG.roles.SUPERADMIN); // Usar la constante CONFIG
+        if (superadminResult.success) {
+            showAlert('¡Inicio de sesión exitoso!', 'success');
+            setTimeout(() => { Auth.redirectToDashboard(); }, 800);
+            return;
         }
+    }
+    showAlert(result.message || 'Credenciales inválidas', 'error');
+}
       } catch (error) {
         console.error('Error en login:', error);
         showAlert('Error de conexión. Intenta nuevamente.', 'error');

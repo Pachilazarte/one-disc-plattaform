@@ -40,10 +40,10 @@ const CONFIG = {
     // 🔗 APIs de Google Apps Script
     api: {
         // WebApp para gestión de SuperAdmin para Admins
-        gestion: "https://script.google.com/macros/s/AKfycbyY5VMFUd-aKzYjh40qYDCf1bRYJ-mz__WziNRmxZZrP7hpiKYtT6jrx0WByy-1nbomRg/exec",
+        gestion: "https://script.google.com/macros/s/AKfycby7zTGZIyNFCjh-8GRIexYngpLPybAY6CTnKW6CMgS7EIlpEqXEeObEST6-MubB7OAKvQ/exec",
         
         // WebApp para gestión de Admins para Usuarios
-        gestionAdmin: "https://script.google.com/macros/s/AKfycbwuEuHrCuckE0qewaW2txw45WmDxLS2R61WovJd3F2k_ZIBsUSjX_Q8HZsV0eY8EXPG/exec",
+        gestionAdmin: "https://script.google.com/macros/s/AKfycbyEjSYIvFx5RBrqMrnKpdjXbsxwNv1h5FyxDe3Cikqf8oM07iw2-q7NrP4BcaJ12Ff0/exec",
         
         // WebApp para lectura de resultados
         informes: "https://script.google.com/macros/s/AKfycby2psvvq0o7jm1EmkFKAsXpcxRdVdBMThvjRAmvTDdmUClEHsA2PIMMR2_7hhlaTRNO/exec",

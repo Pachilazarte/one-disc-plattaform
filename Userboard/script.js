@@ -260,9 +260,17 @@ function enableManualSection(enabled, data = null) {
 
     if (!section || !button || !status) return;
 
-    section.classList.remove('hidden');
+    // ✅ 1. LEEMOS EL PERMISO DESDE LA SESIÓN (Session Storage)
+    const session = Auth.getSession();
+    const packStatus = session ? String(session.packStatus).trim() : "";
+    
+    // Validamos si es "1" o "01"
+    const hasLiderPack = (packStatus === "1" || packStatus === "01");
 
-    if (enabled) {
+    // ✅ 2. LÓGICA DE VISIBILIZACIÓN
+    // Solo mostramos la sección si: completó el test (enabled) Y tiene el pack activo (hasLiderPack)
+    if (enabled && hasLiderPack) {
+        section.classList.remove('hidden');
         button.disabled = false;
         section.classList.remove('manual-section-disabled');
 
@@ -270,21 +278,17 @@ function enableManualSection(enabled, data = null) {
         status.classList.add('is-ready');
         status.textContent = 'Manual habilitado. Ya podés descargarlo.';
 
+        // Guardamos los datos del test (respuestas) para que el generador de PDF los use
         if (data) {
             sessionStorage.setItem('discUserData', JSON.stringify(data));
         }
-
-        return;
+    } else {
+        // Si no cumple ambas condiciones, ocultamos la sección completamente
+        section.classList.add('hidden');
+        button.disabled = true;
+        status.textContent = 'Recurso no disponible para su suscripción.';
     }
-
-    button.disabled = true;
-    section.classList.add('manual-section-disabled');
-
-    status.classList.remove('is-ready', 'is-loading');
-    status.classList.add('is-error');
-    status.textContent = 'El manual se habilita cuando el alumno tiene informe disponible.';
 }
-
 
 
 function setManualButtonState(state, message) {

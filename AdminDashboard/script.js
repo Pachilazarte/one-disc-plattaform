@@ -26,12 +26,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /* =========================================================
-   INFO DEL ADMIN LOGUEADO
+   INFO DEL ADMIN LOGUEADO (Actualizado para Pack 01)
    ========================================================= */
 function loadUserInfo() {
     var session = Auth.getSession();
     if (session) {
         document.getElementById('userInfo').textContent = session.userName + ' (' + session.userEmail + ')';
+        
+        const packContainer = document.getElementById('packLiderContainer');
+        if (packContainer) {
+            // ✅ CORRECCIÓN: Aceptamos "01" o "1"
+            if (session.packStatus === "01" || session.packStatus === "1") {
+                packContainer.classList.remove('hidden');
+            } else {
+                packContainer.classList.add('hidden');
+            }
+        }
     }
 }
 
@@ -98,16 +108,19 @@ async function loadUsers() {
                         && row.User
                         && String(row.User).trim() !== '';
                 })
-                .map(function (row) {
-                    return {
-                        usuario: String(row.User || ''),
-                        password: String(row.Pass_User || ''),
-                        email: String(row.Email_User || ''),
-                        nombre: String(row.Nombre_User || ''),
-                        estado: String(row.Estado_User || 'activo').toLowerCase(),
-                        testCompletado: false // se actualizará después
-                    };
-                });
+.map(function (row) {
+    return {
+        usuario: String(row.User || ''),
+        password: String(row.Pass_User || ''),
+        email: String(row.Email_User || ''),
+        nombre: String(row.Nombre_User || ''),
+        estado: String(row.Estado_User || 'activo').toLowerCase(),
+        // ✅ Capturamos el identificador "01" de la Columna H
+        // Buscá esta línea y cambiala:
+packStatus: String(row.Pack_Status || '').trim(), // <--- Cambiá Pack_Lider por Pack_Status
+        testCompletado: false
+    };
+});
 
             // ══════════════════════════════════════════════
             // PASO 2: Consultar hoja de Respuestas para
@@ -196,8 +209,9 @@ function filterUsers() {
 }
 
 /* =========================================================
-   CREAR USUARIO
+    CREAR USUARIO - VERSIÓN FINAL INTEGRADA
    ========================================================= */
+
 async function handleCreateUser(e) {
     e.preventDefault();
 
@@ -207,6 +221,11 @@ async function handleCreateUser(e) {
     var nombre = document.getElementById('userNombre').value.trim();
     var session = Auth.getSession();
 
+    // ✅ CAPTURA PREVIA: Obtenemos el valor antes de entrar al modal de confirmación
+    var chkPack = document.getElementById('chkPackLider');
+    var packValue = (chkPack && chkPack.checked) ? '01' : '';
+
+    // Validaciones estándar
     if (!usuario || !password || !email || !nombre) {
         Helpers.showAlert('Todos los campos son obligatorios', 'error');
         return;
@@ -239,24 +258,26 @@ async function handleCreateUser(e) {
         icon: 'create',
         btnClass: 'bg-gradient-to-r from-one-cyan/30 to-one-pink/30 border border-one-cyan/50',
         onConfirm: function () {
-            doCreateUser(usuario, password, email, nombre, session, e.target);
+            // ✅ PASO DE PARÁMETRO: Enviamos packValue como 7mo argumento
+            doCreateUser(usuario, password, email, nombre, session, e.target, packValue);
         }
     });
 }
 
-async function doCreateUser(usuario, password, email, nombre, session, form) {
+async function doCreateUser(usuario, password, email, nombre, session, form, packValue) {
     Helpers.showLoading(true);
 
     try {
         var payload = {
             fila: [
-                session.userName,     // Usuario_Admin (identificador único)
-                session.userEmail,    // Email_Admin
-                usuario,              // User
-                password,             // Pass_User
-                email,                // Email_User
-                nombre,               // Nombre_User
-                'activo'              // Estado_User
+                session.userName,     // Col A: Usuario_Admin
+                session.userEmail,    // Col B: Email_Admin
+                usuario,              // Col C: User
+                password,             // Col D: Pass_User
+                email,                // Col E: Email_User
+                nombre,               // Col F: Nombre_User
+                'activo',             // Col G: Estado_User
+                packValue             // Col H: Pack_Lider (Valor "01" o "")
             ]
         };
 
@@ -272,7 +293,12 @@ async function doCreateUser(usuario, password, email, nombre, session, form) {
 
         if (result && result.status === 'success') {
             showToast('Usuario "' + usuario + '" creado exitosamente', 'success');
+            
+            // Limpieza completa
             form.reset();
+            var chkPack = document.getElementById('chkPackLider');
+            if (chkPack) chkPack.checked = false;
+
             showCredentialsModal(usuario, password, email);
             setTimeout(function () { loadUsers(); }, 1500);
         } else {
@@ -287,7 +313,6 @@ async function doCreateUser(usuario, password, email, nombre, session, form) {
         Helpers.showLoading(false);
     }
 }
-
 /* =========================================================
    EDITAR USUARIO
    ========================================================= */
@@ -490,80 +515,99 @@ async function doResetUserPassword(usuario, nuevaPass) {
 }
 
 /* =========================================================
-   RENDER: Tabla de Usuarios (con columna Test)
+    RENDER: Tabla de Usuarios (Versión Pro con Pack Líder)
    ========================================================= */
 function renderUsersTable() {
-    var tbody = document.getElementById('usersTableBody');
+    const tbody = document.getElementById('usersTableBody');
     if (!tbody) return;
 
-    var data = filteredData && filteredData.length ? filteredData : [];
+    // 1. Validamos los permisos del Admin logueado (Vos)
+    const session = Auth.getSession();
+    const isAdminLider = (session && (session.packStatus === "01" || session.packStatus === "1"));
 
+    // 2. Sincronizamos el encabezado de la tabla (la columna 5 es Pack Líder)
+    const thPack = document.querySelector('thead th:nth-child(5)');
+    if (thPack) {
+        thPack.style.display = isAdminLider ? '' : 'none';
+    }
+
+    const data = filteredData && filteredData.length ? filteredData : [];
+
+    // 3. Manejo de tabla vacía (Ajustamos colspan a 8)
     if (data.length === 0) {
-        var searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
-        var msg = searchVal ? 'No se encontraron resultados para "' + sanitize(searchVal) + '"' : 'No has creado usuarios aún.';
-        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-gray-400">' + msg + '</td></tr>';
+        const searchVal = document.getElementById('searchInput')?.value.trim() || '';
+        const msg = searchVal ? `No se encontraron resultados para "${sanitize(searchVal)}"` : 'No has creado usuarios aún.';
+        tbody.innerHTML = `<tr><td colspan="8" class="px-6 py-8 text-center text-gray-400">${msg}</td></tr>`;
         return;
     }
 
+    // 4. Mapeo de filas
     tbody.innerHTML = data.map(function (user) {
-        var estado = user.estado || 'activo';
-        var escapedPass = user.password.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const estado = user.estado || 'activo';
+        const escapedPass = user.password.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        
+        // Verificamos si este usuario final tiene el pack activo
+        const isPackEnabled = (user.packStatus === "01" || user.packStatus === "1");
 
-        // ✅ Badge de estado del test
-        var testBadge = user.testCompletado
+        // Badge visual de "LÍDER" al lado del nombre si tiene el pack
+        const badgeLider = isPackEnabled 
+            ? '<span class="ml-2 px-2 py-0.5 text-[10px] bg-one-gold/20 text-one-gold border border-one-gold/30 rounded-full font-bold tracking-tight">LÍDER</span>' 
+            : '';
+
+        // Badge de estado del test
+        const testBadge = user.testCompletado
             ? '<span class="status-badge status-completed">Completado</span>'
             : '<span class="status-badge status-pending">Pendiente</span>';
 
-        return '<tr class="' + (estado === 'inactivo' ? 'opacity-60' : '') + '">' +
-            '<td class="px-6 py-4"><strong>' + sanitize(user.usuario) + '</strong></td>' +
-            '<td class="px-6 py-4">' + sanitize(user.email) + '</td>' +
-            '<td class="px-6 py-4">' +
-                '<div class="flex items-center gap-2">' +
-                    '<span class="pass-text font-mono text-sm text-gray-300" data-visible="false">••••••••</span>' +
-                    '<button onclick="toggleTablePassword(this, \'' + escapedPass + '\')" ' +
-                        'class="text-gray-400 hover:text-one-cyan transition-colors p-1 rounded-lg hover:bg-white/5" title="Ver/Ocultar">' +
-                        '<svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                            '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>' +
-                        '</svg>' +
-                        '<svg class="eye-closed hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                            '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>' +
-                            '<line x1="1" y1="1" x2="23" y2="23"/>' +
-                        '</svg>' +
-                    '</button>' +
-                '</div>' +
-            '</td>' +
-            '<td class="px-6 py-4">' + sanitize(user.nombre) + '</td>' +
-            '<td class="px-6 py-4 text-center">' +
-                '<span class="status-badge ' + (estado === 'activo' ? 'status-active' : 'status-inactive') + '">' +
-                    estado.charAt(0).toUpperCase() + estado.slice(1) +
-                '</span>' +
-            '</td>' +
-            // ✅ Nueva columna: Estado del Test
-            '<td class="px-6 py-4 text-center">' + testBadge + '</td>' +
-            '<td class="px-6 py-4">' +
-                '<div class="action-buttons">' +
-                    '<button class="btn-action btn-action-edit" onclick="openEditModal(\'' + sanitize(user.usuario) + '\')" title="Editar">' +
-                        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                            '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>' +
-                            '<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>' +
-                        '</svg>' +
-                    '</button>' +
-                    '<button class="btn-action ' + (estado === 'activo' ? 'btn-action-deactivate' : 'btn-action-activate') + '" ' +
-                        'onclick="toggleUserStatus(\'' + sanitize(user.usuario) + '\', \'' + estado + '\')" ' +
-                        'title="' + (estado === 'activo' ? 'Inactivar' : 'Activar') + '">' +
-                        (estado === 'activo'
-                            ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
-                            : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
-                        ) +
-                    '</button>' +
-                    '<button class="btn-action btn-action-reset" onclick="resetUserPassword(\'' + sanitize(user.usuario) + '\')" title="Reset Password">' +
-                        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                            '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>' +
-                        '</svg>' +
-                    '</button>' +
-                '</div>' +
-            '</td>' +
-        '</tr>';
+        // Definimos la celda del Pack Líder (Solo si vos sos Admin Líder)
+const packCell = isAdminLider ? `
+    <td class="px-6 py-4">
+        <div class="flex items-center justify-center gap-3">
+            <label class="relative inline-flex items-center cursor-pointer group">
+                <input type="checkbox" class="sr-only peer" ${isPackEnabled ? 'checked' : ''} 
+                       onchange="toggleUserPack('${sanitize(user.usuario)}', this.checked)">
+                <div class="w-11 h-6 bg-white/10 border border-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-one-cyan shadow-lg"></div>
+            </label>
+            <span class="text-[10px] font-bold tracking-widest uppercase ${isPackEnabled ? 'text-one-cyan' : 'text-gray-500'}">
+                ${isPackEnabled ? 'Habilitado' : 'Deshabilitado'}
+            </span>
+        </div>
+    </td>` : '<td class="hidden"></td>';
+
+        return `
+            <tr class="${estado === 'inactivo' ? 'opacity-60' : ''} transition-all hover:bg-white/[0.02]">
+                <td class="px-6 py-4"><div class="flex items-center"><strong>${sanitize(user.usuario)}</strong>${badgeLider}</div></td>
+                <td class="px-6 py-4">${sanitize(user.email)}</td>
+                <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                        <span class="pass-text font-mono text-sm text-gray-300" data-visible="false">••••••••</span>
+                        <button onclick="toggleTablePassword(this, '${escapedPass}')" class="text-gray-400 hover:text-one-cyan p-1 rounded-lg">
+                            <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td class="px-6 py-4">${sanitize(user.nombre || '---')}</td>
+                ${packCell}
+                <td class="px-6 py-4 text-center">
+                    <span class="status-badge ${estado === 'activo' ? 'status-active' : 'status-inactive'}">
+                        ${estado.charAt(0).toUpperCase() + estado.slice(1)}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-center">${testBadge}</td>
+                <td class="px-6 py-4">
+                    <div class="action-buttons justify-center">
+                        <button class="btn-action btn-action-edit" onclick="openEditModal('${sanitize(user.usuario)}')" title="Editar">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </button>
+                        <button class="btn-action ${estado === 'activo' ? 'btn-action-deactivate' : 'btn-action-activate'}" 
+                                onclick="toggleUserStatus('${sanitize(user.usuario)}', '${estado}')">
+                            ${estado === 'activo' ? '🚫' : '✅'}
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
     }).join('');
 }
 
@@ -783,4 +827,47 @@ function sanitize(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str || ''));
     return div.innerHTML;
+}
+
+
+/* =========================================================
+   CAMBIAR PACK LÍDER (MANUAL) PARA USUARIO FINAL
+   ========================================================= */
+async function toggleUserPack(usuarioUser, isEnabled) {
+    const session = Auth.getSession();
+    const nuevoValor = isEnabled ? "1" : ""; // Usamos "1" para ser consistentes con tu base actual
+    
+    showToast('Actualizando permisos...', 'success');
+
+    try {
+        var payload = {
+            accion: 'editarUserPack', // La acción que agregamos al Apps Script
+            usuario: usuarioUser,
+            adminId: session.userName, // El ID del admin logueado
+            valor: nuevoValor
+        };
+
+        var formData = new URLSearchParams();
+        formData.append('data', JSON.stringify(payload));
+
+        var response = await fetch(CONFIG.api.gestionAdmin, {
+            method: 'POST',
+            body: formData
+        });
+
+        var result = await response.json();
+
+        if (result && result.status === 'success') {
+            showToast('Permisos actualizados correctamente', 'success');
+            // Actualizamos el dato local para que no se mueva el switch solo
+            const user = usersData.find(u => u.usuario === usuarioUser);
+            if (user) user.packStatus = nuevoValor;
+        } else {
+            throw new Error(result.message || 'Error en el servidor');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Helpers.showAlert('No se pudo actualizar: ' + error.message, 'error');
+        renderUsersTable(); // Revertimos visualmente el switch si falló
+    }
 }

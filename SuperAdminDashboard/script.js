@@ -43,21 +43,44 @@ function setupEventListeners() {
    ========================================================= */
 async function loadAdmins() {
     Helpers.showLoading(true);
+
     try {
-        const response = await fetch(CONFIG.api.gestion);
-        if (!response.ok) throw new Error('Error en red');
-        adminsData = await response.json();
-        filteredData = [...adminsData];
-        renderAdminsTable();
-        updateStats();
+        // 1. Obtenemos la respuesta cruda de Google Sheets
+        const response = await Helpers.fetchGET(CONFIG.api.gestion);
+
+        if (Array.isArray(response)) {
+            // 2. CREAMOS EL PUENTE: Aquí forzamos que el JS reconozca la columna G
+            adminsData = response.map(function (row) {
+                return {
+                    // Mantenemos tus campos originales
+                    Usuario_Admin: String(row.Usuario_Admin || row.usuario || ''),
+                    Email_Admin: String(row.Email_Admin || row.email || ''),
+                    Pass_Admin: String(row.Pass_Admin || row.password || ''),
+                    Fecha_Alta: String(row.Fecha_Alta || ''),
+                    Estado: String(row.Estado || row.estado || 'activo'),
+                    
+                    // ✅ LA PIEZA CLAVE: Mapeamos la columna "Pack_Status"
+                    // Usamos .trim() para quitar espacios rebeldes y String() por seguridad
+                    Pack_Status: String(row.Pack_Status || '').trim() 
+                };
+            });
+
+            filteredData = adminsData.slice();
+            
+            // 3. Renderizamos la tabla (ahora sí con datos en Pack_Status)
+            renderAdminsTable();
+            updateStats();
+        } else {
+            Helpers.showAlert('Error: La respuesta del servidor no tiene el formato esperado.', 'error');
+        }
+
     } catch (error) {
-        console.error('Error al cargar:', error);
-        Helpers.showAlert('Error al conectar con Google Sheets', 'error');
+        console.error('Error al cargar administradores:', error);
+        Helpers.showAlert('Error de conexión al cargar la lista', 'error');
     } finally {
         Helpers.showLoading(false);
     }
 }
-
 /* =========================================================
    BÚSQUEDA / FILTRO
    ========================================================= */
@@ -77,6 +100,7 @@ function filterAdmins() {
 
 /* =========================================================
    ESCRITURA: Crear nuevo administrador (Túnel Iframe)
+   Actualizado con Pack Líder (Columna G)
    ========================================================= */
 async function handleCreateAdmin(e) {
     e.preventDefault();
@@ -84,6 +108,10 @@ async function handleCreateAdmin(e) {
     const usuario = document.getElementById('adminUsuario').value.trim();
     const password = document.getElementById('adminPassword').value;
     const email = document.getElementById('adminEmail').value.trim();
+    
+    // ✅ CAPTURA DEL PERMISO: Verificamos el nuevo checkbox
+    const chkGestion = document.getElementById('chkGestionPaquetes');
+    const packStatusValue = (chkGestion && chkGestion.checked) ? "01" : "";
 
     if (!usuario || !password || !email) {
         Helpers.showAlert('Completa todos los campos', 'error');
@@ -108,17 +136,23 @@ async function handleCreateAdmin(e) {
             Helpers.showLoading(true);
             var datos = {
                 fila: [
-                    "superadmin@sistema.com",
-                    usuario,
-                    password,
-                    email,
-                    new Date().toISOString(),
-                    "activo"
+                    "superadmin@sistema.com", // Col A
+                    usuario,                  // Col B
+                    password,                 // Col C
+                    email,                    // Col D
+                    new Date().toISOString(), // Col E
+                    "activo",                 // Col F
+                    packStatusValue           // Col G: NUEVO (Valor "01" o "")
                 ],
                 nombreHoja: "Admins"
             };
+
+            // Enviamos los datos
             enviarViaTunel(datos, 'Administrador "' + usuario + '" creado exitosamente');
+            
+            // Limpiamos el formulario y el checkbox
             e.target.reset();
+            if (chkGestion) chkGestion.checked = false;
         }
     });
 }
@@ -324,33 +358,56 @@ function toggleInputPassword(inputId, btn) {
 }
 
 /* =========================================================
-   RENDER: Tabla con todas las acciones
+   RENDER: Tabla con todas las acciones (Corregida)
    ========================================================= */
 function renderAdminsTable() {
     var tbody = document.getElementById('adminsTableBody');
     if (!tbody) return;
 
-    var data = filteredData && filteredData.length ? filteredData : [];
+    var data = filteredData && filteredData.length ? filteredData : (adminsData || []);
 
     if (data.length === 0) {
         var searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
         var mensaje = searchVal ? 'No se encontraron resultados para "' + sanitize(searchVal) + '"' : 'Sin datos';
-        tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-400">' + mensaje + '</td></tr>';
+        // Colspan 7 para cubrir todas las columnas nuevas
+        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-gray-400">' + mensaje + '</td></tr>';
         return;
     }
 
     tbody.innerHTML = data.map(function (admin) {
-        var usuario = admin.Usuario_Admin || admin.usuario || '-';
-        var email = admin.Email_Admin || admin.email || '-';
-        var password = admin.Pass_Admin || admin.password || '';
-        var estado = (admin.Estado || admin.estado || 'activo').toLowerCase();
+        // 1. Definición clara de variables desde el objeto 'admin'
+        var usuario = String(admin.Usuario_Admin || admin.usuario || '-');
+        var email = String(admin.Email_Admin || admin.email || '-');
+        var password = String(admin.Pass_Admin || admin.password || '');
+        var estado = String(admin.Estado || admin.estado || 'activo').toLowerCase();
         var fecha = admin.Fecha_Alta || admin.fechaAlta || '';
+        
+        // 2. ✅ CORRECCIÓN: Extraer el valor real de la propiedad mapeada
+        var valPack = String(admin.Pack_Status || "").trim();
+        
+        // 3. ✅ VALIDACIÓN: Definir si está habilitado (soporta "01" o "1")
+        var isPackEnabled = (valPack === "01" || valPack === "1");
 
-        var escapedPass = password.toString().replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        var escapedPass = password.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
-        return '<tr class="' + (estado === 'inactivo' ? 'opacity-60' : '') + '">' +
+        return '<tr class="' + (estado === 'inactivo' ? 'opacity-60' : '') + ' hover:bg-white/5 transition-colors">' +
             '<td class="px-6 py-4"><strong>' + sanitize(usuario) + '</strong></td>' +
             '<td class="px-6 py-4">' + sanitize(email) + '</td>' +
+            
+            // ✅ COLUMNA: Pack Líder (Toggle Interactivo)
+            '<td class="px-6 py-4">' +
+                '<div class="flex items-center gap-3">' +
+                    '<label class="relative inline-flex items-center cursor-pointer scale-90">' +
+                        '<input type="checkbox" class="sr-only peer" ' + (isPackEnabled ? 'checked' : '') + 
+                        ' onchange="toggleAdminPack(\'' + sanitize(usuario) + '\', this.checked)">' +
+                        '<div class="w-10 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\'\'] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-one-cyan"></div>' +
+                    '</label>' +
+                    '<span class="text-[10px] font-bold tracking-tighter ' + (isPackEnabled ? 'text-one-cyan' : 'text-gray-500') + '">' + 
+                        (isPackEnabled ? 'HABILITADO' : 'LIMITADO') + 
+                    '</span>' +
+                '</div>' +
+            '</td>' +
+
             '<td class="px-6 py-4">' +
                 '<div class="flex items-center gap-2">' +
                     '<span class="pass-text font-mono text-sm text-gray-300" data-visible="false">••••••••</span>' +
@@ -366,7 +423,7 @@ function renderAdminsTable() {
                     '</button>' +
                 '</div>' +
             '</td>' +
-            '<td class="px-6 py-4">' + Helpers.formatDate(fecha || new Date()) + '</td>' +
+            '<td class="px-6 py-4 text-sm text-gray-400">' + Helpers.formatDate(fecha || new Date()) + '</td>' +
             '<td class="px-6 py-4 text-center">' +
                 '<span class="status-badge ' + (estado === 'activo' ? 'status-active' : 'status-inactive') + '">' +
                     estado.charAt(0).toUpperCase() + estado.slice(1) +
@@ -527,4 +584,34 @@ function sanitize(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str || ''));
     return div.innerHTML;
+}
+
+
+function toggleAdminPack(usuario, isEnabled) {
+    const nuevoValor = isEnabled ? "01" : "";
+    const textoAccion = isEnabled ? "Habilitar gestión de Pack Líder" : "Restringir gestión de Pack Líder";
+
+    showConfirmModal({
+        title: 'Modificar Permisos',
+        message: '¿Deseas <strong>' + textoAccion + '</strong> para el administrador <strong>' + usuario + '</strong>?',
+        icon: isEnabled ? 'activate' : 'deactivate',
+        onConfirm: function () {
+            Helpers.showLoading(true);
+            
+            // Enviamos la actualización vía túnel (Asegúrate de que tu .gs acepte editarAdmin)
+            var datos = {
+                accion: 'editarAdmin',
+                usuario: usuario,
+                columna: 'Pack_Status',
+                valor: nuevoValor,
+                nombreHoja: 'Admins'
+            };
+
+            enviarViaTunel(datos, 'Permisos de "' + usuario + '" actualizados correctamente');
+        },
+        onCancel: function() {
+            // Si cancela, volvemos a renderizar para que el switch no quede en la posición falsa
+            renderAdminsTable();
+        }
+    });
 }

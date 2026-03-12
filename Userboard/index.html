@@ -96,17 +96,29 @@
                     Evaluación psicolaboral con métricas avanzadas, interpretación profesional y reporte descargable.
                 </p>
 
-                <!-- Actions -->
-                <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
-                    <button class="px-6 py-3 rounded-full border border-disc-cyan/40 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] font-semibold relative overflow-hidden group" 
-                            id="btnStartTest">
-                        <div class="absolute inset-0 bg-gradient-to-r from-disc-cyan/30 to-disc-cyan/10 blur-xl opacity-60 -z-10"></div>
-                        Comenzar evaluación
-                    </button>
-                    <button class="px-6 py-3 rounded-full border border-disc-pink/40 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] font-semibold" 
-                            id="btnViewReport">
-                        Ver informe
-                    </button>
+<div class="flex flex-col gap-4 mb-8 items-center lg:items-start max-w-xl mx-auto lg:mx-0">
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 w-full">
+                        <button class="flex-1 px-6 py-3 rounded-full border border-disc-cyan/40 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(107,225,227,0.2)] font-semibold relative overflow-hidden group text-sm sm:text-base" 
+                                id="btnStartTest">
+                            <div class="absolute inset-0 bg-gradient-to-r from-disc-cyan/30 to-disc-cyan/10 blur-xl opacity-60 -z-10"></div>
+                            Comenzar evaluación
+                        </button>
+                        <button class="flex-1 px-6 py-3 rounded-full border border-disc-pink/40 bg-white/5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(225,123,215,0.2)] font-semibold text-sm sm:text-base" 
+                                id="btnViewReport">
+                            Ver informe
+                        </button>
+                    </div>
+
+                    <a href="../download/DISC_Material_de_Estudio_ONE.pdf" 
+                       download="DISC_Material_de_Estudio_ONE.pdf"
+                       class="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-disc-gold/30 bg-disc-gold/10 hover:bg-disc-gold/20 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(228,199,106,0.2)] group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-disc-gold group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332 0.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332 0.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332 0.477-4.5 1.253" />
+                        </svg>
+                        <span class="text-disc-gold font-bold tracking-[0.1em] text-xs sm:text-sm uppercase">Descargar Manual de Estudio General</span>
+                    </a>
+                
                 </div>
 
                 <!-- Stats -->
