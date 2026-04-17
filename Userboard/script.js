@@ -41,7 +41,7 @@ async function checkTestStatus() {
         }
 
         const response = await fetch(
-            `${CONFIG.api.informes}?user=${encodeURIComponent(userName)}`
+            `${CONFIG.api.getRespuestas()}?user=${encodeURIComponent(userName)}`
         );
 
         if (!response.ok) {

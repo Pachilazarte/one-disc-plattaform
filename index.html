@@ -1,681 +1,681 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ONE — Plataforma de Evaluación DISC</title>
+  <!doctype html>
+  <html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ONE — Plataforma de Evaluación DISC</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="./img/favicon.png" sizes="32x32">
-  <link rel="shortcut icon" href="./img/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="./img/favicon.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./img/favicon.png" sizes="32x32">
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="./img/favicon.png">
 
-  <!-- EXO 2 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- EXO 2 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Estilos -->
-  <link rel="stylesheet" href="./style.css">
+    <!-- Estilos -->
+    <link rel="stylesheet" href="./style.css">
 
-  <!-- Scripts originales -->
-  <script src="./Marca.js"></script>
-  <script src="./js/auth.js"></script>
-  <script src="./js/helpers.js"></script>
-</head>
+    <!-- Scripts originales -->
+    <script src="./Marca.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/helpers.js"></script>
+  </head>
 
-<body>
-  <!-- Background -->
-  <div class="bg" aria-hidden="true">
-    <canvas id="stars"></canvas>
-    <div class="hex"></div>
-  </div>
+  <body>
+    <!-- Background -->
+    <div class="bg" aria-hidden="true">
+      <canvas id="stars"></canvas>
+      <div class="hex"></div>
+    </div>
 
-  <div class="wrap">
+    <div class="wrap">
 
-    <!-- HEADER -->
-    <header id="header">
-      <div class="nav">
-        <div class="brand" aria-label="Marca ONE">
-          <div class="mark" aria-hidden="true"></div>
-          <div>
-            <div class="name">ONE</div>
-            <span class="sub">Evaluación DISC</span>
+      <!-- HEADER -->
+      <header id="header">
+        <div class="nav">
+          <div class="brand" aria-label="Marca ONE">
+            <div class="mark" aria-hidden="true"></div>
+            <div>
+              <div class="name">ONE</div>
+              <span class="sub">Evaluación DISC</span>
+            </div>
+          </div>
+
+          <nav aria-label="Navegación principal">
+            <a href="#inicio">Inicio</a>
+            <a href="#que-es-disc">¿Qué es DISC?</a>
+            <a href="#estilos">Los 4 Estilos</a>
+            <a href="#como-funciona">Cómo Funciona</a>
+          </nav>
+
+          <div class="header-cta">
+            <a class="btn-link" onclick="openLoginModal('admin')" href="#"><span>Acceder como Admin</span></a>
           </div>
         </div>
-
-        <nav aria-label="Navegación principal">
-          <a href="#inicio">Inicio</a>
-          <a href="#que-es-disc">¿Qué es DISC?</a>
-          <a href="#estilos">Los 4 Estilos</a>
-          <a href="#como-funciona">Cómo Funciona</a>
-        </nav>
-
-        <div class="header-cta">
-          <a class="btn-link" onclick="openLoginModal('admin')" href="#"><span>Acceder como Admin</span></a>
-        </div>
-      </div>
-    </header>
-
-    <!-- ═══════════════════════════════════════
-         HERO
-         ═══════════════════════════════════════ -->
-    <main>
-      <section class="hero" id="inicio">
-        <div class="copy">
-          <div class="eyebrow">
-            <span class="dot" aria-hidden="true"></span>
-            Evaluación de comportamiento DISC
-          </div>
-
-          <h1>
-            Descubrí tu estilo de<br />
-            <span class="grad-cyan">comportamiento</span> <span class="grad-pink">DISC.</span>
-          </h1>
-
-          <p class="lead">
-            Plataforma de evaluación basada en el modelo DISC de William Marston. 
-            Identificá tu perfil conductual — Dominante, Influyente, Sensato o Correcto — 
-            y comprendé cómo interactuás con el mundo.
-          </p>
-
-          <div class="cta">
-            <a class="btn primary" onclick="openLoginModal('user')" href="#"><span>Realizar mi Evaluación DISC</span></a>
-            <a class="btn secondary" onclick="openLoginModal('admin')" href="#"><span>Acceder como Admin</span></a>
-          </div>
-
-          <div class="hint">
-            La gente es diferente, pero es predeciblemente diferente ✨
-          </div>
-        </div>
-
-        <div class="visual" id="visual">
-          <div class="hud" aria-hidden="true"></div>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <div class="feature-top">
-                <div class="feature-ico disc-d" aria-hidden="true">
-                  <span class="disc-letter">D</span>
-                </div>
-                <h3 class="feature-title">Dominante</h3>
-              </div>
-              <p class="feature-text">
-                Directo, decidido y orientado a resultados. Líder natural que busca el control y la acción.
-              </p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-top">
-                <div class="feature-ico disc-i" aria-hidden="true">
-                  <span class="disc-letter">I</span>
-                </div>
-                <h3 class="feature-title">Influyente</h3>
-              </div>
-              <p class="feature-text">
-                Sociable, optimista y persuasivo. Comunicador nato que inspira y motiva a los demás.
-              </p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-top">
-                <div class="feature-ico disc-s" aria-hidden="true">
-                  <span class="disc-letter">S</span>
-                </div>
-                <h3 class="feature-title">Sensato</h3>
-              </div>
-              <p class="feature-text">
-                Estable, empático y colaborativo. El pilar del equipo que valora la armonía y la lealtad.
-              </p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-top">
-                <div class="feature-ico disc-c" aria-hidden="true">
-                  <span class="disc-letter">C</span>
-                </div>
-                <h3 class="feature-title">Correcto</h3>
-              </div>
-              <p class="feature-text">
-                Analítico, preciso y perfeccionista. El experto que busca la calidad y la exactitud.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
+      </header>
 
       <!-- ═══════════════════════════════════════
-           SECCIÓN: ¿QUÉ ES DISC?
-           ═══════════════════════════════════════ -->
-      <section class="section" id="que-es-disc">
-        <div class="section-container">
-          <div class="section-header">
+          HERO
+          ═══════════════════════════════════════ -->
+      <main>
+        <section class="hero" id="inicio">
+          <div class="copy">
             <div class="eyebrow">
               <span class="dot" aria-hidden="true"></span>
-              Desde 1926
+              Evaluación de comportamiento DISC
             </div>
-            <h2 class="section-title">
-              ¿Qué es el modelo <span class="grad-cyan">DISC</span>?
-            </h2>
-            <p class="section-lead">
-              DISC es una herramienta de evaluación del comportamiento humano creada por 
-              William Marston en 1926. No mide personalidad ni inteligencia — identifica 
-              patrones predecibles de conducta que nos ayudan a entender cómo actuamos, 
-              nos comunicamos y reaccionamos ante distintas situaciones.
+
+            <h1>
+              Descubrí tu estilo de<br />
+              <span class="grad-cyan">comportamiento</span> <span class="grad-pink">DISC.</span>
+            </h1>
+
+            <p class="lead">
+              Plataforma de evaluación basada en el modelo DISC de William Marston. 
+              Identificá tu perfil conductual — Dominante, Influyente, Sensato o Correcto — 
+              y comprendé cómo interactuás con el mundo.
             </p>
-          </div>
 
-          <div class="info-grid">
-            <article class="info-card">
-              <div class="info-icon">🧠</div>
-              <h3 class="info-title">Comportamiento predecible</h3>
-              <p class="info-text">
-                Todos somos una mezcla de los 4 estilos, pero normalmente 1 o 2 destacan. 
-                Estos estilos dominantes determinan cómo reaccionamos de forma predecible.
-              </p>
-            </article>
-
-            <article class="info-card">
-              <div class="info-icon">⚖️</div>
-              <h3 class="info-title">Dos ejes fundamentales</h3>
-              <p class="info-text">
-                El diagrama DISC se organiza en dos ejes: ritmo rápido vs. lento (activo vs. reservado) 
-                y orientación a tareas vs. personas. Esto genera los 4 cuadrantes.
-              </p>
-            </article>
-
-            <article class="info-card">
-              <div class="info-icon">🌍</div>
-              <h3 class="info-title">Universal y objetivo</h3>
-              <p class="info-text">
-                DISC no depende de edad, cultura o género. Es una herramienta objetiva 
-                que permite anticipar reacciones y mejorar la comunicación interpersonal.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══════════════════════════════════════
-           SECCIÓN: LOS 4 ESTILOS
-           ═══════════════════════════════════════ -->
-      <section class="section" id="estilos">
-        <div class="section-container">
-          <div class="section-header">
-            <div class="eyebrow">
-              <span class="dot dot-pink" aria-hidden="true"></span>
-              Los cuatro estilos
+            <div class="cta">
+              <a class="btn primary" onclick="openLoginModal('user')" href="#"><span>Realizar mi Evaluación DISC</span></a>
+              <a class="btn secondary" onclick="openLoginModal('admin')" href="#"><span>Acceder como Admin</span></a>
             </div>
-            <h2 class="section-title">
-              Conocé cada <span class="grad-pink">perfil</span> en detalle
-            </h2>
-            <p class="section-lead">
-              Cada estilo tiene fortalezas únicas, un miedo básico inconsciente 
-              y una forma particular de ver el mundo. Entenderlos te permite 
-              comunicarte mejor y evitar conflictos.
-            </p>
-          </div>
 
-          <div class="styles-grid">
-            <!-- D -->
-            <article class="style-card style-d">
-              <div class="style-header">
-                <div class="style-badge badge-d">D</div>
-                <div>
-                  <h3 class="style-name">Dominante</h3>
-                  <p class="style-aka">Determinado · Directo</p>
-                </div>
-              </div>
-              <div class="style-body">
-                <div class="style-stat">
-                  <span class="stat-label">Población</span>
-                  <span class="stat-value stat-d">~3%</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Ritmo</span>
-                  <span class="stat-value">Rápido</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Enfoque</span>
-                  <span class="stat-value">Tareas</span>
-                </div>
-                <p class="style-desc">
-                  Líder natural orientado a metas. No ve problemas, ve obstáculos. 
-                  Toma el mando cuando nadie lo hace y busca resultados concretos.
-                </p>
-                <div class="style-fear">
-                  <span class="fear-label">Miedo básico:</span>
-                  Perder el control o que se aprovechen de él
-                </div>
-              </div>
-            </article>
-
-            <!-- I -->
-            <article class="style-card style-i">
-              <div class="style-header">
-                <div class="style-badge badge-i">I</div>
-                <div>
-                  <h3 class="style-name">Influyente</h3>
-                  <p class="style-aka">Impulsivo · Inspirador</p>
-                </div>
-              </div>
-              <div class="style-body">
-                <div class="style-stat">
-                  <span class="stat-label">Población</span>
-                  <span class="stat-value stat-i">~11%</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Ritmo</span>
-                  <span class="stat-value">Rápido</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Enfoque</span>
-                  <span class="stat-value">Personas</span>
-                </div>
-                <p class="style-desc">
-                  Vendedor nato, positivo y persuasivo. Busca la experiencia, la conexión 
-                  social y siempre encuentra el lado divertido de las situaciones.
-                </p>
-                <div class="style-fear">
-                  <span class="fear-label">Miedo básico:</span>
-                  Perder la estima social o el rechazo
-                </div>
-              </div>
-            </article>
-
-            <!-- S -->
-            <article class="style-card style-s">
-              <div class="style-header">
-                <div class="style-badge badge-s">S</div>
-                <div>
-                  <h3 class="style-name">Sensato</h3>
-                  <p class="style-aka">Seguro · Estable</p>
-                </div>
-              </div>
-              <div class="style-body">
-                <div class="style-stat">
-                  <span class="stat-label">Población</span>
-                  <span class="stat-value stat-s">~69%</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Ritmo</span>
-                  <span class="stat-value">Lento</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Enfoque</span>
-                  <span class="stat-value">Personas</span>
-                </div>
-                <p class="style-desc">
-                  El grupo más grande. Cuidador natural con gran empatía. 
-                  Pacificador, leal y el pegamento que mantiene unido al equipo.
-                </p>
-                <div class="style-fear">
-                  <span class="fear-label">Miedo básico:</span>
-                  Perder la seguridad y los cambios imprevistos
-                </div>
-              </div>
-            </article>
-
-            <!-- C -->
-            <article class="style-card style-c">
-              <div class="style-header">
-                <div class="style-badge badge-c">C</div>
-                <div>
-                  <h3 class="style-name">Correcto</h3>
-                  <p class="style-aka">Cumplidor · Controlado</p>
-                </div>
-              </div>
-              <div class="style-body">
-                <div class="style-stat">
-                  <span class="stat-label">Población</span>
-                  <span class="stat-value stat-c">~17%</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Ritmo</span>
-                  <span class="stat-value">Lento</span>
-                </div>
-                <div class="style-stat">
-                  <span class="stat-label">Enfoque</span>
-                  <span class="stat-value">Tareas</span>
-                </div>
-                <p class="style-desc">
-                  El estudiante eterno. Detallista, perfeccionista y experto en su campo. 
-                  Cuando tiene un plan, es impecable y minuciosamente pensado.
-                </p>
-                <div class="style-fear">
-                  <span class="fear-label">Miedo básico:</span>
-                  Equivocarse o ser criticado
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══════════════════════════════════════
-           SECCIÓN: CÓMO FUNCIONA
-           ═══════════════════════════════════════ -->
-      <section class="section" id="como-funciona">
-        <div class="section-container">
-          <div class="section-header">
-            <div class="eyebrow">
-              <span class="dot dot-gold" aria-hidden="true"></span>
-              Simple y rápido
+            <div class="hint">
+              La gente es diferente, pero es predeciblemente diferente ✨
             </div>
-            <h2 class="section-title">
-              ¿Cómo funciona la <span class="grad-gold">evaluación</span>?
-            </h2>
-            <p class="section-lead">
-              El test DISC se completa en 7-10 minutos y genera un informe detallado 
-              con tu perfil de comportamiento y gráficos de tus estilos dominantes.
-            </p>
           </div>
 
-          <div class="steps-grid">
-            <article class="step-card">
-              <div class="step-number">01</div>
-              <h3 class="step-title">Recibís tu acceso</h3>
-              <p class="step-text">
-                Tu administrador te crea un usuario y contraseña para ingresar a la plataforma de forma segura.
+          <div class="visual" id="visual">
+            <div class="hud" aria-hidden="true"></div>
+
+            <div class="feature-grid">
+              <article class="feature-card">
+                <div class="feature-top">
+                  <div class="feature-ico disc-d" aria-hidden="true">
+                    <span class="disc-letter">D</span>
+                  </div>
+                  <h3 class="feature-title">Dominante</h3>
+                </div>
+                <p class="feature-text">
+                  Directo, decidido y orientado a resultados. Líder natural que busca el control y la acción.
+                </p>
+              </article>
+
+              <article class="feature-card">
+                <div class="feature-top">
+                  <div class="feature-ico disc-i" aria-hidden="true">
+                    <span class="disc-letter">I</span>
+                  </div>
+                  <h3 class="feature-title">Influyente</h3>
+                </div>
+                <p class="feature-text">
+                  Sociable, optimista y persuasivo. Comunicador nato que inspira y motiva a los demás.
+                </p>
+              </article>
+
+              <article class="feature-card">
+                <div class="feature-top">
+                  <div class="feature-ico disc-s" aria-hidden="true">
+                    <span class="disc-letter">S</span>
+                  </div>
+                  <h3 class="feature-title">Sensato</h3>
+                </div>
+                <p class="feature-text">
+                  Estable, empático y colaborativo. El pilar del equipo que valora la armonía y la lealtad.
+                </p>
+              </article>
+
+              <article class="feature-card">
+                <div class="feature-top">
+                  <div class="feature-ico disc-c" aria-hidden="true">
+                    <span class="disc-letter">C</span>
+                  </div>
+                  <h3 class="feature-title">Correcto</h3>
+                </div>
+                <p class="feature-text">
+                  Analítico, preciso y perfeccionista. El experto que busca la calidad y la exactitud.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════
+            SECCIÓN: ¿QUÉ ES DISC?
+            ═══════════════════════════════════════ -->
+        <section class="section" id="que-es-disc">
+          <div class="section-container">
+            <div class="section-header">
+              <div class="eyebrow">
+                <span class="dot" aria-hidden="true"></span>
+                Desde 1926
+              </div>
+              <h2 class="section-title">
+                ¿Qué es el modelo <span class="grad-cyan">DISC</span>?
+              </h2>
+              <p class="section-lead">
+                DISC es una herramienta de evaluación del comportamiento humano creada por 
+                William Marston en 1926. No mide personalidad ni inteligencia — identifica 
+                patrones predecibles de conducta que nos ayudan a entender cómo actuamos, 
+                nos comunicamos y reaccionamos ante distintas situaciones.
               </p>
-            </article>
+            </div>
 
-            <div class="step-connector" aria-hidden="true"></div>
+            <div class="info-grid">
+              <article class="info-card">
+                <div class="info-icon">🧠</div>
+                <h3 class="info-title">Comportamiento predecible</h3>
+                <p class="info-text">
+                  Todos somos una mezcla de los 4 estilos, pero normalmente 1 o 2 destacan. 
+                  Estos estilos dominantes determinan cómo reaccionamos de forma predecible.
+                </p>
+              </article>
 
-            <article class="step-card">
-              <div class="step-number">02</div>
-              <h3 class="step-title">Completás el test</h3>
-              <p class="step-text">
-                Respondés una serie de preguntas sobre tu comportamiento natural. Sin respuestas correctas o incorrectas.
+              <article class="info-card">
+                <div class="info-icon">⚖️</div>
+                <h3 class="info-title">Dos ejes fundamentales</h3>
+                <p class="info-text">
+                  El diagrama DISC se organiza en dos ejes: ritmo rápido vs. lento (activo vs. reservado) 
+                  y orientación a tareas vs. personas. Esto genera los 4 cuadrantes.
+                </p>
+              </article>
+
+              <article class="info-card">
+                <div class="info-icon">🌍</div>
+                <h3 class="info-title">Universal y objetivo</h3>
+                <p class="info-text">
+                  DISC no depende de edad, cultura o género. Es una herramienta objetiva 
+                  que permite anticipar reacciones y mejorar la comunicación interpersonal.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════
+            SECCIÓN: LOS 4 ESTILOS
+            ═══════════════════════════════════════ -->
+        <section class="section" id="estilos">
+          <div class="section-container">
+            <div class="section-header">
+              <div class="eyebrow">
+                <span class="dot dot-pink" aria-hidden="true"></span>
+                Los cuatro estilos
+              </div>
+              <h2 class="section-title">
+                Conocé cada <span class="grad-pink">perfil</span> en detalle
+              </h2>
+              <p class="section-lead">
+                Cada estilo tiene fortalezas únicas, un miedo básico inconsciente 
+                y una forma particular de ver el mundo. Entenderlos te permite 
+                comunicarte mejor y evitar conflictos.
               </p>
-            </article>
+            </div>
 
-            <div class="step-connector" aria-hidden="true"></div>
+            <div class="styles-grid">
+              <!-- D -->
+              <article class="style-card style-d">
+                <div class="style-header">
+                  <div class="style-badge badge-d">D</div>
+                  <div>
+                    <h3 class="style-name">Dominante</h3>
+                    <p class="style-aka">Determinado · Directo</p>
+                  </div>
+                </div>
+                <div class="style-body">
+                  <div class="style-stat">
+                    <span class="stat-label">Población</span>
+                    <span class="stat-value stat-d">~3%</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Ritmo</span>
+                    <span class="stat-value">Rápido</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Enfoque</span>
+                    <span class="stat-value">Tareas</span>
+                  </div>
+                  <p class="style-desc">
+                    Líder natural orientado a metas. No ve problemas, ve obstáculos. 
+                    Toma el mando cuando nadie lo hace y busca resultados concretos.
+                  </p>
+                  <div class="style-fear">
+                    <span class="fear-label">Miedo básico:</span>
+                    Perder el control o que se aprovechen de él
+                  </div>
+                </div>
+              </article>
 
-            <article class="step-card">
-              <div class="step-number">03</div>
-              <h3 class="step-title">Obtenés tu informe</h3>
-              <p class="step-text">
-                Se genera automáticamente tu perfil DISC con gráficos, 
-                análisis de tus estilos dominantes y recomendaciones.
+              <!-- I -->
+              <article class="style-card style-i">
+                <div class="style-header">
+                  <div class="style-badge badge-i">I</div>
+                  <div>
+                    <h3 class="style-name">Influyente</h3>
+                    <p class="style-aka">Impulsivo · Inspirador</p>
+                  </div>
+                </div>
+                <div class="style-body">
+                  <div class="style-stat">
+                    <span class="stat-label">Población</span>
+                    <span class="stat-value stat-i">~11%</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Ritmo</span>
+                    <span class="stat-value">Rápido</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Enfoque</span>
+                    <span class="stat-value">Personas</span>
+                  </div>
+                  <p class="style-desc">
+                    Vendedor nato, positivo y persuasivo. Busca la experiencia, la conexión 
+                    social y siempre encuentra el lado divertido de las situaciones.
+                  </p>
+                  <div class="style-fear">
+                    <span class="fear-label">Miedo básico:</span>
+                    Perder la estima social o el rechazo
+                  </div>
+                </div>
+              </article>
+
+              <!-- S -->
+              <article class="style-card style-s">
+                <div class="style-header">
+                  <div class="style-badge badge-s">S</div>
+                  <div>
+                    <h3 class="style-name">Sensato</h3>
+                    <p class="style-aka">Seguro · Estable</p>
+                  </div>
+                </div>
+                <div class="style-body">
+                  <div class="style-stat">
+                    <span class="stat-label">Población</span>
+                    <span class="stat-value stat-s">~69%</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Ritmo</span>
+                    <span class="stat-value">Lento</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Enfoque</span>
+                    <span class="stat-value">Personas</span>
+                  </div>
+                  <p class="style-desc">
+                    El grupo más grande. Cuidador natural con gran empatía. 
+                    Pacificador, leal y el pegamento que mantiene unido al equipo.
+                  </p>
+                  <div class="style-fear">
+                    <span class="fear-label">Miedo básico:</span>
+                    Perder la seguridad y los cambios imprevistos
+                  </div>
+                </div>
+              </article>
+
+              <!-- C -->
+              <article class="style-card style-c">
+                <div class="style-header">
+                  <div class="style-badge badge-c">C</div>
+                  <div>
+                    <h3 class="style-name">Correcto</h3>
+                    <p class="style-aka">Cumplidor · Controlado</p>
+                  </div>
+                </div>
+                <div class="style-body">
+                  <div class="style-stat">
+                    <span class="stat-label">Población</span>
+                    <span class="stat-value stat-c">~17%</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Ritmo</span>
+                    <span class="stat-value">Lento</span>
+                  </div>
+                  <div class="style-stat">
+                    <span class="stat-label">Enfoque</span>
+                    <span class="stat-value">Tareas</span>
+                  </div>
+                  <p class="style-desc">
+                    El estudiante eterno. Detallista, perfeccionista y experto en su campo. 
+                    Cuando tiene un plan, es impecable y minuciosamente pensado.
+                  </p>
+                  <div class="style-fear">
+                    <span class="fear-label">Miedo básico:</span>
+                    Equivocarse o ser criticado
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════
+            SECCIÓN: CÓMO FUNCIONA
+            ═══════════════════════════════════════ -->
+        <section class="section" id="como-funciona">
+          <div class="section-container">
+            <div class="section-header">
+              <div class="eyebrow">
+                <span class="dot dot-gold" aria-hidden="true"></span>
+                Simple y rápido
+              </div>
+              <h2 class="section-title">
+                ¿Cómo funciona la <span class="grad-gold">evaluación</span>?
+              </h2>
+              <p class="section-lead">
+                El test DISC se completa en 7-10 minutos y genera un informe detallado 
+                con tu perfil de comportamiento y gráficos de tus estilos dominantes.
               </p>
-            </article>
+            </div>
+
+            <div class="steps-grid">
+              <article class="step-card">
+                <div class="step-number">01</div>
+                <h3 class="step-title">Recibís tu acceso</h3>
+                <p class="step-text">
+                  Tu administrador te crea un usuario y contraseña para ingresar a la plataforma de forma segura.
+                </p>
+              </article>
+
+              <div class="step-connector" aria-hidden="true"></div>
+
+              <article class="step-card">
+                <div class="step-number">02</div>
+                <h3 class="step-title">Completás el test</h3>
+                <p class="step-text">
+                  Respondés una serie de preguntas sobre tu comportamiento natural. Sin respuestas correctas o incorrectas.
+                </p>
+              </article>
+
+              <div class="step-connector" aria-hidden="true"></div>
+
+              <article class="step-card">
+                <div class="step-number">03</div>
+                <h3 class="step-title">Obtenés tu informe</h3>
+                <p class="step-text">
+                  Se genera automáticamente tu perfil DISC con gráficos, 
+                  análisis de tus estilos dominantes y recomendaciones.
+                </p>
+              </article>
+            </div>
+
+            <div class="cta-center">
+              <a class="btn primary" onclick="openLoginModal('user')" href="#">
+                <span>Comenzar mi Evaluación DISC</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="premium-footer">
+        <div class="footer-container">
+          <div class="footer-left">
+            <img src="./img/one-logoletra.png" alt="ONE" class="footer-logo-letra">
+            <span> | Todos los derechos reservados. © 2026</span>
           </div>
 
-          <div class="cta-center">
-            <a class="btn primary" onclick="openLoginModal('user')" href="#">
-              <span>Comenzar mi Evaluación DISC</span>
+          <div class="footer-right">
+            <span class="developed-txt">Desarrollado por</span>
+            <a href="https://escencialconsultora.com.ar/" target="_blank" class="dev-link" title="Ir a Escencial Consultora">
+              <img src="./img/one-logocolor.png" alt="ONE" class="dev-logo-one">
+              <span class="by-txt">by</span>
+              <img src="./img/escencial-logoblanco.png" alt="Escencial" class="dev-logo-escencial">
             </a>
           </div>
         </div>
-      </section>
-    </main>
+      </footer>
+    </div>
 
-    <!-- FOOTER -->
-    <footer class="premium-footer">
-      <div class="footer-container">
-        <div class="footer-left">
-          <img src="./img/one-logoletra.png" alt="ONE" class="footer-logo-letra">
-          <span> | Todos los derechos reservados. © 2026</span>
-        </div>
-
-        <div class="footer-right">
-          <span class="developed-txt">Desarrollado por</span>
-          <a href="https://escencialconsultora.com.ar/" target="_blank" class="dev-link" title="Ir a Escencial Consultora">
-            <img src="./img/one-logocolor.png" alt="ONE" class="dev-logo-one">
-            <span class="by-txt">by</span>
-            <img src="./img/escencial-logoblanco.png" alt="Escencial" class="dev-logo-escencial">
-          </a>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- ═══════════════════════════════════════
-       MODAL DE LOGIN
-       ═══════════════════════════════════════ -->
-  <div id="loginModal" class="login-modal">
-    <div class="login-card">
-      <button class="login-close" onclick="closeLoginModal()">×</button>
-      
-      <div class="login-logo">
-        <img src="./img/escencial-logoblanco.png" alt="Logo DISC">
-      </div>
-      
-      <h2 class="login-title">Iniciar Sesión</h2>
-      <p class="login-subtitle">Evaluación DISC</p>
-      
-      <span id="modeBadge" class="mode-badge mode-user">Usuario</span>
-      
-      <div id="alertContainer"></div>
-      
-      <form id="loginForm">
-        <div class="form-group">
-          <label class="form-label" for="usuario">Usuario</label>
-          <input type="text" id="usuario" class="form-input" placeholder="Ingresa tu usuario" required>
+    <!-- ═══════════════════════════════════════
+        MODAL DE LOGIN
+        ═══════════════════════════════════════ -->
+    <div id="loginModal" class="login-modal">
+      <div class="login-card">
+        <button class="login-close" onclick="closeLoginModal()">×</button>
+        
+        <div class="login-logo">
+          <img src="./img/escencial-logoblanco.png" alt="Logo DISC">
         </div>
         
-        <div class="form-group">
-          <label class="form-label" for="password">Contraseña</label>
-          <input type="password" id="password" class="form-input" placeholder="Ingresa tu contraseña" required>
+        <h2 class="login-title">Iniciar Sesión</h2>
+        <p class="login-subtitle">Evaluación DISC</p>
+        
+        <span id="modeBadge" class="mode-badge mode-user">Usuario</span>
+        
+        <div id="alertContainer"></div>
+        
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label" for="usuario">Usuario</label>
+            <input type="text" id="usuario" class="form-input" placeholder="Ingresa tu usuario" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <input type="password" id="password" class="form-input" placeholder="Ingresa tu contraseña" required>
+          </div>
+          
+          <button type="submit" class="btn-login">Ingresar</button>
+        </form>
+        
+        <div id="loadingContainer" class="hidden loading-text">
+          Verificando credenciales...
         </div>
         
-        <button type="submit" class="btn-login">Ingresar</button>
-      </form>
-      
-      <div id="loadingContainer" class="hidden loading-text">
-        Verificando credenciales...
-      </div>
-      
-      <div class="switch-mode">
-        <button type="button" id="switchModeBtn" onclick="toggleMode()">
-          ¿Eres administrador? Ingresa aquí
-        </button>
+        <div class="switch-mode">
+          <button type="button" id="switchModeBtn" onclick="toggleMode()">
+            ¿Eres administrador? Ingresa aquí
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══════════════════════════════════════
-       SCRIPTS
-       ═══════════════════════════════════════ -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Header scroll
-      const header = document.getElementById('header');
-      const onScroll = () => {
-        if (window.scrollY > 10) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-      };
-      onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
+    <!-- ═══════════════════════════════════════
+        SCRIPTS
+        ═══════════════════════════════════════ -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Header scroll
+        const header = document.getElementById('header');
+        const onScroll = () => {
+          if (window.scrollY > 10) header.classList.add('scrolled');
+          else header.classList.remove('scrolled');
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
 
-      // Canvas stars
-      const canvas = document.getElementById('stars');
-      const ctx = canvas.getContext('2d', { alpha: true });
-      let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
-      let stars = [];
+        // Canvas stars
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d', { alpha: true });
+        let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+        let stars = [];
 
-      function resize(){
-        W = window.innerWidth;
-        H = document.documentElement.scrollHeight;
-        DPR = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.floor(W * DPR);
-        canvas.height = Math.floor(H * DPR);
-        canvas.style.width = W + 'px';
-        canvas.style.height = H + 'px';
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        function resize(){
+          W = window.innerWidth;
+          H = document.documentElement.scrollHeight;
+          DPR = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.floor(W * DPR);
+          canvas.height = Math.floor(H * DPR);
+          canvas.style.width = W + 'px';
+          canvas.style.height = H + 'px';
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-        const count = Math.floor(160 * (W * H) / (1200 * 700));
-        stars = Array.from({length: Math.max(100, Math.min(300, count))}, () => ({
-          x: Math.random()*W,
-          y: Math.random()*H,
-          r: Math.random()*1.35 + 0.25,
-          a: Math.random()*0.6 + 0.15,
-          vx: (Math.random()-0.5)*0.06,
-          vy: (Math.random()-0.5)*0.06,
-          tw: Math.random()*0.012 + 0.003
-        }));
-      }
-
-      function draw(){
-        ctx.clearRect(0, 0, W, H);
-        const g = ctx.createRadialGradient(W*0.75, H*0.15, 0, W*0.75, H*0.15, Math.max(W,H)*0.8);
-        g.addColorStop(0, 'rgba(225,123,215,0.10)');
-        g.addColorStop(0.35, 'rgba(107,225,227,0.08)');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,W,H);
-
-        for(const s of stars){
-          s.x += s.vx;
-          s.y += s.vy;
-          if(s.x < -10) s.x = W + 10;
-          if(s.x > W + 10) s.x = -10;
-          if(s.y < -10) s.y = H + 10;
-          if(s.y > H + 10) s.y = -10;
-          s.a += Math.sin((s.x + s.y) * 0.002) * s.tw;
-          const alpha = Math.max(0.08, Math.min(0.85, s.a));
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(254,254,255,${alpha})`;
-          ctx.fill();
+          const count = Math.floor(160 * (W * H) / (1200 * 700));
+          stars = Array.from({length: Math.max(100, Math.min(300, count))}, () => ({
+            x: Math.random()*W,
+            y: Math.random()*H,
+            r: Math.random()*1.35 + 0.25,
+            a: Math.random()*0.6 + 0.15,
+            vx: (Math.random()-0.5)*0.06,
+            vy: (Math.random()-0.5)*0.06,
+            tw: Math.random()*0.012 + 0.003
+          }));
         }
-        requestAnimationFrame(draw);
-      }
 
-      resize();
-      draw();
-      window.addEventListener('resize', resize);
+        function draw(){
+          ctx.clearRect(0, 0, W, H);
+          const g = ctx.createRadialGradient(W*0.75, H*0.15, 0, W*0.75, H*0.15, Math.max(W,H)*0.8);
+          g.addColorStop(0, 'rgba(225,123,215,0.10)');
+          g.addColorStop(0.35, 'rgba(107,225,227,0.08)');
+          g.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = g;
+          ctx.fillRect(0,0,W,H);
 
-      // Scroll reveal
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
+          for(const s of stars){
+            s.x += s.vx;
+            s.y += s.vy;
+            if(s.x < -10) s.x = W + 10;
+            if(s.x > W + 10) s.x = -10;
+            if(s.y < -10) s.y = H + 10;
+            if(s.y > H + 10) s.y = -10;
+            s.a += Math.sin((s.x + s.y) * 0.002) * s.tw;
+            const alpha = Math.max(0.08, Math.min(0.85, s.a));
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(254,254,255,${alpha})`;
+            ctx.fill();
           }
-        });
-      }, { threshold: 0.15 });
-
-      document.querySelectorAll('.section').forEach(s => observer.observe(s));
-
-      // Auth redirect
-      if (typeof Auth !== 'undefined' && Auth.isAuthenticated()) {
-        Auth.redirectToDashboard();
-      }
-    });
-
-    // ── LOGIN MODAL ──
-    let currentMode = 'user';
-
-    function openLoginModal(mode) {
-      currentMode = mode || 'user';
-      const modal = document.getElementById('loginModal');
-      const badge = document.getElementById('modeBadge');
-      const switchBtn = document.getElementById('switchModeBtn');
-      
-      if (currentMode === 'admin') {
-        badge.textContent = 'Administrador';
-        badge.className = 'mode-badge mode-admin';
-        switchBtn.textContent = '¿Eres usuario? Ingresa aquí';
-      } else {
-        badge.textContent = 'Usuario';
-        badge.className = 'mode-badge mode-user';
-        switchBtn.textContent = '¿Eres administrador? Ingresa aquí';
-      }
-      
-      document.getElementById('alertContainer').innerHTML = '';
-      document.getElementById('usuario').value = '';
-      document.getElementById('password').value = '';
-      modal.classList.add('active');
-    }
-
-    function closeLoginModal() {
-      document.getElementById('loginModal').classList.remove('active');
-    }
-
-    function toggleMode() {
-      const badge = document.getElementById('modeBadge');
-      const switchBtn = document.getElementById('switchModeBtn');
-      
-      if (currentMode === 'user') {
-        currentMode = 'admin';
-        badge.textContent = 'Administrador';
-        badge.className = 'mode-badge mode-admin';
-        switchBtn.textContent = '¿Eres usuario? Ingresa aquí';
-      } else {
-        currentMode = 'user';
-        badge.textContent = 'Usuario';
-        badge.className = 'mode-badge mode-user';
-        switchBtn.textContent = '¿Eres administrador? Ingresa aquí';
-      }
-      document.getElementById('alertContainer').innerHTML = '';
-    }
-
-    function showAlert(message, type) {
-      const container = document.getElementById('alertContainer');
-      container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-      if (type === 'success') setTimeout(() => { container.innerHTML = ''; }, 3000);
-    }
-
-    function showLoading(show) {
-      const loading = document.getElementById('loadingContainer');
-      const form = document.getElementById('loginForm');
-      if (show) {
-        loading.classList.remove('hidden');
-        form.querySelector('button[type="submit"]').disabled = true;
-      } else {
-        loading.classList.add('hidden');
-        form.querySelector('button[type="submit"]').disabled = false;
-      }
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const usuario = document.getElementById('usuario').value.trim();
-      const password = document.getElementById('password').value;
-      
-      if (!usuario || !password) {
-        showAlert('Por favor completa todos los campos', 'error');
-        return;
-      }
-      
-      showLoading(true);
-      
-      try {
-        let rol = currentMode === 'user' ? 'user' : 'admin';
-const result = await Auth.login(usuario, password, rol);
-
-if (result.success) {
-    showAlert('¡Inicio de sesión exitoso!', 'success');
-    setTimeout(() => { Auth.redirectToDashboard(); }, 800);
-} else {
-    // Si falló como admin, intentamos verificar si es el superadmin local
-    if (currentMode === 'admin') {
-        const superadminResult = await Auth.login(usuario, password, CONFIG.roles.SUPERADMIN); // Usar la constante CONFIG
-        if (superadminResult.success) {
-            showAlert('¡Inicio de sesión exitoso!', 'success');
-            setTimeout(() => { Auth.redirectToDashboard(); }, 800);
-            return;
+          requestAnimationFrame(draw);
         }
-    }
-    showAlert(result.message || 'Credenciales inválidas', 'error');
-}
-      } catch (error) {
-        console.error('Error en login:', error);
-        showAlert('Error de conexión. Intenta nuevamente.', 'error');
-      } finally {
-        showLoading(false);
+
+        resize();
+        draw();
+        window.addEventListener('resize', resize);
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+        // Auth redirect
+        if (typeof Auth !== 'undefined' && Auth.isAuthenticated()) {
+          Auth.redirectToDashboard();
+        }
+      });
+
+      // ── LOGIN MODAL ──
+      let currentMode = 'user';
+
+      function openLoginModal(mode) {
+        currentMode = mode || 'user';
+        const modal = document.getElementById('loginModal');
+        const badge = document.getElementById('modeBadge');
+        const switchBtn = document.getElementById('switchModeBtn');
+        
+        if (currentMode === 'admin') {
+          badge.textContent = 'Administrador';
+          badge.className = 'mode-badge mode-admin';
+          switchBtn.textContent = '¿Eres usuario? Ingresa aquí';
+        } else {
+          badge.textContent = 'Usuario';
+          badge.className = 'mode-badge mode-user';
+          switchBtn.textContent = '¿Eres administrador? Ingresa aquí';
+        }
+        
+        document.getElementById('alertContainer').innerHTML = '';
+        document.getElementById('usuario').value = '';
+        document.getElementById('password').value = '';
+        modal.classList.add('active');
       }
-    });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLoginModal();
-    });
+      function closeLoginModal() {
+        document.getElementById('loginModal').classList.remove('active');
+      }
 
-    document.getElementById('loginModal').addEventListener('click', (e) => {
-      if (e.target.id === 'loginModal') closeLoginModal();
-    });
-  </script>
-</body>
-</html>
+      function toggleMode() {
+        const badge = document.getElementById('modeBadge');
+        const switchBtn = document.getElementById('switchModeBtn');
+        
+        if (currentMode === 'user') {
+          currentMode = 'admin';
+          badge.textContent = 'Administrador';
+          badge.className = 'mode-badge mode-admin';
+          switchBtn.textContent = '¿Eres usuario? Ingresa aquí';
+        } else {
+          currentMode = 'user';
+          badge.textContent = 'Usuario';
+          badge.className = 'mode-badge mode-user';
+          switchBtn.textContent = '¿Eres administrador? Ingresa aquí';
+        }
+        document.getElementById('alertContainer').innerHTML = '';
+      }
+
+      function showAlert(message, type) {
+        const container = document.getElementById('alertContainer');
+        container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        if (type === 'success') setTimeout(() => { container.innerHTML = ''; }, 3000);
+      }
+
+      function showLoading(show) {
+        const loading = document.getElementById('loadingContainer');
+        const form = document.getElementById('loginForm');
+        if (show) {
+          loading.classList.remove('hidden');
+          form.querySelector('button[type="submit"]').disabled = true;
+        } else {
+          loading.classList.add('hidden');
+          form.querySelector('button[type="submit"]').disabled = false;
+        }
+      }
+
+      document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const usuario = document.getElementById('usuario').value.trim();
+        const password = document.getElementById('password').value;
+        
+        if (!usuario || !password) {
+          showAlert('Por favor completa todos los campos', 'error');
+          return;
+        }
+        
+        showLoading(true);
+        
+        try {
+          let rol = currentMode === 'user' ? 'user' : 'admin';
+  const result = await Auth.login(usuario, password, rol);
+
+  if (result.success) {
+      showAlert('¡Inicio de sesión exitoso!', 'success');
+      setTimeout(() => { Auth.redirectToDashboard(); }, 800);
+  } else {
+      // Si falló como admin, intentamos verificar si es el superadmin local
+      if (currentMode === 'admin') {
+          const superadminResult = await Auth.login(usuario, password, CONFIG.roles.SUPERADMIN); // Usar la constante CONFIG
+          if (superadminResult.success) {
+              showAlert('¡Inicio de sesión exitoso!', 'success');
+              setTimeout(() => { Auth.redirectToDashboard(); }, 800);
+              return;
+          }
+      }
+      showAlert(result.message || 'Credenciales inválidas', 'error');
+  }
+        } catch (error) {
+          console.error('Error en login:', error);
+          showAlert('Error de conexión. Intenta nuevamente.', 'error');
+        } finally {
+          showLoading(false);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLoginModal();
+      });
+
+      document.getElementById('loginModal').addEventListener('click', (e) => {
+        if (e.target.id === 'loginModal') closeLoginModal();
+      });
+    </script>
+  </body>
+  </html>

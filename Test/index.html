@@ -739,8 +739,8 @@
       const emailAdmin = sessionStorage.getItem('emailAdmin') || '';
       const userNameAdmin = sessionStorage.getItem('userName') || '';
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9Eeb-oDqtDsnQwYLABup6wBDnIVo4BIUwPSf6EbOEm__bNcOVBjuszMdMDn8fpOyw/exec';
-
+ const _apiResp = sessionStorage.getItem('apiRespuestas');
+const GOOGLE_SCRIPT_URL = (_apiResp && _apiResp.length > 10) ? _apiResp : 'https://script.google.com/macros/s/AKfycbxzHkAu8yseLxHy6-YCiy9OBy87C1zd1rZpaR3uZvDzf-Yr5AsYtmzTjUBSs5VRIzXQhA/exec';
 
       // =========================
       // PASO 1: Guardar fila (SIN accion) -> GAS appendRow

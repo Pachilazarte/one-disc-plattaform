@@ -14,6 +14,7 @@
 // Proteger la página - Solo Admin
 Auth.protectPage(CONFIG.roles.ADMIN);
 
+
 let usersData = [];
 let filteredData = [];
 // ✅ Mapa de usuarios que completaron el test (desde hoja Respuestas)
@@ -88,18 +89,64 @@ function setupEventListeners() {
     }
 }
 
+// ── Overlay de carga ──────────────────────────────────────────
+var _OV_ID = 'discAdminOverlay';
+
+function _showOverlay(msg) {
+    var el = document.getElementById(_OV_ID);
+    if (!el) {
+        el = document.createElement('div');
+        el.id = _OV_ID;
+        el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:14px;">' +
+            '<div style="position:relative;width:90px;height:90px;">' +
+                '<div style="position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle,rgba(225,123,215,0.2) 0%,transparent 70%);animation:_ovGlow 2s ease-in-out infinite;"></div>' +
+                '<div style="position:absolute;inset:-4px;border-radius:50%;border:2.5px solid transparent;border-top-color:#e17bd7;border-right-color:rgba(225,123,215,0.5);animation:_ovSpin .8s linear infinite;"></div>' +
+                '<div style="position:absolute;inset:-4px;border-radius:50%;border:2.5px solid transparent;border-bottom-color:rgba(200,100,240,0.3);animation:_ovSpin 1.8s linear infinite reverse;"></div>' +
+                '<div style="position:absolute;inset:-4px;border-radius:50%;border:2.5px solid rgba(225,123,215,0.08);"></div>' +
+                '<img src="../img/one-iconocolor.png" onerror="this.src=\'../img/one-icononegro.png\'" style="width:90px;height:90px;border-radius:50%;object-fit:cover;position:relative;z-index:2;display:block;filter:drop-shadow(0 0 8px rgba(225,123,215,0.25));">' +
+            '</div>' +
+            '<div style="text-align:center;">' +
+                '<p id="_ovMsg" style="margin:0;font-size:.93rem;font-weight:600;color:rgba(255,255,255,.9);font-family:\'Exo 2\',sans-serif;"></p>' +
+                '<p id="_ovSub" style="margin:4px 0 0;font-size:.75rem;color:rgba(225,123,215,.8);font-family:\'Exo 2\',sans-serif;min-height:16px;"></p>' +
+            '</div>' +
+        '</div>';
+        el.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s ease;pointer-events:none;';
+        if (!document.getElementById('_ovKeyframes')) {
+            var s = document.createElement('style');
+            s.id = '_ovKeyframes';
+            s.textContent = '@keyframes _ovSpin{to{transform:rotate(360deg)}}@keyframes _ovGlow{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}';
+            document.head.appendChild(s);
+        }
+        document.body.appendChild(el);
+    }
+    document.getElementById('_ovMsg').textContent = msg || 'Cargando...';
+    document.getElementById('_ovSub').textContent = '';
+    el.getBoundingClientRect();
+    requestAnimationFrame(function() { el.style.opacity='1'; el.style.pointerEvents='auto'; });
+}
+
+function _updateOverlay(sub) {
+    var el = document.getElementById('_ovSub');
+    if (el) el.textContent = sub || '';
+}
+
+function _hideOverlay() {
+    var el = document.getElementById(_OV_ID);
+    if (!el) return;
+    el.style.opacity = '0';
+    el.style.pointerEvents = 'none';
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+}
 /* =========================================================
    CARGAR USUARIOS - FILTRO SOLO POR Usuario_Admin
    ========================================================= */
 async function loadUsers() {
-    Helpers.showLoading(true);
+    _showOverlay('Cargando panel...');
     var session = Auth.getSession();
 
     try {
-        // ══════════════════════════════════════════════
-        // PASO 1: Cargar usuarios del admin
-        // ══════════════════════════════════════════════
-        var response = await Helpers.fetchGET(CONFIG.api.gestionAdmin);
+        _updateOverlay('Obteniendo usuarios...');
+        var response = await Helpers.fetchGET(CONFIG.api.getUsuarios());
 
         if (Array.isArray(response)) {
             usersData = response
@@ -108,24 +155,19 @@ async function loadUsers() {
                         && row.User
                         && String(row.User).trim() !== '';
                 })
-.map(function (row) {
-    return {
-        usuario: String(row.User || ''),
-        password: String(row.Pass_User || ''),
-        email: String(row.Email_User || ''),
-        nombre: String(row.Nombre_User || ''),
-        estado: String(row.Estado_User || 'activo').toLowerCase(),
-        // ✅ Capturamos el identificador "01" de la Columna H
-        // Buscá esta línea y cambiala:
-packStatus: String(row.Pack_Status || '').trim(), // <--- Cambiá Pack_Lider por Pack_Status
-        testCompletado: false
-    };
-});
+                .map(function (row) {
+                    return {
+                        usuario:        String(row.User        || ''),
+                        password:       String(row.Pass_User   || ''),
+                        email:          String(row.Email_User  || ''),
+                        nombre:         String(row.Nombre_User || ''),
+                        estado:         String(row.Estado_User || 'activo').toLowerCase(),
+                        packStatus:     String(row.Pack_Status || '').trim(),
+                        testCompletado: false
+                    };
+                });
 
-            // ══════════════════════════════════════════════
-            // PASO 2: Consultar hoja de Respuestas para
-            //         saber quién completó el test
-            // ══════════════════════════════════════════════
+            _updateOverlay('Verificando tests (' + usersData.length + ' usuarios)...');
             await checkTestCompletionForAllUsers();
 
             filteredData = usersData.slice();
@@ -139,7 +181,7 @@ packStatus: String(row.Pack_Status || '').trim(), // <--- Cambiá Pack_Lider por
         console.error('Error al cargar usuarios:', error);
         Helpers.showAlert('Error de conexión al cargar usuarios', 'error');
     } finally {
-        Helpers.showLoading(false);
+        _hideOverlay();
     }
 }
 
@@ -171,9 +213,9 @@ async function checkTestCompletionForAllUsers() {
 
 async function checkSingleUserTest(userName) {
     try {
-        var response = await fetch(
-            CONFIG.api.informes + '?user=' + encodeURIComponent(userName)
-        );
+var response = await fetch(
+    CONFIG.api.getVisualizacion() + '?user=' + encodeURIComponent(userName)
+);
 
         if (!response.ok) return;
 
@@ -284,7 +326,7 @@ async function doCreateUser(usuario, password, email, nombre, session, form, pac
         var formData = new URLSearchParams();
         formData.append('data', JSON.stringify(payload));
 
-        var response = await fetch(CONFIG.api.gestionAdmin, {
+        var response = await fetch(CONFIG.api.getUsuarios(), {
             method: 'POST',
             body: formData
         });
@@ -384,7 +426,7 @@ async function doEditUser(usuario, nuevoEmail, nuevoNombre, nuevaPass) {
         var formData = new URLSearchParams();
         formData.append('data', JSON.stringify(payload));
 
-        var response = await fetch(CONFIG.api.gestionAdmin, {
+        var response = await fetch(CONFIG.api.getUsuarios(), {
             method: 'POST',
             body: formData
         });
@@ -438,7 +480,7 @@ async function doToggleUserStatus(usuario, nuevoEstado) {
         var formData = new URLSearchParams();
         formData.append('data', JSON.stringify(payload));
 
-        var response = await fetch(CONFIG.api.gestionAdmin, {
+        var response = await fetch(CONFIG.api.getUsuarios(), {
             method: 'POST',
             body: formData
         });
@@ -494,7 +536,7 @@ async function doResetUserPassword(usuario, nuevaPass) {
         var formData = new URLSearchParams();
         formData.append('data', JSON.stringify(payload));
 
-        var response = await fetch(CONFIG.api.gestionAdmin, {
+        var response = await fetch(CONFIG.api.getUsuarios(), {
             method: 'POST',
             body: formData
         });
@@ -550,9 +592,9 @@ function renderUsersTable() {
         const isPackEnabled = (user.packStatus === "01" || user.packStatus === "1");
 
         // Badge visual de "LÍDER" al lado del nombre si tiene el pack
-        const badgeLider = isPackEnabled 
-            ? '<span class="ml-2 px-2 py-0.5 text-[10px] bg-one-gold/20 text-one-gold border border-one-gold/30 rounded-full font-bold tracking-tight">LÍDER</span>' 
-            : '';
+const badgeLider = isPackEnabled 
+    ? '<span style="padding:1px 5px;font-size:8px;background:rgba(228,199,106,0.15);color:#e4c76a;border:1px solid rgba(228,199,106,0.3);border-radius:9999px;font-weight:700;white-space:nowrap;line-height:1.4;display:inline-block;flex-shrink:0;">LÍDER</span>' 
+    : '';
 
         // Badge de estado del test
         const testBadge = user.testCompletado
@@ -568,15 +610,12 @@ const packCell = isAdminLider ? `
                        onchange="toggleUserPack('${sanitize(user.usuario)}', this.checked)">
                 <div class="w-11 h-6 bg-white/10 border border-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-one-cyan shadow-lg"></div>
             </label>
-            <span class="text-[10px] font-bold tracking-widest uppercase ${isPackEnabled ? 'text-one-cyan' : 'text-gray-500'}">
-                ${isPackEnabled ? 'Habilitado' : 'Deshabilitado'}
-            </span>
         </div>
     </td>` : '<td class="hidden"></td>';
 
         return `
             <tr class="${estado === 'inactivo' ? 'opacity-60' : ''} transition-all hover:bg-white/[0.02]">
-                <td class="px-6 py-4"><div class="flex items-center"><strong>${sanitize(user.usuario)}</strong>${badgeLider}</div></td>
+                <td class="px-3 py-3"><div class="flex items-center gap-1"><strong class="text-sm" style="white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis;display:inline-block;">${sanitize(user.usuario)}</strong>${badgeLider}</div></td>
                 <td class="px-6 py-4">${sanitize(user.email)}</td>
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-2">
@@ -850,7 +889,7 @@ async function toggleUserPack(usuarioUser, isEnabled) {
         var formData = new URLSearchParams();
         formData.append('data', JSON.stringify(payload));
 
-        var response = await fetch(CONFIG.api.gestionAdmin, {
+        var response = await fetch(CONFIG.api.getUsuarios(), {
             method: 'POST',
             body: formData
         });

@@ -160,8 +160,12 @@
 }
 
 .table tbody td {
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 0.75rem;
     color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
 }
 
 .table tbody td strong {
@@ -234,12 +238,25 @@
         grid-template-columns: 1fr;
     }
 
-    .action-buttons {
-        flex-direction: column;
-    }
+.action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+}
 
     .btn-action {
         width: 30px;
         height: 30px;
     }
+}
+
+
+.table tbody tr {
+    height: 52px;
+}
+
+.table tbody td {
+    vertical-align: middle;
 }

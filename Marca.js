@@ -1,87 +1,97 @@
 /**
- * ⚙️ CONFIGURACIÓN CENTRAL DEL SISTEMA DISC
- * Este archivo debe cargarse primero en todos los HTML
- * Centraliza URLs de Google Apps Script, branding y configuración global
+ * ⚙️ CONFIGURACIÓN CENTRAL DEL SISTEMA — ONE DISC
+ * Este archivo debe cargarse primero en todos los HTML.
+ *
+ * Las APIs de cada admin son dinámicas (multi-tenant).
+ * Usá siempre los getters:
+ *   CONFIG.api.getUsuarios()      → API de la hoja Usuarios del admin
+ *   CONFIG.api.getRespuestas()    → API de la hoja Respuestas del admin
+ *   CONFIG.api.getVisualizacion() → API del paneldata del admin
  */
 
 const CONFIG = {
     // 🎨 Identidad de Marca: ONE
     brand: {
-        name: "ONE — Evaluación DISC",
-        logo: "./img/one-iconocolor.png", // Icono circular principal
-        logoSecondary: "./img/one-logoletra.png", // Logo con texto para footer/header
-        logoConsultora: "./img/escencial-logoblanco.png", // Marca del desarrollador
-        
-        // Colores extraídos de tu CSS (:root)
+        name: 'ONE — Evaluación DISC',
+        logo: './img/one-iconocolor.png',
+        logoSecondary: './img/one-logoletra.png',
+        logoConsultora: './img/escencial-logoblanco.png',
         colors: {
-            primary: "#6be1e3",   // --c-cyan (Color de acento principal)
-            secondary: "#e17bd7", // --c-pink (Color de acento secundario)
-            accent: "#e4c76a",    // --c-gold
-            background: "#000000", // --c-black
-            surface: "#1a181d",    // --c-ink
-            text: "#fefeff",       // --c-white
-            muted: "#a4a8c0"       // --c-slate
+            primary:    '#6be1e3',
+            secondary:  '#e17bd7',
+            accent:     '#e4c76a',
+            background: '#000000',
+            surface:    '#1a181d',
+            text:       '#fefeff',
+            muted:      '#a4a8c0'
         },
-        
-        // Tipografías
         fonts: {
             title: "'Exo 2', sans-serif",
-            body: "var(--font-sub)"
+            body:  'var(--font-sub)'
         }
     },
-    
-    // Configuración de la Evaluación
+
     assessment: {
-        title: "Evaluación DISC con criterio profesional",
-        subtitle: "Plataforma de evaluación psicolaboral",
-        copyright: "© 2026 Todos los derechos reservados"
+        title:     'Evaluación DISC con criterio profesional',
+        subtitle:  'Plataforma de evaluación psicolaboral',
+        copyright: '© 2026 Todos los derechos reservados'
     },
 
     // 🔗 APIs de Google Apps Script
     api: {
-        // WebApp para gestión de SuperAdmin para Admins
-        gestion: "https://script.google.com/macros/s/AKfycby7zTGZIyNFCjh-8GRIexYngpLPybAY6CTnKW6CMgS7EIlpEqXEeObEST6-MubB7OAKvQ/exec",
-        
-        // WebApp para gestión de Admins para Usuarios
-        gestionAdmin: "https://script.google.com/macros/s/AKfycbyEjSYIvFx5RBrqMrnKpdjXbsxwNv1h5FyxDe3Cikqf8oM07iw2-q7NrP4BcaJ12Ff0/exec",
-        
-        // WebApp para lectura de resultados
-        informes: "https://script.google.com/macros/s/AKfycby2psvvq0o7jm1EmkFKAsXpcxRdVdBMThvjRAmvTDdmUClEHsA2PIMMR2_7hhlaTRNO/exec",
-        
+        // ── SuperAdmin GAS (FIJO, nunca cambia) ──────────────────
+        gestion: 'https://script.google.com/macros/s/AKfycbxjcR9jIhtnxToJse32JpP6ZOBSEpuD0hNS_nUimXgasM1L-5cfkDE5HRBAEiCPFrnM/exec',
+
+        // ── Fallbacks hardcodeados (desarrollo / primer admin) ───
+        gestionAdmin: 'https://script.google.com/macros/s/AKfycbyEjSYIvFx5RBrqMrnKpdjXbsxwNv1h5FyxDe3Cikqf8oM07iw2-q7NrP4BcaJ12Ff0/exec',
+        informes:     'https://script.google.com/macros/s/AKfycby2psvvq0o7jm1EmkFKAsXpcxRdVdBMThvjRAmvTDdmUClEHsA2PIMMR2_7hhlaTRNO/exec'
     },
 
-    // 📊 Configuración de Google Sheets
     sheets: {
-        hojaAdmins: "Admins",
-        hojaUsuarios: "Usuarios",
-        hojaRespuestas: "Respuestas"
+        hojaAdmins:     'Admins',
+        hojaUsuarios:   'Usuarios',
+        hojaRespuestas: 'Respuestas'
     },
 
-    // 🔐 Configuración de Roles
     roles: {
-        SUPERADMIN: "superadmin",
-        ADMIN: "admin",
-        USER: "user"
+        SUPERADMIN: 'superadmin',
+        ADMIN:      'admin',
+        USER:       'user'
     },
 
-    // 🎯 Rutas de Navegación
     routes: {
-        login: "/index.html",
-        inicio: "/inicio/index.html",
-        superAdminDashboard: "/SuperAdminDashboard/index.html",
-        adminDashboard: "/AdminDashboard/index.html",
-        userboard: "/Userboard/index.html",
-        test: "/Test/index.html",
-        informe: "/Informe/index.html"
+        login:               '/index.html',
+        superAdminDashboard: '/SuperAdminDashboard/index.html',
+        adminDashboard:      '/AdminDashboard/index.html',
+        userboard:           '/Userboard/index.html',
+        test:                '/Test/index.html',
+        informe:             '/Informe/index.html'
     },
 
-    // ⚙️ Configuración del Sistema
     system: {
-        sessionTimeout: 3600000, // 1 hora en milisegundos
-        defaultLanguage: "es",
-        dateFormat: "DD/MM/YYYY"
+        sessionTimeout:  3600000,
+        defaultLanguage: 'es',
+        dateFormat:      'DD/MM/YYYY'
     }
 };
 
-// Hacer CONFIG disponible globalmente
+// ── APIs dinámicas por sesión ──────────────────────────────────
+// Siempre usá estos getters en lugar de CONFIG.api.gestionAdmin
+// o CONFIG.api.informes directamente.
+
+CONFIG.api.getUsuarios = function () {
+    var api = sessionStorage.getItem('apiUsuarios');
+    return (api && api.length > 10) ? api : CONFIG.api.gestionAdmin;
+};
+
+CONFIG.api.getRespuestas = function () {
+    var api = sessionStorage.getItem('apiRespuestas');
+    return (api && api.length > 10) ? api : CONFIG.api.informes;
+};
+
+CONFIG.api.getVisualizacion = function () {
+    var api = sessionStorage.getItem('apiVisualizacion');
+    return (api && api.length > 10) ? api : CONFIG.api.informes;
+};
+
 window.CONFIG = CONFIG;
