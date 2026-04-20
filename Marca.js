@@ -40,7 +40,7 @@ const CONFIG = {
     // 🔗 APIs de Google Apps Script
     api: {
         // ── SuperAdmin GAS (FIJO, nunca cambia) ──────────────────
-        gestion: 'https://script.google.com/macros/s/AKfycbxjcR9jIhtnxToJse32JpP6ZOBSEpuD0hNS_nUimXgasM1L-5cfkDE5HRBAEiCPFrnM/exec',
+        gestion: 'https://script.google.com/macros/s/AKfycbzGtWNEWr4s27dKfLu_xwyPN-iaAcTYEq8oSNm2uUS4oBiwQXy4lDj4Tf741l-48WB0/exec',
 
         // ── Fallbacks hardcodeados (desarrollo / primer admin) ───
         gestionAdmin: 'https://script.google.com/macros/s/AKfycbyEjSYIvFx5RBrqMrnKpdjXbsxwNv1h5FyxDe3Cikqf8oM07iw2-q7NrP4BcaJ12Ff0/exec',

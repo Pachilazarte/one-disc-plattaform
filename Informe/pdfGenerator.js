@@ -5,7 +5,7 @@
  * ============================================================================
  */
 
-async function generarPDFInforme(data, resultado, respuestasParsed) {
+async function generarPDFInforme(data, resultado, respuestasParsed, returnBase64 = false) {
   // Verificar que jsPDF esté disponible
   const jsPDF = window.jspdf?.jsPDF || window.jsPDF;
 
@@ -486,7 +486,8 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(14);
       doc.setTextColor(...COLORES.D);
-      doc.text('⬍ EJE VERTICAL: Ritmo de Respuesta', 20, y);
+      doc.text('EJE VERTICAL: Ritmo de Respuesta', 20, y);
+
 
       y += 7;
       doc.setFont('helvetica', 'normal');
@@ -498,7 +499,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...COLORES.D);
-      doc.text('↑ RITMO ACELERADO (D - I)', 20, y);
+      doc.text('(+) RITMO ACELERADO (D - I)', 20, y);
 
       y += 6;
 
@@ -508,7 +509,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...COLORES.S);
-      doc.text('↓ RITMO PAUSADO (S - C)', 20, y);
+      doc.text('(-) RITMO PAUSADO (S - C)', 20, y);
 
       y += 6;
 
@@ -525,7 +526,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(14);
       doc.setTextColor(...COLORES.C);
-      doc.text('⬌ EJE HORIZONTAL: Orientación Focal', 20, y);
+      doc.text('EJE HORIZONTAL: Orientacion Focal', 20, y);
 
       y += 7;
       doc.setFont('helvetica', 'normal');
@@ -537,7 +538,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...COLORES.I);
-      doc.text('→ ORIENTACIÓN A LAS PERSONAS (I - S)', 20, y);
+      doc.text('(>) ORIENTACION A LAS PERSONAS (I - S)', 20, y);
 
       y += 6;
       const personas = [
@@ -555,7 +556,8 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...COLORES.D);
-      doc.text('← ORIENTACIÓN A LAS TAREAS (D - C)', 20, y);
+      doc.text('(<) ORIENTACION A LAS TAREAS (D - C)', 20, y);
+
 
       y += 6;
       const tareas = [
@@ -576,7 +578,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...COLORES.primario);
-      doc.text('\u{1F4A1} Nota Importante: Los Ejes son Independientes', 20, y);
+      doc.text('Nota Importante: Los Ejes son Independientes', 20, y);
 
       y += 7;
       const nota = 'Una persona puede tener ritmo acelerado pero estar orientada a personas (I), o ritmo pausado pero orientada a tareas (C). Las cuatro combinaciones son igualmente válidas y cada una tiene sus propias fortalezas. No existe una combinación "mejor" que otra; todo depende del contexto y las necesidades específicas.';
@@ -663,7 +665,8 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(14);
         doc.setTextColor(...estilo.color);
-        doc.text(`${estilo.emoji} ${estilo.nombre}`, 20, y);
+        doc.text(estilo.nombre, 20, y);
+
 
         y += 6;
         doc.setFont('helvetica', 'normal');
@@ -703,7 +706,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(8);
           doc.setTextColor(...COLORES.texto);
-          doc.text('\u2713', 22, y);
+          doc.text('+', 22, y);
           doc.text(fort, 27, y);
           y += 3.5;
         });
@@ -848,7 +851,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(14);
         doc.setTextColor(...estilo.color);
-        doc.text(`${estilo.emoji} ${estilo.nombre}`, 20, y);
+        doc.text(estilo.nombre, 20, y);
 
         y += 6;
         doc.setFont('helvetica', 'normal');
@@ -889,7 +892,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(8);
           doc.setTextColor(...COLORES.texto);
-          doc.text('✓', 22, y);
+          doc.text('+', 22, y);
           const lines = doc.splitTextToSize(fort, 165);
           doc.text(lines, 27, y);
           y += lines.length * 3.5;
@@ -986,7 +989,8 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(14);
         doc.setTextColor(...estilo.color);
-        doc.text(`${estilo.emoji} ${estilo.nombre}`, 20, y);
+        doc.text(estilo.nombre, 20, y);
+
 
         y += 6;
         doc.setFont('helvetica', 'normal');
@@ -1354,7 +1358,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(8);
           doc.setTextColor(...COLORES.texto);
-          doc.text('✓', 20, yTemp);
+          doc.text('+', 20, yTemp);
           const lines = doc.splitTextToSize(fort, 70);
           doc.text(lines, 24, yTemp);
           yTemp += lines.length * 3;
@@ -1389,7 +1393,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(8);
           doc.setTextColor(...COLORES.texto);
-          doc.text('⚠', 20, yTemp);
+          doc.text('!', 20, yTemp);
           const lines = doc.splitTextToSize(bp, 165);
           doc.text(lines, 25, yTemp);
           yTemp += lines.length * 3;
@@ -1407,7 +1411,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(8);
           doc.setTextColor(...COLORES.texto);
-          doc.text('▸', 20, yTemp);
+          doc.text('>', 20, yTemp);
           const lines = doc.splitTextToSize(ent, 165);
           doc.text(lines, 25, yTemp);
           yTemp += lines.length * 3;
@@ -1562,7 +1566,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
         doc.setTextColor(...COLORES.I);
-        doc.text('⚠', 20, y);
+        doc.text('!', 20, y);
 
         const tituloLines = doc.splitTextToSize(cons.titulo, 165);
         doc.text(tituloLines, 26, y);
@@ -1745,7 +1749,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...COLORES.primario);
-      doc.text('\u{1F4A1} Cómo Interpretar el Gráfico de Barras', 20, y);
+      doc.text('Cómo Interpretar el Gráfico de Barras', 20, y);
 
       y += 7;
       const interpretaciones = [
@@ -1760,7 +1764,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(...COLORES.texto);
-        doc.text('▸', 20, y);
+        doc.text('>', 20, y);
         const lines = doc.splitTextToSize(interp, 165);
         doc.text(lines, 25, y);
         y += lines.length * 3 + 2;
@@ -1827,148 +1831,131 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       });
     }
 
-    // ========== RUEDA SUCCESS INSIGHTS ==========
-    async function generarRueda() {
-      nuevaPagina();
-      agregarEncabezado();
 
-      let y = 35;
-      dibujarTitulo('Rueda Success Insights®', y);
+function svgElementToPngDataUrl(svgElement, width = 900, height = 900) {
+  return new Promise((resolve, reject) => {
+    try {
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
 
-      y += 12;
-      dibujarCuadro(15, y, 180, 30, COLORES.primario, 0.05);
-
-      y += 8;
-      const intro = 'La Rueda Success Insights es un mapa polar de 60 posiciones conductuales organizadas en 5 niveles de intensidad. Cada sector representa uno de los 8 estilos conductuales DISC. Tu perfil se muestra en dos marcadores: Natural (○) que representa tu estilo innato, y Adaptado (★) que muestra tu estilo en el entorno laboral.';
-      y = dibujarTexto(intro, 20, y, 170, 9);
-
-      y += 20;
-
-      // Capturar la rueda SVG
-      try {
-        const svgElement = document.querySelector('#ruedaSVG');
-        if (svgElement) {
-          // Convertir SVG a imagen
-          const serializer = new XMLSerializer();
-          const svgString = serializer.serializeToString(svgElement);
-          const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-          const url = URL.createObjectURL(svgBlob);
-
-          const img = new Image();
-          img.onload = function () {
-            const canvas = document.createElement('canvas');
-            canvas.width = 900;
-            canvas.height = 900;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            const imgData = canvas.toDataURL('image/png');
-
-            doc.addImage(imgData, 'PNG', 30, y, 150, 150);
-            URL.revokeObjectURL(url);
-          };
-          img.src = url;
-
-          y += 160;
-        } else {
-          // Dibujar placeholder
-          dibujarCuadro(30, y, 150, 150, COLORES.textoClaro, 0.1);
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(10);
-          doc.setTextColor(...COLORES.textoClaro);
-          doc.text('Rueda DISC no disponible para exportación', 105, y + 75, { align: 'center' });
-          y += 160;
-        }
-      } catch (error) {
-        console.warn('No se pudo capturar la rueda:', error);
-        dibujarCuadro(30, y, 150, 150, COLORES.textoClaro, 0.1);
-        y += 160;
-      }
-
-      // Leyenda de marcadores
-      y += 5;
-      dibujarCuadro(15, y, 85, 25, COLORES.C, 0.08);
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(16);
-      doc.setTextColor(...COLORES.C);
-      doc.text('○', 20, y + 10);
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
-      doc.text('Perfil Natural', 28, y + 8);
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(...COLORES.textoClaro);
-      doc.text('Tu estilo innato (Parte I)', 28, y + 13);
-
-      // Calcular coordenadas si están disponibles
-      if (typeof window.discToWheel === 'function') {
+      const img = new Image();
+      img.onload = function () {
         try {
-          const coords = window.discToWheel(respuestasParsed);
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
-          doc.setTextColor(...COLORES.texto);
-          doc.text(`Celda: ${coords.natural.cell}`, 28, y + 18);
-        } catch (e) {
-          console.warn('No se pudieron calcular coordenadas:', e);
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const imgData = canvas.toDataURL('image/png');
+          URL.revokeObjectURL(url);
+          resolve(imgData);
+        } catch (err) {
+          URL.revokeObjectURL(url);
+          reject(err);
         }
-      }
+      };
 
-      dibujarCuadro(110, y, 85, 25, COLORES.acento, 0.08);
+      img.onerror = function (err) {
+        URL.revokeObjectURL(url);
+        reject(err);
+      };
 
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(16);
-      doc.setTextColor(...COLORES.acento);
-      doc.text('★', 115, y + 10);
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
-      doc.text('Perfil Adaptado', 123, y + 8);
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(...COLORES.textoClaro);
-      doc.text('Tu estilo laboral (Parte II)', 123, y + 13);
-
-      if (typeof window.discToWheel === 'function') {
-        try {
-          const coords = window.discToWheel(respuestasParsed);
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
-          doc.setTextColor(...COLORES.texto);
-          doc.text(`Celda: ${coords.adaptado.cell}`, 123, y + 18);
-        } catch (e) { }
-      }
-
-      // Interpretación de la rueda
-      y += 30;
-      dibujarCuadro(15, y, 180, 50, COLORES.secundario, 0.05);
-
-      y += 8;
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
-      doc.setTextColor(...COLORES.primario);
-      doc.text('\u{1F4A1} Cómo Interpretar la Rueda', 20, y);
-
-      y += 7;
-      const interpretaciones = [
-        'Sector de color: Define tu estilo conductual según la posición angular (CONDUCTOR, PROMOTOR, SOSTENEDOR, ANALIZADOR, etc.)',
-        'Nivel (1-5): Indica intensidad del estilo. Nivel 1 (centro) = estilo muy consistente y fuerte. Nivel 5 (externo) = estilo más flexible y adaptable.',
-        'Distancia Natural-Adaptado: Si ○ y ★ están cerca, tu comportamiento es estable. Si están lejos, adaptas significativamente tu conducta al entorno laboral.',
-        'Separación de marcadores: Mayor distancia indica mayor esfuerzo de adaptación. Separación excesiva puede generar tensión o agotamiento a largo plazo.'
-      ];
-
-      interpretaciones.forEach(interp => {
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(...COLORES.texto);
-        doc.text('▸', 20, y);
-        const lines = doc.splitTextToSize(interp, 165);
-        doc.text(lines, 25, y);
-        y += lines.length * 3 + 2;
-      });
+      img.src = url;
+    } catch (err) {
+      reject(err);
     }
+  });
+}
+
+    // ========== RUEDA SUCCESS INSIGHTS ==========
+async function generarRueda() {
+  nuevaPagina();
+  agregarEncabezado();
+
+  let y = 35;
+  dibujarTitulo('Rueda Success Insights', y);
+
+  y += 12;
+  dibujarCuadro(15, y, 180, 30, COLORES.primario, 0.05);
+
+  y += 8;
+
+  // IMPORTANTE: sin símbolos Unicode problemáticos como ○ o ★
+  const intro =
+    'La Rueda Success Insights es un mapa polar de 60 posiciones conductuales organizadas en 5 niveles de intensidad. ' +
+    'Cada sector representa uno de los 8 estilos conductuales DISC. ' +
+    'Tu perfil se muestra en dos marcadores: Natural (circulo) que representa tu estilo innato, ' +
+    'y Adaptado (estrella) que muestra tu estilo en el entorno laboral.';
+
+  y = dibujarTexto(intro, 20, y, 170, 9);
+
+  y += 20;
+
+  try {
+    const svgElement = document.querySelector('#ruedaSVG');
+
+    if (svgElement) {
+      const imgData = await svgElementToPngDataUrl(svgElement, 900, 900);
+      doc.addImage(imgData, 'PNG', 30, y, 150, 150);
+      y += 160;
+    } else {
+      dibujarCuadro(30, y, 150, 150, COLORES.textoClaro, 0.1);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(...COLORES.textoClaro);
+      doc.text('Rueda DISC no disponible para exportacion', 105, y + 75, { align: 'center' });
+      y += 160;
+    }
+  } catch (error) {
+    console.warn('No se pudo capturar la rueda:', error);
+    dibujarCuadro(30, y, 150, 150, COLORES.textoClaro, 0.1);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...COLORES.textoClaro);
+    doc.text('No se pudo exportar la rueda DISC', 105, y + 75, { align: 'center' });
+    y += 160;
+  }
+
+  y += 5;
+
+  dibujarCuadro(15, y, 85, 25, COLORES.C, 0.08);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(...COLORES.C);
+  doc.text('O', 20, y + 10);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('Perfil Natural', 28, y + 8);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...COLORES.texto);
+  doc.text('Estilo conductual innato', 28, y + 14);
+
+  dibujarCuadro(110, y, 85, 25, COLORES.acento, 0.08);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(...COLORES.acento);
+  doc.text('*', 115, y + 10);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('Perfil Adaptado', 123, y + 8);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...COLORES.texto);
+  doc.text('Estilo en entorno laboral', 123, y + 14);
+}
 
     // ========== ANÁLISIS INTERPRETATIVO ==========
     function generarAnalisisCompleto() {
@@ -2112,7 +2099,8 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(...COLORES.S);
-      doc.text('\u{1F4AA} Fortalezas', 20, y + 6);
+      doc.text('Fortalezas', 20, y + 6);
+
 
       let yTemp = y + 12;
       fortalezasPerfil.forEach(fort => {
@@ -2129,7 +2117,8 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(...COLORES.I);
-      doc.text('\u26A0\uFE0F Áreas de Atención', 115, y + 6);
+      doc.text('Áreas de Atención', 115, y + 6);
+
 
       yTemp = y + 12;
       areasAtencion.forEach(area => {
@@ -2227,7 +2216,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       let tituloConsistencia, textoConsistencia, colorConsistencia, implicaciones;
 
       if (consistencia === 'consistente_DI') {
-        tituloConsistencia = '\u2705 Perfil Altamente Consistente: Orientación Activa (D-I)';
+        tituloConsistencia = 'Perfil Altamente Consistente: Orientación Activa (D-I)';
         textoConsistencia = 'Existe alta consistencia en tu perfil conductual. Las características que identificas como MÁS representativas (activas/extrovertidas D-I) son complementarias con las que rechazas como MENOS representativas (reservadas/metódicas S-C). Esto indica un autoconocimiento claro y un patrón conductual bien definido hacia la acción, el liderazgo y la comunicación.';
         colorConsistencia = COLORES.S;
 
@@ -2240,7 +2229,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         ];
 
       } else if (consistencia === 'consistente_SC') {
-        tituloConsistencia = '\u2705 Perfil Altamente Consistente: Orientación Reservada (S-C)';
+        tituloConsistencia = 'Perfil Altamente Consistente: Orientación Reservada (S-C)';
         textoConsistencia = 'Existe alta consistencia en tu perfil. Las características que identificas como MÁS representativas (reservadas/metódicas S-C) son complementarias con las que rechazas como MENOS (activas/extrovertidas D-I). Esto indica autoconocimiento claro hacia la estabilidad, la cooperación, el análisis y la precisión.';
         colorConsistencia = COLORES.S;
 
@@ -2253,7 +2242,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         ];
 
       } else if (consistencia === 'mixto') {
-        tituloConsistencia = '\u2696\uFE0F Perfil Mixto: Alta Adaptabilidad Conductual';
+        tituloConsistencia = 'Perfil Mixto: Alta Adaptabilidad Conductual';
         textoConsistencia = 'Tu perfil muestra un patrón mixto sin orientación predominante marcada. Seleccionas tanto características activas (D-I) como reservadas (S-C) como representativas. Esto puede indicar versatilidad genuina, adaptabilidad conductual o un momento de transición personal/profesional.';
         colorConsistencia = COLORES.primario;
 
@@ -2266,7 +2255,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         ];
 
       } else {
-        tituloConsistencia = '\u26A0\uFE0F Perfil a Analizar: Patrón de Inconsistencia';
+        tituloConsistencia = 'Perfil a Analizar: Patrón de Inconsistencia';
         textoConsistencia = 'Tu perfil muestra un patrón que requiere análisis adicional. Puede ocurrir cuando hay disonancia entre lo que deseas ser y lo que crees ser, cuando factores situacionales distorsionan la autopercepción, o durante períodos de cambio significativo.';
         colorConsistencia = COLORES.I;
 
@@ -2316,7 +2305,7 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(...COLORES.texto);
-        doc.text('▸', 20, y);
+        doc.text('>', 20, y);
         const lines = doc.splitTextToSize(impl, 165);
         doc.text(lines, 25, y);
         y += lines.length * 3 + 1.5;
@@ -2420,15 +2409,15 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
       let titulo, icono, color, interpretacion;
 
       if (diffTotal <= 4) {
-        titulo = '\u{1F3AF} Perfil Muy Estable';
+        titulo = 'Perfil Muy Estable';
         color = COLORES.S;
         interpretacion = `Tu comportamiento es consistente entre situaciones normales y bajo presión. Las diferencias son mínimas (${diffTotal} puntos de diferencia total). Esto indica que eres auténtico, tu comportamiento natural coincide con tu comportamiento adaptado, no modificas significativamente tu conducta bajo estrés y las personas te perciben como predecible y congruente. Tu entorno laboral actual te permite ser tú mismo, lo cual es positivo. Asegúrate de que este entorno realmente te permita desarrollar todo tu potencial.`;
       } else if (diffTotal <= 8) {
-        titulo = '\u2696\uFE0F Perfil Adaptable con Núcleo Estable';
+        titulo = 'Perfil Adaptable con Núcleo Estable';
         color = COLORES.primario;
         interpretacion = `Muestras cierta adaptación conductual pero mantienes tu esencia. Hay diferencias moderadas (${diffTotal} puntos). Adaptas tu comportamiento según el contexto pero sin forzarte demasiado. Bajo presión, ajustas algunas conductas pero mantienes tu identidad. Tienes flexibilidad conductual sin perder autenticidad. El esfuerzo de adaptación es manejable y sostenible. Este nivel de adaptación es saludable y muestra inteligencia emocional. Monitorea que no aumente con el tiempo.`;
       } else {
-        titulo = '\u26A0\uFE0F Perfil con Adaptación Significativa';
+        titulo = 'Perfil con Adaptación Significativa';
         color = COLORES.D;
         interpretacion = `Modificas considerablemente tu comportamiento bajo presión. Hay diferencias notables (${diffTotal} puntos). Existe disonancia entre tu yo natural y tu yo laboral. Bajo estrés, activas conductas que no son naturales para ti. Podrías estar experimentando tensión o desgaste por mantener este ajuste. Tu entorno laboral puede estar exigiéndote ser alguien que no eres. A largo plazo, esta adaptación puede generar agotamiento. Recomendación: evalúa si tu rol actual es compatible con tus fortalezas naturales. Considera buscar entornos que te permitan ser más auténtico.`;
       }
@@ -2566,10 +2555,10 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
 
       // Renderizar cada sección
       const secciones = [
-        { titulo: '\u{1F4AA} Tus Fortalezas Naturales', items: fortalezas, color: COLORES.S },
-        { titulo: '\u26A0\uFE0F Áreas que Requieren Atención', items: atencion, color: COLORES.I },
-        { titulo: '\u{1F4AC} Cómo Comunicarse Contigo', items: comunicacion, color: COLORES.C },
-        { titulo: '\u{1F3E2} Tu Entorno de Trabajo Ideal', items: entorno, color: COLORES.primario }
+{ titulo: 'Tus Fortalezas Naturales', items: fortalezas, color: COLORES.S },
+{ titulo: 'Áreas que Requieren Atención', items: atencion, color: COLORES.I },
+{ titulo: 'Cómo Comunicarse Contigo', items: comunicacion, color: COLORES.C },
+{ titulo: 'Tu Entorno de Trabajo Ideal', items: entorno, color: COLORES.primario }
       ];
 
       secciones.forEach(seccion => {
@@ -2749,10 +2738,14 @@ async function generarPDFInforme(data, resultado, respuestasParsed) {
     generarDetalle();
 
     // Guardar PDF
-    console.log('Guardando PDF...');
-    doc.save(`Informe_DISC_Completo_${nombreCompleto.replace(/ /g, '_')}.pdf`);
-
-    console.log('\u2705 PDF generado exitosamente');
+    if (returnBase64) {
+      const dataUri = doc.output('datauristring');
+      return dataUri.split(',')[1];
+    } else {
+      console.log('Guardando PDF...');
+      doc.save(`Informe_DISC_Completo_${nombreCompleto.replace(/ /g, '_')}.pdf`);
+      console.log('PDF generado exitosamente');
+    }
 
   } catch (error) {
     console.error('Error durante la generación del PDF:', error);
@@ -2800,4 +2793,81 @@ function calcularValoresDISC(respuestas) {
 
 // Exponer función globalmente
 window.generarPDFInforme = generarPDFInforme;
-console.log('\u2705 pdfGenerator.js completo cargado correctamente');
+// ── Versión base64 para subir al Drive desde el Test ──────────────────
+async function generarPDFBase64(data, resultado, respuestasParsed) {
+  return new Promise(async (resolve, reject) => {
+    const jsPDF = window.jspdf?.jsPDF || window.jsPDF;
+    if (!jsPDF) return reject(new Error('jsPDF no disponible'));
+    const originalSave = jsPDF.prototype.save;
+    jsPDF.prototype.save = function () {
+      jsPDF.prototype.save = originalSave;
+      try {
+        const base64 = this.output('datauristring').split(',')[1];
+        resolve(base64);
+      } catch (e) { reject(e); }
+    };
+    try {
+      await generarPDFInforme(data, resultado, respuestasParsed);
+    } catch (e) {
+      jsPDF.prototype.save = originalSave;
+      reject(e);
+    }
+  });
+}
+
+// DESPUÉS (simple y directo):
+async function generarPDFBase64(data, resultado, respuestasParsed) {
+  return await generarPDFInforme(data, resultado, respuestasParsed, true);
+}
+// DESPUÉS — agregá calcularResultadoParaPDF antes del console.log:
+window.generarPDFInforme = generarPDFInforme;
+window.generarPDFBase64 = generarPDFBase64;
+
+function calcularResultadoParaPDF(rp) {
+  const DISC_QUESTIONS_LOCAL = [
+    { id:1,D:"Enérgico",I:"Animado",S:"Plácido",C:"Preciso"},{id:2,D:"Competitivo",I:"Expresivo",S:"Leal",C:"Diplomático"},
+    {id:3,D:"Directo",I:"Alentador",S:"Bondadoso",C:"Meticuloso"},{id:4,D:"Atrevido",I:"Encantador",S:"Amable",C:"Sistemático"},
+    {id:5,D:"Decidido",I:"Optimista",S:"Sereno",C:"Perfeccionista"},{id:6,D:"Audaz",I:"Comunicativo",S:"Paciente",C:"Reflexivo"},
+    {id:7,D:"Exigente",I:"Entusiasta",S:"Cooperativo",C:"Lógico"},{id:8,D:"Dominante",I:"Popular",S:"Tolerante",C:"Analítico"},
+    {id:9,D:"Arriesgado",I:"Sociable",S:"Confiable",C:"Detallista"},{id:10,D:"Firme",I:"Persuasivo",S:"Moderado",C:"Cauteloso"},
+    {id:11,D:"Orientado a resultados",I:"Entusiasta",S:"Colaborador",C:"Ordenado"},{id:12,D:"Emprendedor",I:"Inspirador",S:"Estable",C:"Cuidadoso"},
+    {id:13,D:"Desafiante",I:"Influyente",S:"Servicial",C:"Organizado"},{id:14,D:"Impaciente",I:"Extrovertido",S:"De apoyo",C:"Metódico"},
+    {id:15,D:"Independiente",I:"Amigable",S:"Moderado",C:"Convencional"},{id:16,D:"Asertivo",I:"Estimulante",S:"Comprensivo",C:"Reservado"},
+    {id:17,D:"Determinado",I:"Positivo",S:"Paciente",C:"Controlado"},{id:18,D:"Agresivo",I:"Afectuoso",S:"Receptivo",C:"Perfeccionista"},
+    {id:19,D:"Toma rápida de decisiones",I:"Sociable",S:"Considerado",C:"Meticuloso"},{id:20,D:"Líder nato",I:"Promotor",S:"Consistente",C:"Formal"},
+    {id:21,D:"Pragmático",I:"Emocional",S:"Conciliador",C:"Normativo"},{id:22,D:"Obstinado",I:"Confiado",S:"Tolerante",C:"Evasivo"},
+    {id:23,D:"Inflexible",I:"Egocéntrico",S:"Indeciso",C:"Terco"},{id:24,D:"Argumentador",I:"Descuidado",S:"Dubitativo",C:"Quisquilloso"},
+    {id:25,D:"Impulsivo",I:"Imprudente",S:"Tímido",C:"Crítico"},{id:26,D:"Intolerante",I:"Poco organizado",S:"Pasivo",C:"Pesimista"},
+    {id:27,D:"Insensible",I:"Hablador",S:"Sin ambición",C:"Distante"},{id:28,D:"Dominante",I:"Desordenado",S:"Dependiente",C:"Desconfiado"}
+  ];
+  let masDI=0,masSC=0,menosDI=0,menosSC=0;
+  let masDI_P1=0,masSC_P1=0,menosDI_P1=0,menosSC_P1=0;
+  let masDI_P2=0,masSC_P2=0,menosDI_P2=0,menosSC_P2=0;
+  const det=[];
+  for(let q=1;q<=28;q++){
+    let idM,idL;
+    if(q<=14){idM=(q-1)*2+1;idL=(q-1)*2+2;}
+    else{idM=28+(q-15)*2+1;idL=28+(q-15)*2+2;}
+    const vM=rp[idM],vL=rp[idL];
+    if(vM!==undefined&&vL!==undefined){
+      if(vM===5)masDI++;else masSC++;
+      if(vL===5)menosDI++;else menosSC++;
+      if(q<=14){if(vM===5)masDI_P1++;else masSC_P1++;if(vL===5)menosDI_P1++;else menosSC_P1++;}
+      else{if(vM===5)masDI_P2++;else masSC_P2++;if(vL===5)menosDI_P2++;else menosSC_P2++;}
+      const g=DISC_QUESTIONS_LOCAL[q-1];
+      det.push({numero:q,parte:q<=14?"I":"II",textoD:g.D,textoI:g.I,textoS:g.S,textoC:g.C,valorMas:vM,valorMenos:vL,masGrupo:vM===5?"D/I":"S/C",menosGrupo:vL===5?"D/I":"S/C"});
+    }
+  }
+  const pm=Math.round((masDI/28)*100),ps=Math.round((masSC/28)*100),pmd=Math.round((menosDI/28)*100),pms=Math.round((menosSC/28)*100);
+  const nv=p=>{if(p>=75)return"Muy Alto";if(p>=55)return"Alto";if(p>=35)return"Moderado";if(p>=15)return"Bajo";return"Muy Bajo";};
+  let tc='mixto';
+  if(masDI>=18&&menosSC>=18)tc='consistente_DI';
+  else if(masSC>=18&&menosDI>=18)tc='consistente_SC';
+  else if(masDI>masSC&&menosSC>menosDI)tc='consistente_DI';
+  else if(masSC>masDI&&menosDI>menosSC)tc='consistente_SC';
+  else if((masDI>masSC&&menosDI>menosSC)||(masSC>masDI&&menosSC>menosDI))tc='contradictorio';
+  return{masDI,masSC,menosDI,menosSC,netoDI:masDI-menosDI,netoSC:masSC-menosSC,pctMasDI:pm,pctMasSC:ps,pctMenosDI:pmd,pctMenosSC:pms,nivelMasDI:nv(pm),nivelMasSC:nv(ps),nivelMenosDI:nv(pmd),nivelMenosSC:nv(pms),masDI_P1,masSC_P1,menosDI_P1,menosSC_P1,masDI_P2,masSC_P2,menosDI_P2,menosSC_P2,tipoConsistencia:tc,detallePreguntas:det,preguntasRespondidas:det.length};
+}
+window.calcularResultadoParaPDF = calcularResultadoParaPDF;
+
+console.log('pdfGenerator.js cargado correctamente');

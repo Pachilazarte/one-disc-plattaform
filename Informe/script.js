@@ -1013,7 +1013,6 @@ function renderDimensiones() {
   }).join('');
 }
 // ========== RUEDA SUCCESS INSIGHTS ==========
-// ========== RUEDA SUCCESS INSIGHTS ==========
 function renderRuedaDISC(respuestas) {
   if (!respuestas || Object.keys(respuestas).length === 0) {
     console.error('No hay respuestas para renderizar la rueda');
@@ -1038,7 +1037,6 @@ function renderRuedaDISC(respuestas) {
     console.log('🎯 Coordenadas calculadas:', coordenadas);
 
     // Renderizar la rueda
-    // Renderizar la rueda
 window.renderRuedaSI5("#ruedaSVG", {
   celdaNatural: coordenadas.natural.cell,
   celdaAdaptada: coordenadas.adaptado.cell,
@@ -1046,14 +1044,12 @@ window.renderRuedaSI5("#ruedaSVG", {
   height: 900
 });
 
-// ✅ Actualizar badges del resumen (los que sí existen)
 const nBadge = document.getElementById('naturalCellBadge');
 if (nBadge) nBadge.textContent = `Celda: ${coordenadas.natural.cell}`;
 
 const aBadge = document.getElementById('adaptadoCellBadge');
 if (aBadge) aBadge.textContent = `Celda: ${coordenadas.adaptado.cell}`;
 
-// (Opcional) Solo actualizar naturalInfo/adaptadoInfo si existen
 const nInfo = document.getElementById('naturalInfo');
 if (nInfo) {
   nInfo.innerHTML = `
@@ -1073,23 +1069,11 @@ if (aInfo) {
 }
 
 
-    // Actualizar info de perfiles
-    document.getElementById('naturalInfo').innerHTML = `
-      <strong>Celda:</strong> ${coordenadas.natural.cell}<br>
-      <strong>Ángulo:</strong> ${Math.round(coordenadas.natural.angle)}°<br>
-      <strong>Intensidad:</strong> ${Math.round(coordenadas.natural.radius * 100)}%
-    `;
-
-    document.getElementById('adaptadoInfo').innerHTML = `
-      <strong>Celda:</strong> ${coordenadas.adaptado.cell}<br>
-      <strong>Ángulo:</strong> ${Math.round(coordenadas.adaptado.angle)}°<br>
-      <strong>Intensidad:</strong> ${Math.round(coordenadas.adaptado.radius * 100)}%
-    `;
-
   } catch (error) {
     console.error('Error renderizando rueda:', error);
   }
 }
+
 function renderDetalle(detallePreguntas) {
   const tbody1 = document.getElementById('detalleParte1');
   const tbody2 = document.getElementById('detalleParte2');

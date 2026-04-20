@@ -591,54 +591,13 @@
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="../Informe/discToWheel.js"></script>
   <script src="../Informe/ruedaSuccessInsights5niveles.js"></script>
+
   <!-- DEPENDENCIAS PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/5.0.2/jspdf.plugin.autotable.min.js"></script>
 
-  <!-- GENERADOR PDF (módulo ES6) -->
-  <script type="module">
-    import { crearDocumento, paginacion } from '../Informe/pdfGenerator/pdfConfig.js';
-    import {
-      generarPortada, generarIndice, generarIntroduccion, generarHistoria,
-      generarEjes, generarEstilos, generarDimensionesCompletas, generarAplicaciones,
-      generarConsideraciones, generarResumen, generarGraficoBarras, generarRueda,
-      generarAnalisisCompleto, generarConsistencia, generarComparativaPartes,
-      generarImplicaciones, generarDetalle,
-    } from '../Informe/pdfGenerator/pdfSections.js';
-
-    async function generarPDFBase64(data, resultado, respuestasParsed) {
-      const doc = crearDocumento();
-      if (!doc) throw new Error('No se pudo crear el documento PDF');
-      paginacion.actual = 0;
-      const nombreCompleto = `${data.Nombre || ''} ${data.Apellido || ''}`.trim();
-      const fecha = data.Fecha ? new Date(data.Fecha).toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
-      console.log('📄 Generando PDF...');
-      generarPortada(doc, data, resultado, nombreCompleto, fecha);
-      generarIndice(doc, nombreCompleto);
-      generarIntroduccion(doc, nombreCompleto);
-      generarHistoria(doc, nombreCompleto);
-      generarEjes(doc, nombreCompleto);
-      generarEstilos(doc, nombreCompleto);
-      generarDimensionesCompletas(doc, nombreCompleto);
-      generarAplicaciones(doc, nombreCompleto);
-      generarConsideraciones(doc, nombreCompleto);
-      generarResumen(doc, resultado, nombreCompleto);
-      await generarGraficoBarras(doc, resultado, respuestasParsed, nombreCompleto);
-      await generarRueda(doc, respuestasParsed, nombreCompleto);
-      generarAnalisisCompleto(doc, resultado, nombreCompleto);
-      generarConsistencia(doc, resultado, nombreCompleto);
-      generarComparativaPartes(doc, resultado, nombreCompleto);
-      generarImplicaciones(doc, resultado, nombreCompleto);
-      generarDetalle(doc, resultado, nombreCompleto);
-      const dataUri = doc.output('datauristring');
-      const base64 = dataUri.split(',')[1];
-      console.log('✅ PDF base64: ' + Math.round(base64.length / 1024) + ' KB');
-      return base64;
-    }
-
-    window.generarPDFBase64 = generarPDFBase64;
-    console.log('✅ generarPDFBase64 listo');
-  </script>
+  <!-- GENERADOR PDF -->
+  <script src="../Informe/pdfGenerator.js"></script>
 
   <script>
     const DISC_QUESTIONS = [
@@ -715,15 +674,6 @@
       return p;
     }
 
-    /**
-     * ════════════════════════════════════════════════════════
-     * ENVIAR RESULTADOS — 2 PASOS CON FORM-ENCODED
-     * 
-     * CLAVE: Usamos URLSearchParams + parameter "data" 
-     * para que Google Apps Script lea e.parameter.data
-     * Esto funciona con mode:'no-cors' de forma confiable.
-     * ════════════════════════════════════════════════════════
-     */
     async function sendResults() {
       const msg = document.getElementById('loadingMsg');
       const btnVolver = document.getElementById('btnVolver');
@@ -739,72 +689,41 @@
       const emailAdmin = sessionStorage.getItem('emailAdmin') || '';
       const userNameAdmin = sessionStorage.getItem('userName') || '';
 
- const _apiResp = sessionStorage.getItem('apiRespuestas');
-const GOOGLE_SCRIPT_URL = (_apiResp && _apiResp.length > 10) ? _apiResp : 'https://script.google.com/macros/s/AKfycbxzHkAu8yseLxHy6-YCiy9OBy87C1zd1rZpaR3uZvDzf-Yr5AsYtmzTjUBSs5VRIzXQhA/exec';
+      const _apiResp = sessionStorage.getItem('apiRespuestas');
+      const GOOGLE_SCRIPT_URL = (_apiResp && _apiResp.length > 10) ? _apiResp : 'https://script.google.com/macros/s/AKfycbxzHkAu8yseLxHy6-YCiy9OBy87C1zd1rZpaR3uZvDzf-Yr5AsYtmzTjUBSs5VRIzXQhA/exec';
 
-      // =========================
-      // PASO 1: Guardar fila (SIN accion) -> GAS appendRow
-      // =========================
+      // ── PASO 1: Guardar fila ──────────────────────────────────
       msg.innerHTML = '<span class="loading-spinner"></span> Guardando resultados...';
-
       const payloadFila = {
         nombreHoja: "Respuestas",
-        // IMPORTANTE: esto es lo que tu GAS reconoce en Paso 1
-        fila: [
-          fechaHora,
-          usuarioAdmin,
-          emailAdmin,
-          userNameAdmin,
-          user.name || "SinNombre",
-          user.lastname || "SinApellido",
-          user.email || "SinEmail",
-          respuestasFinal
-        ]
+        fila: [fechaHora, usuarioAdmin, emailAdmin, userNameAdmin,
+               user.name || "SinNombre", user.lastname || "SinApellido",
+               user.email || "SinEmail", respuestasFinal]
       };
-
-      let row = null;
-      let discId = null;
-
+      let row = null, discId = null;
       try {
-        // Form-encoded (tu GAS lo soporta y es súper estable)
         const fd1 = new URLSearchParams();
         fd1.append('data', JSON.stringify(payloadFila));
-
         const r1 = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: fd1 });
         const t1 = await r1.text();
-
-        // Tu GAS nuevo devuelve JSON. Si todavía devuelve "Guardado", esto lo tolera.
         let res1;
         try { res1 = JSON.parse(t1); } catch { res1 = null; }
-
-        if (res1 && res1.success === false) {
-          throw new Error(res1.error || 'Paso 1 falló');
-        }
-        console.log('Respuesta Paso 1:', t1);
-        console.log('Parsed Paso 1:', res1);
-
-        // Si devuelve JSON con row/disc_id, genial
-        if (res1 && res1.success) {
-          row = res1.row;
-          discId = res1.disc_id;
-        }
-
-        console.log('✅ Paso 1 OK', { row, discId, raw: t1.slice(0, 200) });
+        if (res1 && res1.success === false) throw new Error(res1.error || 'Paso 1 falló');
+        if (res1 && res1.success) { row = res1.row; discId = res1.disc_id; }
+        console.log('✅ Paso 1 OK', { row, discId });
       } catch (e) {
         console.error('❌ Paso 1 error:', e);
-        msg.innerHTML = '❌ Error guardando resultados. Se enviará sin PDF.';
+        msg.innerHTML = '❌ Error guardando resultados.';
         msg.style.color = '#dc2626';
         btnVolver.style.display = 'inline-block';
         return;
       }
 
-      // =========================
-      // PASO 2: Generar PDF y subirlo (accion:'guardarPdf')
-      // =========================
+      // ── PASO 2: Generar PDF, descargar y subir ────────────────
       let pdfEnviado = false;
-
       try {
         msg.innerHTML = '<span class="loading-spinner"></span> Generando informe PDF...';
+        console.log('▶ Paso 2 iniciando...');
 
         let intentos = 0;
         while (!window.generarPDFBase64 && intentos < 60) {
@@ -820,45 +739,92 @@ const GOOGLE_SCRIPT_URL = (_apiResp && _apiResp.length > 10) ? _apiResp : 'https
           Correo: user.email || '',
           Fecha: now.toISOString()
         };
-        const resultado = calcularResultadoParaPDF(respuestasParsed);
 
+        // Usa la función expuesta por pdfGenerator.js — una sola fuente de verdad
+        const resultado = window.calcularResultadoParaPDF(respuestasParsed);
+        resultado.tiempoParte1 = fmtTime(timeStart, timePart1End);
+        resultado.tiempoParte2 = fmtTime(timePart1End, Date.now());
+
+        // Renderizar rueda offscreen
+// Renderizar rueda offscreen
+try {
+  const ruedaDiv = document.getElementById('ruedaExport');
+  if (ruedaDiv && typeof window.renderRuedaSI5 === 'function') {
+    // Crear el SVG con el id que busca pdfGenerator
+    ruedaDiv.innerHTML = '<svg id="ruedaSVG" width="900" height="900"></svg>';
+    const svgEl = document.getElementById('ruedaSVG');
+
+    // Calcular celdas usando discToWheel
+    let celdaNatural = null, celdaAdaptada = null;
+    if (typeof window.discToWheel === 'function') {
+      try {
+        const coords = window.discToWheel(respuestasParsed);
+        celdaNatural = coords?.natural?.cell ?? null;
+        celdaAdaptada = coords?.adaptado?.cell ?? null;
+        console.log('▶ Rueda celdas:', celdaNatural, celdaAdaptada);
+      } catch (we) {
+        console.warn('discToWheel error:', we);
+      }
+    }
+
+    window.renderRuedaSI5(svgEl, { celdaNatural, celdaAdaptada, width: 900, height: 900 });
+    await new Promise(r => setTimeout(r, 500)); // dar tiempo al SVG
+    console.log('▶ Rueda renderizada OK');
+  }
+} catch (re) {
+  console.warn('Rueda offscreen no renderizó:', re);
+}
+
+        console.log('▶ Llamando generarPDFBase64...');
         const pdfBase64 = await window.generarPDFBase64(dataPdf, resultado, respuestasParsed);
+        console.log('▶ PDF base64 obtenido:', Math.round(pdfBase64.length / 1024), 'KB');
 
+        // Descarga local (usa base64 original, no la versión safe)
+        try {
+          const link = document.createElement('a');
+          link.href = 'data:application/pdf;base64,' + pdfBase64;
+          link.download = `Informe_DISC_${user.name}_${user.lastname}.pdf`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          console.log('▶ Descarga local disparada');
+        } catch (de) {
+          console.warn('Descarga local no se pudo activar:', de);
+        }
+
+        // Upload a Drive
         msg.innerHTML = '<span class="loading-spinner"></span> Subiendo informe PDF...';
-        console.log(`📤 Subiendo PDF (${Math.round(pdfBase64.length / 1024)} KB)...`, { row, discId });
+        console.log('▶ Iniciando upload, discId:', discId);
 
-        const payloadPdf = {
-          nombreHoja: "Respuestas",
-          accion: "guardarPdf",      // ✅ tu GAS lo reconoce
-          disc_id: discId,           // opcional
-          pdfBase64: pdfBase64,      // ✅ tu GAS lo reconoce
-          pdfNombre: `Informe_DISC_${(user.name || '')}_${(user.lastname || '')}${discId ? '_' + discId : ''}.pdf`
-        };
-
+const payloadPdf = {
+  nombreHoja: "Respuestas",
+  accion: "guardarPdf",
+  row: row,
+  disc_id: discId,
+  pdfBase64: pdfBase64,   // ← base64 estándar, sin modificar
+  pdfNombre: `Informe_DISC_${(user.name || '')}_${(user.lastname || '')}${discId ? '_' + discId : ''}.pdf`
+};
         const fd2 = new URLSearchParams();
         fd2.append('data', JSON.stringify(payloadPdf));
+        console.log('▶ Payload armado, enviando fetch...');
 
         const r2 = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: fd2 });
         const t2 = await r2.text();
-        console.log('Respuesta Paso 2:', t2);
+        console.log('▶ Respuesta Paso 2:', t2.slice(0, 300));
+
         let res2;
         try { res2 = JSON.parse(t2); } catch { res2 = null; }
         if (res2 && res2.success === false) throw new Error(res2.error || 'Paso 2 falló');
 
-        console.log('Parsed Paso 2:', res2);
-
-
         pdfEnviado = true;
-        console.log('✅ Paso 2 OK', { raw: t2.slice(0, 250) });
+        console.log('✅ Paso 2 OK');
 
       } catch (e) {
         console.error('⚠️ Paso 2 (PDF) error:', e);
         pdfEnviado = false;
       }
 
-      // =========================
-      // PASO 3: UI final
-      // =========================
+      // ── PASO 3: UI final ──────────────────────────────────────
       msg.innerHTML = pdfEnviado
         ? '✅ ¡Resultados DISC e informe PDF guardados correctamente!'
         : '✅ ¡Resultados DISC guardados correctamente! (PDF no enviado)';
@@ -866,42 +832,25 @@ const GOOGLE_SCRIPT_URL = (_apiResp && _apiResp.length > 10) ? _apiResp : 'https
       btnVolver.style.display = 'inline-block';
     }
 
+    function volverAlPanel() { window.location.href = "../Userboard/index.html"; }
 
-
-    function calcularResultadoParaPDF(rp) {
-      let masDI = 0, masSC = 0, menosDI = 0, menosSC = 0;
-      let masDI_P1 = 0, masSC_P1 = 0, menosDI_P1 = 0, menosSC_P1 = 0;
-      let masDI_P2 = 0, masSC_P2 = 0, menosDI_P2 = 0, menosSC_P2 = 0;
-      const det = [];
-      for (let q = 1; q <= 28; q++) {
-        let idM, idL; if (q <= 14) { idM = (q - 1) * 2 + 1; idL = (q - 1) * 2 + 2; } else { idM = 28 + (q - 15) * 2 + 1; idL = 28 + (q - 15) * 2 + 2; }
-        const vM = rp[idM], vL = rp[idL];
-        if (vM !== undefined && vL !== undefined) {
-          if (vM === 5) masDI++; else masSC++; if (vL === 5) menosDI++; else menosSC++;
-          if (q <= 14) { if (vM === 5) masDI_P1++; else masSC_P1++; if (vL === 5) menosDI_P1++; else menosSC_P1++; }
-          else { if (vM === 5) masDI_P2++; else masSC_P2++; if (vL === 5) menosDI_P2++; else menosSC_P2++; }
-          const g = DISC_QUESTIONS[q - 1];
-          det.push({ numero: q, parte: q <= 14 ? "I" : "II", textoD: g.D, textoI: g.I, textoS: g.S, textoC: g.C, valorMas: vM, valorMenos: vL, masGrupo: vM === 5 ? "D/I" : "S/C", menosGrupo: vL === 5 ? "D/I" : "S/C" });
-        }
+    function markTestAsCompleted() {
+      try {
+        const userName = sessionStorage.getItem('userName');
+        if (!userName) return;
+        localStorage.setItem(`disc_test_${userName}`, JSON.stringify({ completed: true, completedAt: new Date().toISOString() }));
+        sessionStorage.setItem('discTestCompleted', 'true');
+      } catch (error) {
+        console.error('Error guardando estado local del test:', error);
       }
-      const pm = Math.round((masDI / 28) * 100), ps = Math.round((masSC / 28) * 100), pmd = Math.round((menosDI / 28) * 100), pms = Math.round((menosSC / 28) * 100);
-      const nv = p => { if (p >= 75) return "Muy Alto"; if (p >= 55) return "Alto"; if (p >= 35) return "Moderado"; if (p >= 15) return "Bajo"; return "Muy Bajo"; };
-      let tc = 'mixto';
-      if (masDI >= 18 && menosSC >= 18) tc = 'consistente_DI';
-      else if (masSC >= 18 && menosDI >= 18) tc = 'consistente_SC';
-      else if (masDI > masSC && menosSC > menosDI) tc = 'consistente_DI';
-      else if (masSC > masDI && menosDI > menosSC) tc = 'consistente_SC';
-      else if ((masDI > masSC && menosDI > menosSC) || (masSC > masDI && menosSC > menosDI)) tc = 'contradictorio';
-      return { masDI, masSC, menosDI, menosSC, netoDI: masDI - menosDI, netoSC: masSC - menosSC, pctMasDI: pm, pctMasSC: ps, pctMenosDI: pmd, pctMenosSC: pms, nivelMasDI: nv(pm), nivelMasSC: nv(ps), nivelMenosDI: nv(pmd), nivelMenosSC: nv(pms), masDI_P1, masSC_P1, menosDI_P1, menosSC_P1, masDI_P2, masSC_P2, menosDI_P2, menosSC_P2, tipoConsistencia: tc, detallePreguntas: det, preguntasRespondidas: det.length, tiempoParte1: fmtTime(timeStart, timePart1End), tiempoParte2: fmtTime(timePart1End, Date.now()) };
     }
 
-    function volverAlPanel() { window.location.href = "../Userboard/index.html"; }
   </script>
+
   <!-- Contenedor oculto para renderizar la rueda SOLO para exportación -->
   <div id="ruedaExport"
     style="position:fixed; left:-10000px; top:-10000px; width:800px; height:800px; overflow:hidden;">
   </div>
 
 </body>
-
 </html>

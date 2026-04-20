@@ -25,6 +25,25 @@ function loadUserInfo() {
     }
 }
 
+
+function getStoredTestData() {
+    try {
+        const raw = sessionStorage.getItem('discUserData');
+        if (!raw) return null;
+
+        const data = JSON.parse(raw);
+
+        if (data && typeof data === 'object') {
+            return data;
+        }
+
+        return null;
+    } catch (error) {
+        console.error('Error leyendo discUserData desde sessionStorage:', error);
+        return null;
+    }
+}
+
 /**
  * Verificar si el usuario ya realizó el test
  */
@@ -33,6 +52,8 @@ async function checkTestStatus() {
 
     try {
         const userName = sessionStorage.getItem('userName');
+        const storedData = getStoredTestData();
+        const localCompleted = sessionStorage.getItem('discTestCompleted') === 'true';
 
         if (!userName) {
             showPendingStatus();
@@ -40,40 +61,51 @@ async function checkTestStatus() {
             return;
         }
 
-        const response = await fetch(
-            `${CONFIG.api.getRespuestas()}?user=${encodeURIComponent(userName)}`
-        );
+        // 1. Si ya hay datos guardados localmente, usar eso como fuente de verdad
+        if (storedData || localCompleted) {
+            userResult = storedData || {};
+            showCompletedStatus();
+            enableManualSection(true, storedData || null);
+            return;
+        }
+
+        // 2. Solo si no hay nada local, intentar consultar backend
+        const apiUrl = CONFIG.api.getVisualizacion();
+        const response = await fetch(`${apiUrl}?user=${encodeURIComponent(userName)}`);
 
         if (!response.ok) {
-            throw new Error("Error HTTP " + response.status);
+            throw new Error(`HTTP ${response.status}`);
         }
 
         const result = await response.json();
 
-        if (result.success && result.data) {
+        if (result && result.success && result.data) {
+            userResult = result.data;
+            sessionStorage.setItem('discUserData', JSON.stringify(result.data));
+            sessionStorage.setItem('discTestCompleted', 'true');
 
-            const userData = result.data;
-
-            if (userData.Respuestas && userData.Respuestas.trim() !== "") {
-
-                // 🔥 GUARDAMOS TODO EL OBJETO COMPLETO
-sessionStorage.setItem(
-    "discUserData",
-    JSON.stringify(userData)
-);
-
-userResult = userData;
-showCompletedStatus();
-enableManualSection(true, userData);
-return;
-            }
+            showCompletedStatus();
+            enableManualSection(true, result.data);
+            return;
         }
 
         showPendingStatus();
         enableManualSection(false);
 
     } catch (error) {
-        console.error("Error consultando informes:", error);
+        console.error('Error consultando informes:', error);
+
+        // 3. Si falla el fetch pero hay algo guardado localmente, mostrar completado
+        const storedData = getStoredTestData();
+        const localCompleted = sessionStorage.getItem('discTestCompleted') === 'true';
+
+        if (storedData || localCompleted) {
+            userResult = storedData || {};
+            showCompletedStatus();
+            enableManualSection(true, storedData || null);
+            return;
+        }
+
         showPendingStatus();
         enableManualSection(false);
     } finally {
@@ -229,16 +261,15 @@ function enableStartButton(enabled) {
  * Iniciar el test DISC
  */
 function startTest() {
-    // ✅ FIX 1: Doble verificación — si ya tiene resultado, no dejar pasar
-    if (userResult) {
-        alert('Ya completaste tu evaluación DISC. Puedes ver tu informe.');
+    const storedData = getStoredTestData();
+    const localCompleted = sessionStorage.getItem('discTestCompleted') === 'true';
+
+    if (storedData || localCompleted) {
+        alert('Ya completaste tu evaluación DISC.');
         return;
     }
 
-    // Guardar en sessionStorage que viene del userboard
     sessionStorage.setItem('fromUserboard', 'true');
-    
-    // Redirigir al test
     window.location.href = CONFIG.routes.test;
 }
 
@@ -366,4 +397,37 @@ async function downloadStudyManual() {
         console.error('Error al generar el manual:', error);
         setManualButtonState('error', 'Ocurrió un error al generar el manual.');
     }
+}
+
+function getLocalCompletedTest(userName) {
+    try {
+        if (!userName) return null;
+
+        const raw = localStorage.getItem(`disc_test_${userName}`);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+
+        if (parsed && parsed.completed === true) {
+            return parsed;
+        }
+
+        return null;
+    } catch (error) {
+        console.error('Error leyendo estado local del test:', error);
+        return null;
+    }
+}
+
+function applyCompletedState(localTest) {
+    userResult = localTest.userData || null;
+
+    sessionStorage.setItem('discTestCompleted', 'true');
+
+    if (localTest.userData) {
+        sessionStorage.setItem('discUserData', JSON.stringify(localTest.userData));
+    }
+
+    showCompletedStatus();
+    enableManualSection(true, localTest.userData || null);
 }
